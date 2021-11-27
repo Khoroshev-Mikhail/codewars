@@ -398,7 +398,7 @@ function zipWith(fn,a0,a1) {
   // if(a0.length > a1.length) {
   //   length = a1.length
   // }
-  const length = Math.min(a1.length, a2.length);
+  const length = Math.min(a0.length, a1.length);
   for(let i = 0; i < length; i++){
     newArr.push(fn(a0[i], a1[i]))
   }
@@ -419,3 +419,122 @@ function zzz(fn,a0,a1){
 }
 console.log(zzz(plus, [0,1,2,3,4  ], [6,5,4,3,2,1]))
 
+
+
+console.log('----------------------------Задача 118----------------------------')
+/*
+Given an array of integers, return a new array with each value doubled.
+For example:
+[1, 2, 3] --> [2, 4, 6]
+*/
+function maps(x){
+  return x.map(item => item*2)
+}
+
+
+
+console.log('----------------------------Задача 119----------------------------')
+/*
+I'm new to coding and now I want to get the sum of two arrays...actually the sum of all their elements. 
+I'll appreciate for your help.
+P.S. Each array includes only integer numbers. Output is a number too.
+*/
+
+function arrayPlusArray(arr1, arr2) {
+  return arr1.concat(arr2).reduce((a,b)=>a+b,0)
+}
+
+
+
+
+console.log('----------------------------Задача 120----------------------------')
+/*
+Is every value in the array an array?
+This should only test the second array dimension of the array. 
+The values of the nested arrays don't have to be arrays.
+Examples:
+
+[[1],[2]] => true
+['1','2'] => false
+[{1:1},{2:2}] => false
+
+*/
+const arrCheck = value => {
+  return value.every(item => Array.isArray(item))
+}
+
+
+console.log('----------------------------Задача 121----------------------------')
+/*
+Given a number as a parameter (between 2 and 30), return an array containing strings which form a box.
+Like this:
+n = 5
+[
+  '-----',
+  '-   -',
+  '-   -',
+  '-   -',
+  '-----'
+]
+*/
+function box(n){
+  //На codewars не сработало:
+  return new Array(n)
+    .fill('-'.repeat(n), 0, 1) //Заполняем нулевой индекс массива
+    .fill('-' + ' '.repeat(n-2) + '-', 1) //Заполняем значения с первого индекса массива до последнего
+    .fill('-'.repeat(n), n-1) //Заполняем последнее значение
+
+}
+console.log(box(5))
+
+
+
+console.log('----------------------------Задача 122----------------------------')
+/*
+A magic index in an array A[1...n-1] is defined to be an index such that A[i] = i. 
+Given a sorted array of distinct integers, write a method to find a magic index, if one exists, in array A.
+findMagic([-20,-10,2,10,20]); // Returns 2
+*/
+// return the magic index
+function findMagic(arr){
+  return arr.findIndex((value, index) => value === index)
+}
+
+console.log(findMagic([-20,-10,2,10,20]))
+
+
+console.log('----------------------------Задача 123----------------------------')
+/*
+Challenge:
+Given a two-dimensional array of integers, return the flattened version of the array with all the 
+integers in the sorted (ascending) order.
+Example:
+Given [[3, 2, 1], [4, 6, 5], [], [9, 7, 8]], your function should return [1, 2, 3, 4, 5, 6, 7, 8, 9].
+Addendum:
+Please, keep in mind, that JavaScript is by default sorting objects alphabetically. 
+For more information, please consult:
+*/
+
+function flattenAndSort(array) {
+  //return array.reduce((a,b) => a.concat(b), []).sort(( a, b )=> a - b );
+  return [].concat(...array).sort(( a, b )=> a - b );
+}
+console.log(flattenAndSort([[1], [2], [0], [4], [3]]))
+
+
+console.log('----------------------------Задача 124----------------------------')
+/*
+Write a function that takes an array of numbers (integers for the tests) and a target number. 
+It should find two different items in the array that, when added together, give the target value. 
+The indices of these items should then be returned in a tuple like so: (index1, index2).
+For the purposes of this kata, some tests may have multiple answers; any valid solutions will be accepted.
+The input will always be valid (numbers will be an array of length 2 or greater, 
+and all of the items will be numbers; target will always be the sum of two different items from that array).
+
+Based on: http://oj.leetcode.com/problems/two-sum/
+
+twoSum [1, 2, 3] 4 === (0, 2)
+*/
+function twoSum(numbers, target) {
+  numbers.findIndex( value => value )
+}
