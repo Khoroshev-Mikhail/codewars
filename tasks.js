@@ -535,6 +535,42 @@ Based on: http://oj.leetcode.com/problems/two-sum/
 
 twoSum [1, 2, 3] 4 === (0, 2)
 */
+
 function twoSum(numbers, target) {
-  numbers.findIndex( value => value )
+  /*
+  1 value + other === target
+  2 other === target - value 
+  3 Получить индексы value и other
+  */
+  const first = numbers.findIndex(value => value == target - numbers.find(other => other == target - value) )
+  const second = numbers.findIndex((other, index) => other == target - numbers[first] && index !== first)
+  return [first, second]
 }
+
+console.log(twoSum([2,2,3], 4))
+
+
+
+console.log('----------------------------Задача 125----------------------------')
+/*
+You get an array of arrays.
+If you sort the arrays by their length, you will see, that their length-values are consecutive.
+But one array is missing!
+You have to write a method, that return the length of the missing array.
+Example:
+[[1, 2], [4, 5, 1, 1], [1], [5, 6, 7, 8, 9]] --> 3
+[1, 2, 3, 4, 6]
+*/
+//Доработать 
+function getLengthOfMissingArray(arrayOfArrays) {
+  const sortedArr = arrayOfArrays.map(arr => arr.length).sort((a, b) => a - b);
+  sortedArr.reduce((prev, curr, index, array) => {
+    if(curr === index + array[0]){
+      return prev
+    } else {
+      return index + array[0]
+    }
+  }
+}
+
+console.log(getLengthOfMissingArray([[1, 2], [4, 5, 1, 1], [1], [5, 6, 7, 8, 9]]))
