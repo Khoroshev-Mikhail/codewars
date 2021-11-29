@@ -600,7 +600,13 @@ function dataReverse(data) {
   for(let i = 0; i < data.length / size; i++){
     newArr.push(data.slice(size * i, size * i + 8))
   }
-  return newArr;
+  //return newArr.reverse().flat() //CodeWars не пропустил такое решение - "Flat() is not a function"
+  newArr.reverse()
+  let newArr2 = []
+  for(let k = 0; k < newArr.length; k++){
+    newArr[k].map(value => newArr2.push(value))
+  }
+  return newArr2
 }
 
 console.log(dataReverse([1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,1,0,1,0,1,0]))
