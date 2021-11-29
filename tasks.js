@@ -561,16 +561,46 @@ Example:
 [[1, 2], [4, 5, 1, 1], [1], [5, 6, 7, 8, 9]] --> 3
 [1, 2, 3, 4, 6]
 */
-//Доработать 
+
+
+//Перерешать, не решил самостоятельно
 function getLengthOfMissingArray(arrayOfArrays) {
   const sortedArr = arrayOfArrays.map(arr => arr.length).sort((a, b) => a - b);
-  sortedArr.reduce((prev, curr, index, array) => {
+  return sortedArr.reduce((prev, curr, index, array) => {
     if(curr === index + array[0]){
       return prev
     } else {
-      return index + array[0]
+      return index + array[0]++ //Что значит ++?
     }
-  }
+  }, 0)
 }
 
 console.log(getLengthOfMissingArray([[1, 2], [4, 5, 1, 1], [1], [5, 6, 7, 8, 9]]))
+
+
+
+
+console.log('----------------------------Задача 126----------------------------')
+/*
+A stream of data is received and needs to be reversed.
+Each segment is 8 bits long, meaning the order of these segments needs to be reversed, for example:
+11111111  00000000  00001111  10101010
+ (byte1)   (byte2)   (byte3)   (byte4)
+should become:
+10101010  00001111  00000000  11111111
+ (byte4)   (byte3)   (byte2)   (byte1)
+The total number of bits will always be a multiple of 8.
+The data is given in an array as such:
+[1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,1,0,1,0,1,0]
+*/
+//Не верно
+function dataReverse(data) {
+  const size = 8 // количество символов в подмассиве
+  let newArr = []
+  for(let i = 0; i < data.length / size; i++){
+    newArr.push(data.slice(size * i, size * i + 8))
+  }
+  return newArr;
+}
+
+console.log(dataReverse([1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,1,0,1,0,1,0]))
