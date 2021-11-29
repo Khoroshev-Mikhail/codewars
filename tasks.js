@@ -602,14 +602,81 @@ function dataReverse(data) {
     newArr.push(data.slice(size * i, size * i + 8))
   }
   return newArr.reverse().flat() //CodeWars не пропустил такое решение - "Flat() is not a function"
-  /*
+  
   newArr.reverse()
   let newArrForCodewars = []
   for(let k = 0; k < newArr.length; k++){
     newArr[k].map(value => newArrForCodewars.push(value))
   }
   return newArrForCodewars
-  */
+  
 }
 
 console.log(dataReverse([1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,1,0,1,0,1,0]))
+
+
+
+console.log('----------------------------Задача 127----------------------------')
+/*
+The goal of this exercise is to convert a string to a new string where each character in the new string 
+is "(" if that character appears only once in the original string, or ")" if that character appears more than once in the original string. 
+Ignore capitalization when determining if a character is a duplicate.
+Examples
+"din"      =>  "((("
+"recede"   =>  "()()()"
+"Success"  =>  ")())())"
+"(( @"     =>  "))((" 
+*/
+
+//!!!!!Решить повторно, подсмотрел решение
+
+function duplicateEncode(word){
+
+  return word.toLowerCase().split('').map((v, i, a) => {
+    return a.indexOf(v) === a.lastIndexOf(v) ? v = '(' : v = ')'
+  })
+  .join('')
+
+  /*word = word.split('')
+  let newArr = []
+  for(let i = 0; i < word.length; i++){
+    if(word.filter(item => item.toUpperCase() == word[i].toUpperCase()).length > 1){
+      newArr[i] = ')'
+    } else {
+      newArr[i] = '('
+    }
+  }
+  return newArr.join('')*/
+}
+
+console.log(duplicateEncode('Success'))
+
+
+console.log('----------------------------Задача 128----------------------------')
+/*
+Given a string, capitalize the letters that occupy even indexes and odd indexes separately, 
+and return as shown below. Index 0 will be considered even.
+For example, capitalize("abcdef") = ['AbCdEf', 'aBcDeF']. See test cases for more examples.
+*/
+
+//!!!!!!Решить повторно, подсмотрел решение
+
+
+function capitalize(s){
+  const even = s.split('').map((v, i) => i % 2 === 0 ? v.toUpperCase() : v.toLowerCase()).join('');
+  const odd = s.split('').map((v, i) => i % 2 === 0 ? v.toLowerCase() : v.toUpperCase()).join('');
+  /*s = s.split('')
+  console.log(s.length)
+  s.forEach((symbol, index) => {
+    if(index % 2 == 0){
+      even += symbol.toUpperCase()
+      odd += symbol
+    } else {
+      even +=symbol
+      odd += symbol.toUpperCase()
+    }
+  })*/
+  return [even, odd]
+};
+
+console.log(capitalize('ssss'))
