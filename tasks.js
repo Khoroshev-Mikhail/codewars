@@ -661,7 +661,6 @@ and return as shown below. Index 0 will be considered even.
 For example, capitalize("abcdef") = ['AbCdEf', 'aBcDeF']. See test cases for more examples.
 */
 
-//!!!!!!Решить повторно, подсмотрел решение
 
 
 function capitalize(s){
@@ -770,3 +769,32 @@ function proofread (str) {
 } 
 
 console.log(proofread ("Their deceit was inconceivable. She seized the moment."))
+
+
+console.log('----------------------------Task 132----------------------------')
+/*
+Task
+Given an integer n, find the maximal number you can obtain by deleting exactly one digit of the given number.
+Example
+  For n = 152, the output should be 52;
+  For n = 1001, the output should be 101.
+  Input/Output
+  [input] integer n
+  Constraints: 10 ≤ n ≤ 1000000.
+  [output] an integer
+*/
+
+/*
+  1. Перевести в строку
+  2. Получить максимальное количество вариантов без одной цифры
+*/
+
+function deleteDigit(n) {
+  let newArr = []
+  n = n.toString().split('')
+  for(let i = 0; i< n.length; i++){
+    
+  }
+}
+
+console.log(deleteDigit(1234))
