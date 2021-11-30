@@ -628,14 +628,16 @@ Examples
 "(( @"     =>  "))((" 
 */
 
-//!!!!!Решить повторно, подсмотрел решение
 
 function duplicateEncode(word){
 
-  return word.toLowerCase().split('').map((v, i, a) => {
-    return a.indexOf(v) === a.lastIndexOf(v) ? v = '(' : v = ')'
-  })
+  return word
+  .toLowerCase()
+  .split('')
+  .map((symbol, _, array) => array.indexOf(symbol) === array.lastIndexOf(symbol) 
+  ? symbol = ')' : symbol = '(' )
   .join('')
+
 
   /*word = word.split('')
   let newArr = []
@@ -663,8 +665,10 @@ For example, capitalize("abcdef") = ['AbCdEf', 'aBcDeF']. See test cases for mor
 
 
 function capitalize(s){
-  const even = s.split('').map((v, i) => i % 2 === 0 ? v.toUpperCase() : v.toLowerCase()).join('');
-  const odd = s.split('').map((v, i) => i % 2 === 0 ? v.toLowerCase() : v.toUpperCase()).join('');
+
+  const even = s.split('').map((symbol, index) => index % 2 === 0 ? symbol.toUpperCase() : symbol.toLowerCase()).join('')
+  const odd = s.split('').map((symbol, index) => index % 2 !== 0 ? symbol.toUpperCase() : symbol.toLowerCase()).join('')
+
   /*s = s.split('')
   console.log(s.length)
   s.forEach((symbol, index) => {
@@ -695,7 +699,7 @@ Examples
 
 /*
 1.Найти все нечётные числа в отдельный массив
-2.Map при условии (если value % 2 != 0) => item = odd.shift 
+2.Map при условии (если value % 2 != 0) => value = odd.shift 
 */
 
 function sortArray(array) {
@@ -710,3 +714,35 @@ function sortArray(array) {
 }
 
 console.log(sortArray([9, 8, 7, 6, 5, 4, 3, 2, 1, 0]))
+
+
+console.log('----------------------------Задача 130----------------------------')
+/*
+Given: an array containing hashes of names
+Return: a string formatted as a list of names separated by commas except for the last two names, which should be separated by an ampersand.
+Example:
+list([ {name: 'Bart'}, {name: 'Lisa'}, {name: 'Maggie'} ])
+// returns 'Bart, Lisa & Maggie'
+list([ {name: 'Bart'}, {name: 'Lisa'} ])
+// returns 'Bart & Lisa'
+list([ {name: 'Bart'} ])
+// returns 'Bart'
+list([])
+// returns ''
+*/
+
+function listFns(names){
+  let str = ''
+  names.forEach((arr, index) => {
+    if(index === names.length-2){
+      str += arr.name + ' & '
+    }else if(index !== names.length-1){
+      str += arr.name + ', '
+    } else{
+      str += arr.name
+    }
+  })
+  return str
+}
+
+console.log(listFns([ {name: 'Bart'}, {name: 'Lisa'}, {name: 'Maggie'} ]))
