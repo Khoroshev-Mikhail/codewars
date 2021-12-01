@@ -786,15 +786,23 @@ Example
 
 /*
   1. Перевести в строку
-  2. Получить максимальное количество вариантов без одной цифры
+  2. Получить максимальное количество вариантов без одной цифрыы
 */
 
 function deleteDigit(n) {
   let newArr = []
   n = n.toString().split('')
-  for(let i = 0; i< n.length; i++){
-    
+  for(let i = 0; i < n.length; i++){
+    let small = []
+    for(let k = 0; k < n.length; k++){
+      if(k !== i){
+        small.push(n[k]);
+      }
+    }
+    newArr.push(Number(small.join('')));
+    small = []
   }
+  return newArr.sort((a, b) => b-a)[0]
 }
 
-console.log(deleteDigit(1234))
+console.log(deleteDigit(12345))
