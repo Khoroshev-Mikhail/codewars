@@ -787,19 +787,14 @@ Example
 */
 
 function deleteDigit(n) {
-  n = n
-  .toString()
-  .split('')
+  n = n.toString()
   let result = []
   for(let i = 0; i < n.length; i++){
-    let digit =  Number ( n.filter ( (_, index) => index !== i).join('') )
-    result.push( digit )
-    //result.push(+(n.replace(n[i], '')) )        -split('')
+    result.push( +( n.replace(n[i], '' ) ) )  
   }
   return Math.max(...result)
 }
 console.log(deleteDigit(1001))
-
 console.log('----------------------------Task 133----------------------------')
 /*
 Вернуть индекс массива, где сумма чисел слева от N равна сумме чисел справа
