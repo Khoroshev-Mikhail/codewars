@@ -563,7 +563,6 @@ function twoSum(numbers, target) {
     }
   }
   return -1
-  console.log(ggg)
 
 }
 
@@ -632,16 +631,7 @@ function dataReverse(data) {
   for(let i = 0; i < data.length; i += 8){
     newArr.unshift(...data.slice(i, i + 8))
   }
-  return newArr;
-  // return newArr.reverse().flat() //CodeWars не пропустил такое решение - "Flat() is not a function"
-  
-  // newArr.reverse()
-  // let newArrForCodewars = []
-  // for(let k = 0; k < newArr.length; k++){
-  //   newArrForCodewars.push(...newArr[k])
-  // }
-  // return newArrForCodewars
-  
+  return newArr;  
 }
 
 console.log(dataReverse([1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,1,0,1,0,1,0]))
@@ -668,18 +658,6 @@ function duplicateEncode(word){
     .split('')
     .map((symbol, _, array) => array.indexOf(symbol) === array.lastIndexOf(symbol) ? ')' : '(' )
     .join('')
-
-
-  /*word = word.split('')
-  let newArr = []
-  for(let i = 0; i < word.length; i++){
-    if(word.filter(item => item.toUpperCase() == word[i].toUpperCase()).length > 1){
-      newArr[i] = ')'
-    } else {
-      newArr[i] = '('
-    }
-  }
-  return newArr.join('')*/
 }
 
 console.log(duplicateEncode('Success'))
@@ -698,18 +676,6 @@ function capitalize(s){
 
   const even = s.split('').map((symbol, index) => index % 2 === 0 ? symbol.toUpperCase() : symbol.toLowerCase()).join('')
   const odd = s.split('').map((symbol, index) => index % 2 !== 0 ? symbol.toUpperCase() : symbol.toLowerCase()).join('')
-
-  /*s = s.split('')
-  console.log(s.length)
-  s.forEach((symbol, index) => {
-    if(index % 2 == 0){
-      even += symbol.toUpperCase()
-      odd += symbol
-    } else {
-      even +=symbol
-      odd += symbol.toUpperCase()
-    }
-  })*/
   return [even, odd]
 };
 
@@ -821,17 +787,18 @@ Example
 */
 
 function deleteDigit(n) {
+  n = n
+  .toString()
+  .split('')
   let result = []
-  n = n.toString().split('')
   for(let i = 0; i < n.length; i++){
-    let small = n.filter(digit => digit !== n[i])
-    result.push(Number(small.join('')));
-    small = []
+    let digit =  Number ( n.filter ( (_, index) => index !== i).join('') )
+    result.push( digit )
+    //result.push(+(n.replace(n[i], '')) )        -split('')
   }
-  return result.sort((a, b) => b-a)[0]
+  return Math.max(...result)
 }
-
-console.log(deleteDigit(12345))
+console.log(deleteDigit(1001))
 
 console.log('----------------------------Task 133----------------------------')
 /*
@@ -840,19 +807,20 @@ console.log('----------------------------Task 133----------------------------')
 
 function findEvenIndex(arr){
   //Функция возвращает сумму элементов массива с индекса = start, до end (Включительно)
-  const arrSum = (arr, start, end = arr.length)=>{
+  const arrSum = (arr, start, end = arr.length - 1)=>{
+    //Проверка что значение end не больше длинны массива
     if(end > arr.length-1){
       end = arr.length-1
     }
     let sum = 0;
-    for(let i = start; i <= end; i++){
+    for(let i = start; i <= end; i++){ // <= чтобы значения учитывались включительно
       sum += arr[i]
     }
     return sum
   }
 
   for(let i = 0; i < arr.length; i++){
-    if(arrSum(arr, 0, i-1) == arrSum(arr, i+1)){
+    if(arrSum(arr, 0, i-1) === arrSum(arr, i+1)){
       return i
     }
   }
