@@ -441,7 +441,7 @@ P.S. Each array includes only integer numbers. Output is a number too.
 */
 
 function arrayPlusArray(arr1, arr2) {
-  return arr1.concat(arr2).reduce((a,b)=>a+b,0)
+  return arr1.concat(arr2).reduce((a, b)=> a + b, 0)
 }
 
 
@@ -478,8 +478,7 @@ n = 5
 ]
 */
 function box(n){
-  //На codewars не сработало:
-  return new Array(n)
+  return Array(n)
     .fill('-'.repeat(n), 0, 1) //Заполняем нулевой индекс массива
     .fill('-' + ' '.repeat(n-2) + '-', 1) //Заполняем значения с первого индекса массива до последнего
     .fill('-'.repeat(n), n-1) //Заполняем последнее значение
@@ -497,7 +496,7 @@ findMagic([-20,-10,2,10,20]); // Returns 2
 */
 // return the magic index
 function findMagic(arr){
-  return arr.findIndex((value, index) => value === index)
+  return arr.findIndex((v, i) => v === i)
 }
 
 console.log(findMagic([-20,-10,2,10,20]))
@@ -516,7 +515,6 @@ For more information, please consult:
 */
 
 function flattenAndSort(array) {
-  //return array.reduce((a,b) => a.concat(b), []).sort(( a, b )=> a - b );
   return [].concat(...array).sort(( a, b )=> a - b );
 }
 console.log(flattenAndSort([[1], [2], [0], [4], [3]]))
@@ -542,12 +540,36 @@ function twoSum(numbers, target) {
   2 other === target - value 
   3 Получить индексы value и other
   */
-  const first = numbers.findIndex(value => value == target - numbers.find(other => other == target - value) )
-  const second = numbers.findIndex((other, index) => other == target - numbers[first] && index !== first)
-  return [first, second]
+  // const first = numbers.findIndex(value => value + numbers.find(x => x == target - value) == target )
+  //const second = numbers.findIndex((x, i) => x + numbers[first] == target && i !== first)
+  //return [first, second]
+  // numbers.length === N → O(N²)
+  /*for(let k = 0; k < numbers.length; i++){
+    if(numbers[i] + numbers[k] === target && k !== i){
+      return [i, k]
+    }
+  }*/
+  const ggg = {};
+
+  // ggg.qwerty
+  // ggg["qwerty"]
+  for(let i = 0; i < numbers.length; i++){
+    ggg[numbers[i]] = i;
+  }
+  for(let k = 0; k < numbers.length; k++){
+    const result = target - numbers[k];
+    if(result in ggg && ggg[result] !== k){
+      return [k, ggg[result]]
+    }
+  }
+  return -1
+  console.log(ggg)
+
 }
 
-console.log(twoSum([2,2,3], 4))
+console.log(twoSum([2,2], 4))
+console.log(twoSum([2], 4))
+// console.log(twoSum([1,2,3], 4))
 
 
 
@@ -564,16 +586,27 @@ Example:
 
 
 //Перерешать, не решил самостоятельно
-function getLengthOfMissingArray(arrayOfArrays) {
-  const sortedArr = arrayOfArrays.map(arr => arr.length).sort((a, b) => a - b);
-  return sortedArr.reduce((prev, curr, index, array) => {
-    if(curr === index + array[0]){
-      return prev
-    } else {
-      return index + array[0]++ //Что значит ++?
-    }
-  }, 0)
+function isEmptyArr(arr){
+  return arr === null || arr.length === 0 
 }
+function getLengthOfMissingArray(arrayOfArrays) {
+  if(isEmptyArr(arrayOfArrays) || arrayOfArrays.some(isEmptyArr)){
+    return 0;
+  }
+
+  const sortedArr = arrayOfArrays.map(arr => arr.length).sort((a, b) => a - b);
+  for(let i = 1; i < sortedArr.length; i++){
+    if(sortedArr[i] - sortedArr[i - 1] !== 1){
+      return sortedArr[i] - 1
+    }
+  }
+  
+}
+console.log(getLengthOfMissingArray([])); // 0
+console.log(getLengthOfMissingArray(null)); // 0
+console.log(getLengthOfMissingArray([[3,4,5], []])); // 0
+console.log(getLengthOfMissingArray([null, [1,2]])); // 0
+console.log(getLengthOfMissingArray([[1], [1,2,3]])); // undefined
 
 console.log(getLengthOfMissingArray([[1, 2], [4, 5, 1, 1], [1], [5, 6, 7, 8, 9]]))
 
@@ -594,21 +627,20 @@ The data is given in an array as such:
 [1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,1,0,1,0,1,0]
 */
 
-//Не верно
 function dataReverse(data) {
-  const size = 8 // количество символов в подмассиве
   let newArr = []
-  for(let i = 0; i < data.length / size; i++){
-    newArr.push(data.slice(size * i, size * i + 8))
+  for(let i = 0; i < data.length; i += 8){
+    newArr.unshift(...data.slice(i, i + 8))
   }
-  return newArr.reverse().flat() //CodeWars не пропустил такое решение - "Flat() is not a function"
+  return newArr;
+  // return newArr.reverse().flat() //CodeWars не пропустил такое решение - "Flat() is not a function"
   
-  newArr.reverse()
-  let newArrForCodewars = []
-  for(let k = 0; k < newArr.length; k++){
-    newArr[k].map(value => newArrForCodewars.push(value))
-  }
-  return newArrForCodewars
+  // newArr.reverse()
+  // let newArrForCodewars = []
+  // for(let k = 0; k < newArr.length; k++){
+  //   newArrForCodewars.push(...newArr[k])
+  // }
+  // return newArrForCodewars
   
 }
 
@@ -632,11 +664,10 @@ Examples
 function duplicateEncode(word){
 
   return word
-  .toLowerCase()
-  .split('')
-  .map((symbol, _, array) => array.indexOf(symbol) === array.lastIndexOf(symbol) 
-  ? symbol = ')' : symbol = '(' )
-  .join('')
+    .toLowerCase()
+    .split('')
+    .map((symbol, _, array) => array.indexOf(symbol) === array.lastIndexOf(symbol) ? ')' : '(' )
+    .join('')
 
 
   /*word = word.split('')
@@ -704,10 +735,10 @@ Examples
 function sortArray(array) {
   const odd = array.filter(item => item % 2 !== 0).sort((a,b) => a - b)
   return array.map(value => {
-    if(value % 2 != 0){
-      return odd.shift()
-    } else{
+    if(value % 2 === 0){
       return value
+    } else{
+      return odd.shift()
     }
   })
 }
@@ -790,19 +821,90 @@ Example
 */
 
 function deleteDigit(n) {
-  let newArr = []
+  let result = []
   n = n.toString().split('')
   for(let i = 0; i < n.length; i++){
-    let small = []
-    for(let k = 0; k < n.length; k++){
-      if(k !== i){
-        small.push(n[k]);
-      }
-    }
-    newArr.push(Number(small.join('')));
+    let small = n.filter(digit => digit !== n[i])
+    result.push(Number(small.join('')));
     small = []
   }
-  return newArr.sort((a, b) => b-a)[0]
+  return result.sort((a, b) => b-a)[0]
 }
 
 console.log(deleteDigit(12345))
+
+console.log('----------------------------Task 133----------------------------')
+/*
+Вернуть индекс массива, где сумма чисел слева от N равна сумме чисел справа
+*/ 
+
+function findEvenIndex(arr){
+  //Функция возвращает сумму элементов массива с индекса = start, до end (Включительно)
+  const arrSum = (arr, start, end = arr.length)=>{
+    if(end > arr.length-1){
+      end = arr.length-1
+    }
+    let sum = 0;
+    for(let i = start; i <= end; i++){
+      sum += arr[i]
+    }
+    return sum
+  }
+
+  for(let i = 0; i < arr.length; i++){
+    if(arrSum(arr, 0, i-1) == arrSum(arr, i+1)){
+      return i
+    }
+  }
+  return -1
+}
+
+console.log(findEvenIndex([1,2,3,4,5,10]))
+
+
+console.log('----------------------------Task 134----------------------------')
+
+
+console.log('----------------------------Task 135----------------------------')
+/*
+Остортировать массив по индексам заданным в другом массиве
+*/ 
+
+/*
+1. Бежим по массиву с индексами
+2. Каждое значение индекса пушим значение из инитиал
+*/
+
+//Перерешать через indexOf
+
+function sort(initialArray, sortingArray) {
+  let result = [];
+  sortingArray.forEach((value, index) => {
+    result[value] = initialArray[index]
+  })
+  return result
+}
+console.log(sort(['x', 'y', 'z'], [2, 1, 0]))
+
+
+
+console.log('----------------------------Task 136----------------------------')
+
+
+console.log('----------------------------Task 137----------------------------')
+/*The rgb function is incomplete. Complete it so that passing in RGB decimal values will result in a hexadecimal representation 
+being returned. Valid decimal values for RGB are 0 - 255. Any values that fall out of that range must be rounded to the closest 
+valid value.
+Note: Your answer should always be 6 characters long, the shorthand with 3 will not work here.
+  The following are examples of expected output values:
+  rgb(255, 255, 255) // returns FFFFFF
+  rgb(255, 255, 300) // returns FFFFFF
+  rgb(0,0,0) // returns 000000
+  rgb(148, 0, 211) // returns 9400D3
+*/
+
+function rgb(r){
+  return Math.floor((r)/16) + '+' + ((r+1) - Math.floor((r)/16)*16)
+}
+
+console.log(rgb(153))
