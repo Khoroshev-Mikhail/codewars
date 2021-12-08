@@ -563,6 +563,7 @@ function twoSum(numbers, target) {
     }
   }
   return -1
+  console.log(ggg)
 
 }
 
@@ -631,7 +632,16 @@ function dataReverse(data) {
   for(let i = 0; i < data.length; i += 8){
     newArr.unshift(...data.slice(i, i + 8))
   }
-  return newArr;  
+  return newArr;
+  // return newArr.reverse().flat() //CodeWars не пропустил такое решение - "Flat() is not a function"
+  
+  // newArr.reverse()
+  // let newArrForCodewars = []
+  // for(let k = 0; k < newArr.length; k++){
+  //   newArrForCodewars.push(...newArr[k])
+  // }
+  // return newArrForCodewars
+  
 }
 
 console.log(dataReverse([1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,1,0,1,0,1,0]))
@@ -652,12 +662,34 @@ Examples
 
 
 function duplicateEncode(word){
+// dict = {}
+// ...
+//Надо посчитать сколько раз встречается значение
+  const dict = {};
+  for(const symbol of word){
+    if(dict[symbol] === undefined) {
+      dict[symbol] = 0
+    }
+    dict[symbol] += 1;
+  }
+  return word // N
+    .toLowerCase() // O(N)
+    .split('') // O(N)
+    .map(symbol => dict[symbol] === 1 ? ')' : '(' ) // O(N)
+    // .map((symbol, _, array) => array.indexOf(symbol) === array.lastIndexOf(symbol) ? ')' : '(' ) // O(N²)
+    .join('') // O(N)
 
-  return word
-    .toLowerCase()
-    .split('')
-    .map((symbol, _, array) => array.indexOf(symbol) === array.lastIndexOf(symbol) ? ')' : '(' )
-    .join('')
+
+  /*word = word.split('')
+  let newArr = []
+  for(let i = 0; i < word.length; i++){
+    if(word.filter(item => item.toUpperCase() == word[i].toUpperCase()).length > 1){
+      newArr[i] = ')'
+    } else {
+      newArr[i] = '('
+    }
+  }
+  return newArr.join('')*/
 }
 
 console.log(duplicateEncode('Success'))
@@ -676,6 +708,18 @@ function capitalize(s){
 
   const even = s.split('').map((symbol, index) => index % 2 === 0 ? symbol.toUpperCase() : symbol.toLowerCase()).join('')
   const odd = s.split('').map((symbol, index) => index % 2 !== 0 ? symbol.toUpperCase() : symbol.toLowerCase()).join('')
+
+  /*s = s.split('')
+  console.log(s.length)
+  s.forEach((symbol, index) => {
+    if(index % 2 == 0){
+      even += symbol.toUpperCase()
+      odd += symbol
+    } else {
+      even +=symbol
+      odd += symbol.toUpperCase()
+    }
+  })*/
   return [even, odd]
 };
 
@@ -709,7 +753,38 @@ function sortArray(array) {
   })
 }
 
-console.log(sortArray([9, 8, 7, 6, 5, 4, 3, 2, 1, 0]))
+// const people = [
+//   {name: "A", age: 5},
+//   {name: "B", age: 12},
+//   {name: "X", age: 8},
+//   {name: "C", age: 8},
+// ];
+
+function comparator(left, right) {
+  // left должен остаться левее right → вернуть любое ОТРИЦАТЕЛЬНОЕ число
+  // left должен стать правее right → вернуть любое ПОЛОЖИТЕЛЬНО число
+  // left === right с точки зрения сортировки
+
+  // if (left.age === right.age) {
+  //   return 0;
+  // }
+
+  // if (left.age < right.age) {
+  //   return -1;
+  // }
+
+  // if (left.age > right.age) {
+  //   return +1;
+  // }
+
+  return left.age - right.age;
+}
+
+people.sort((a, b) => a.age < b.age ? -1 : 1);
+
+// console.log(["лиса", "волк", "ёжик"].sort((a, b) => a.localeCompare(b, "ru-RU")));
+
+// console.log(sortArray([9, 8, 7, 6, 5, 4, 3, 2, 1, 0]))
 
 
 console.log('----------------------------Задача 130----------------------------')
@@ -727,9 +802,8 @@ list([])
 // returns ''
 */
 
-function listFns(names){
-  let str = ''
-  names.forEach((arr, index) => {
+function listFns(arr){
+  /*names.forEach((arr, index) => {
     if(index === names.length-2){
       str += arr.name + ' & '
     }else if(index !== names.length-1){
@@ -737,11 +811,26 @@ function listFns(names){
     } else{
       str += arr.name
     }
-  })
-  return str
+  })*/
+  const names = arr.map(item => item.name);
+  if(names.length === 0){
+    return ''
+  } 
+  if(names.length === 1){
+    return names[0]
+  }
+
+
+  const withoutLast = names.slice(0, -1).join(', ');
+  const last = names[names.length - 1];
+
+  return withoutLast + ' & ' + last
 }
 
 console.log(listFns([ {name: 'Bart'}, {name: 'Lisa'}, {name: 'Maggie'} ]))
+console.log(listFns([ {name: 'Bart'}, {name: 'Lisa'} ]))
+console.log(listFns([ {name: 'Bart'} ]))
+console.log(listFns([ ]))
 
 
 
@@ -758,11 +847,12 @@ Example: He haD iEght ShOTs of CAffIEne. --> He had eight shots of caffeine.
 
 function proofread (str) { 
   return str
-  .toLowerCase()
-  .replace( /ie/g, "ei")
-  .split('. ')
-  .map(string => string.charAt(0).toUpperCase() + string.slice(1))
-  .join('. ')
+    .toLowerCase()
+    .replace( /ie/g, "ei")
+    // .replaceAll("ie", "ei")
+    .split('. ')
+    .map(string => string[0].toUpperCase() + string.slice(1))
+    .join('. ')
 } 
 
 console.log(proofread ("Their deceit was inconceivable. She seized the moment."))
@@ -787,37 +877,66 @@ Example
 */
 
 function deleteDigit(n) {
-  n = n.toString()
   let result = []
-  for(let i = 0; i < n.length; i++){
-    result.push( +( n.replace(n[i], '' ) ) )  
+  const digits = n.toString();
+  for(let i = 0; i < digits.length; i++){
+    // "12321"
+    //     ↑  
+    // let small = n.filter(digit => digit !== n[i])
+    // let small = n.filter((_, j) => j !== i)
+    // const copy = Array.from(n);
+    // copy.splice(i, 1)
+    // result.push(Number(copy.join('')));
+    const str = digits.slice(0, i) + digits.slice(i + 1);
+    result.push(Number(str));
   }
   return Math.max(...result)
 }
-console.log(deleteDigit(1001))
+
+// Math.max(7,3,9)
+// Math.max([9, 1], [14], [3]) // NaN
+
+// // [9, 1].join() === "9,1"
+
+// const arr = Array(1_000_000).fill().map((_, i) => i);
+
+// // Math.max(...arr);
+// arr.reduce((a, b) => Math.max(a, b), -Infinity);
+
+// Math.max(...[])
+// Math.max()
+
+
+console.log(deleteDigit(12345))
+
 console.log('----------------------------Task 133----------------------------')
 /*
 Вернуть индекс массива, где сумма чисел слева от N равна сумме чисел справа
 */ 
 
-function findEvenIndex(arr){
-  //Функция возвращает сумму элементов массива с индекса = start, до end (Включительно)
-  const arrSum = (arr, start, end = arr.length - 1)=>{
-    //Проверка что значение end не больше длинны массива
-    if(end > arr.length-1){
-      end = arr.length-1
-    }
-    let sum = 0;
-    for(let i = start; i <= end; i++){ // <= чтобы значения учитывались включительно
-      sum += arr[i]
-    }
-    return sum
+//Функция возвращает сумму элементов массива с индекса = start, до end (Включительно)
+const arrSum = (arr, start, end = arr.length -1 )=>{
+  if(end > arr.length-1){
+    end = arr.length-1
   }
+  let sum = 0;
+  for(let i = start; i <= end; i++){
+    sum += arr[i]
+  }
+  return sum
 
+  return arr.slice(start, end + 1).reduce((a, b) => a + b, 0);
+}
+function findEvenIndex(arr){
+  let left = 0;
+  let right = arr.reduce((a,b) => a + b, 0)
   for(let i = 0; i < arr.length; i++){
-    if(arrSum(arr, 0, i-1) === arrSum(arr, i+1)){
+    if(left === right - arr[i]){
       return i
     }
+    left += arr[i]
+    right -= arr[i]
+    console.log({left, right})
   }
   return -1
 }
@@ -826,6 +945,22 @@ console.log(findEvenIndex([1,2,3,4,5,10]))
 
 
 console.log('----------------------------Task 134----------------------------')
+
+const st = `1000.00
+125 Market 125.45
+126 Hardware 34.95
+127 Video 7.45
+128 Book 14.32
+129 Gasoline 16.10`;
+
+// Original_Balance:_1000.00
+// 125_Market_125.45_Balance_874.55
+// 126_Hardware_34.95_Balance_839.60
+// 127_Video_7.45_Balance_832.15
+// 128_Book_14.32_Balance_817.83
+// 129_Gasoline_16.10_Balance_801.73
+// Total_expense__198.27
+// Average_expense__39.65
 
 
 console.log('----------------------------Task 135----------------------------')
@@ -852,7 +987,10 @@ console.log(sort(['x', 'y', 'z'], [2, 1, 0]))
 
 
 console.log('----------------------------Task 136----------------------------')
-
+//Test.assertDeepEquals(zeroPlentiful([0,0,0,0,0,0]),1);
+function zeroPlentiful(arr){
+  return 0;
+}
 
 console.log('----------------------------Task 137----------------------------')
 /*The rgb function is incomplete. Complete it so that passing in RGB decimal values will result in a hexadecimal representation 
