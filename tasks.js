@@ -961,7 +961,31 @@ const st = `1000.00
 // 129_Gasoline_16.10_Balance_801.73
 // Total_expense__198.27
 // Average_expense__39.65
-
+var rounded = function(number){
+  return +number.toFixed(2);
+}
+function balance(book) {
+  const withOriginalBalance = 'Original Balance: ' + book.replace(/[^a-zа-яё, 0-9, .\s]/gi, '')
+  let arr = withOriginalBalance.split('\n')//[2].match(/\d+\.(\d+)/)[0]
+  let startBalance = 1000;
+  let balance = startBalance;
+  for(let i = 1; i < arr.length; i++){
+    let lastPurchase = arr[i].match(/\d+\.(\d+)/)[0]
+    balance = rounded(balance - lastPurchase)
+    arr[i] += ` Balance ${balance}`
+  }
+  let expense = rounded(startBalance - balance)
+  let averageExpense = rounded(expense / (arr.length - 1))
+  arr.push(`Total expense  ${expense}`)
+  arr.push(`Average expense  ${averageExpense}`)
+  return arr
+}
+console.log(balance(`1000.00
+125 Market 125.45
+126 Hardware 34.95
+127 Video 7.45
+128 Book 14.32
+129 Gasoline 16.10`))
 
 console.log('----------------------------Task 135----------------------------')
 /*
