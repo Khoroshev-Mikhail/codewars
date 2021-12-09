@@ -967,7 +967,7 @@ var rounded = function(number){
 function balance(book) {
   const withOriginalBalance = 'Original Balance: ' + book.replace(/[^a-zа-яё, 0-9, .\s]/gi, '')
   let arr = withOriginalBalance.split('\n')//[2].match(/\d+\.(\d+)/)[0]
-  let startBalance = 1000;
+  let startBalance = Number(book.replace(/[^a-zа-яё, 0-9, .\s]/gi, '').split('\n')[0])
   let balance = startBalance;
   for(let i = 1; i < arr.length; i++){
     let lastPurchase = arr[i].match(/\d+\.(\d+)/)[0]
@@ -980,7 +980,7 @@ function balance(book) {
   arr.push(`Average expense  ${averageExpense}`)
   return arr
 }
-console.log(balance(`1000.00
+console.log(balance(`1223.00
 125 Market 125.45
 126 Hardware 34.95
 127 Video 7.45
