@@ -966,12 +966,13 @@ var rounded = function(number){
 }
 function balance(book) {
   const withOriginalBalance = 'Original Balance: ' + book.replace(/[^a-zа-яё, 0-9, .\s]/gi, '')
-  let arr = withOriginalBalance.split('\n')//[2].match(/\d+\.(\d+)/)[0]
+  let arr = withOriginalBalance.split('\n')
   let startBalance = Number(book.replace(/[^a-zа-яё, 0-9, .\s]/gi, '').split('\n')[0])
   let balance = startBalance;
   for(let i = 1; i < arr.length; i++){
     let lastPurchase = arr[i].match(/\d+\.(\d+)/)[0]
     balance = rounded(balance - lastPurchase)
+    console.log(balance)
     arr[i] += ` Balance ${balance}`
   }
   let expense = rounded(startBalance - balance)
@@ -1028,8 +1029,41 @@ Note: Your answer should always be 6 characters long, the shorthand with 3 will 
   rgb(148, 0, 211) // returns 9400D3
 */
 
-function rgb(r){
-  return Math.floor((r)/16) + '+' + ((r+1) - Math.floor((r)/16)*16)
+function rgb(r, g, b){
+  function toSymbol(x){
+    switch(x){
+      case 10 : 
+        x = 'A'
+        break;
+      case 11 :
+        x = "B"
+        break;
+      case 12 : 
+        x = 'C'
+        break;
+      case 13 :
+        x = "D"
+        break;
+      case 14 : 
+        x = 'E'
+        break;
+      case 15 :
+        x = "F"
+        break;
+    }
+    return x
+  }
+  function destruct(x){
+    if(x < 0){
+      x = 0;
+    } else if (x > 255){
+      x = 255
+    }
+    const firstValue = Math.floor( (x) / 16)
+    const secondValue = x - firstValue * 16
+    return toSymbol(firstValue) + '' + toSymbol(secondValue)
+  }
+  return destruct(r) + '' + destruct(g) + '' + destruct(b)
 }
 
-console.log(rgb(153))
+console.log(rgb(255,255,-20))
