@@ -965,28 +965,79 @@ var rounded = function(number){
   return +number.toFixed(2);
 }
 function balance(book) {
-  const withOriginalBalance = 'Original Balance: ' + book.replace(/[^a-zа-яё, 0-9, .\s]/gi, '')
-  let arr = withOriginalBalance.split('\n')
-  let startBalance = Number(book.replace(/[^a-zа-яё, 0-9, .\s]/gi, '').split('\n')[0])
-  let balance = startBalance;
-  for(let i = 1; i < arr.length; i++){
-    let lastPurchase = arr[i].match(/\d+\.(\d+)/)[0]
-    balance = rounded(balance - lastPurchase)
-    console.log(balance)
-    arr[i] += ` Balance ${balance}`
+  const [firstLine, ...rest] = book
+    .replace(/[^a-z0-9.\s]/gi, '')
+    .split('\n')
+    .filter(str => str !== "");
+  const originalBalance = Number(firstLine);
+
+  console.log("rest", rest);
+  const arr = [];
+  
+  let balance = originalBalance;
+
+  for(const line of rest){
+    const [id, name, priceStr] = line.split(' ')
+    const price = Number(priceStr);
+
+    balance -= price
+    arr.push(`${id} ${name} ${price.toFixed(2)} Balance ${balance.toFixed(2)}`)
   }
-  let expense = rounded(startBalance - balance)
-  let averageExpense = rounded(expense / (arr.length - 1))
-  arr.push(`Total expense  ${expense}`)
-  arr.push(`Average expense  ${averageExpense}`)
-  return arr
+
+  const expense = originalBalance - balance
+  const averageExpense = expense / rest.length
+
+  arr.push(`Total expense  ${expense.toFixed(2)}`)
+  arr.push(`Average expense  ${averageExpense.toFixed(2)}`)
+  arr.unshift('Original Balance: ' + originalBalance.toFixed(2));
+
+  return arr.join("\r\n")
 }
-console.log(balance(`1223.00
-125 Market 125.45
-126 Hardware 34.95
-127 Video 7.45
-128 Book 14.32
-129 Gasoline 16.10`))
+
+balance(`1000.00!=
+
+125 Market !=:125.45
+126 Hardware =34.95
+127 Video! 7.45
+128 Book :14.32
+129 Gasoline ::16.10
+`);
+
+`expected 'Original Balance: 1000.00\r\n undefined NaN Balance NaN\r\n125 Market 125.45 
+Balance NaN\r\n126 Hardware 34.95 Balance NaN\r\n127 Video 7.45 Balance NaN\r\n128 Book 
+14.32 Balance NaN\r\n129 Gasoline 16.10 Balance NaN\r\n undefined NaN Balance NaN\r\nTotal 
+expense  NaN\r\nAverage expense  NaN' 
+to equal 
+'Original Balance: 1000.00\r\n125 Market 
+125.45 Balance 874.55\r\n126 Hardware 34.95 Balance 839.60\r\n127 Video 7.45 
+Balance 832.15\r\n128 Book 14.32 Balance 817.83\r\n129 Gasoline 16.10 Balance 
+801.73\r\nTotal expense  198.27\r\nAverage expense  39.65'`
+// console.log(balance(`1223.00
+// 125 Market 125.45
+// 126 Hardware 34.95
+// 127 Video 7.45
+// 128 Book 14.32
+// 129 Gasoline 16.10`));
+
+
+// `Original_Balance:_1000.00
+// 125_Market_125.45_Balance_874.55
+// 126_Hardware_34.95_Balance_839.60
+// 127_Video_7.45_Balance_832.15
+// 128_Book_14.32_Balance_817.83
+// 129_Gasoline_16.10_Balance_801.73
+// Total_expense__198.27
+// Average_expense__39.65`
+
+function ffff(...args) {
+  console.log(args);
+}
+
+// ffff`qwert ${2+2} uyguy ${7 + 9} gbjygguy`
+
+// const Component = div`
+//   width: ${x}px
+// `;
 
 console.log('----------------------------Task 135----------------------------')
 /*
@@ -1029,41 +1080,77 @@ Note: Your answer should always be 6 characters long, the shorthand with 3 will 
   rgb(148, 0, 211) // returns 9400D3
 */
 
+function toSymbol(x){
+  switch(x){
+    case 10 : 
+      return 'A'
+    case 11 :
+      return "B"
+    case 12 : 
+      return 'C'
+    case 13 :
+      return "D"
+    case 14 : 
+      return 'E'
+    case 15 :
+      return "F"
+  }
+  return String(x);
+}
+function destruct(x){
+  if(x < 0){
+    x = 0;
+  } else if (x > 255){
+    x = 255
+  }
+  // const firstValue = Math.floor( (x) / 16)
+  // const secondValue = x - firstValue * 16
+  // return toSymbol(firstValue) + toSymbol(secondValue)
+
+  return x.toString(16).toUpperCase();
+}
 function rgb(r, g, b){
-  function toSymbol(x){
-    switch(x){
-      case 10 : 
-        x = 'A'
-        break;
-      case 11 :
-        x = "B"
-        break;
-      case 12 : 
-        x = 'C'
-        break;
-      case 13 :
-        x = "D"
-        break;
-      case 14 : 
-        x = 'E'
-        break;
-      case 15 :
-        x = "F"
-        break;
-    }
-    return x
-  }
-  function destruct(x){
-    if(x < 0){
-      x = 0;
-    } else if (x > 255){
-      x = 255
-    }
-    const firstValue = Math.floor( (x) / 16)
-    const secondValue = x - firstValue * 16
-    return toSymbol(firstValue) + '' + toSymbol(secondValue)
-  }
-  return destruct(r) + '' + destruct(g) + '' + destruct(b)
+  return [r, g, b].map(destruct).join("");
+  // return destruct(r) + destruct(g) + destruct(b)
 }
 
 console.log(rgb(255,255,-20))
+
+// https://www.codewars.com/kata/5e0baea9d772160032022e8c
+const games = 
+[[0, 5, 2, 2],   // Team 0 - Team 5 => 2:2
+[1, 4, 0, 2],   // Team 1 - Team 4 => 0:2
+[2, 3, 1, 2],   // Team 2 - Team 3 => 1:2
+[1, 5, 2, 2],   // Team 1 - Team 5 => 2:2
+[2, 0, 1, 1],   // Team 2 - Team 0 => 1:1
+[3, 4, 1, 1],   // Team 3 - Team 4 => 1:1
+[2, 5, 0, 2],   // Team 2 - Team 5 => 0:2
+[3, 1, 1, 1],   // Team 3 - Team 1 => 1:1
+[4, 0, 2, 0]]   // Team 4 - Team 0 => 2:0
+
+
+function computeRanks(number, games) {
+  const teams = [];
+  for(let i = 0; i < number; i++){
+    teams.push({id : i, points : 0, goals : 0, missed : 0})
+  }
+  for(const [teamA, teamB, goalsA, goalsB] of games){
+    if(goalsA === goalsB){
+      teams[teamA].points++;
+      teams[teamB].points++;
+
+    } else if(goalsA > goalsB){
+      teams[teamA].points += 2
+    } else if(goalsA < goalsB){
+      teams[teamB].points += 2;
+    }
+    teams[teamA].goals += goalsA
+    teams[teamB].goals += goalsB
+    teams[teamA].missed += goalsA
+    teams[teamB].missed += goalsB
+  }
+  console.table(teams);
+  return teams
+}
+
+console.log(">>>>>", computeRanks(6, games));
