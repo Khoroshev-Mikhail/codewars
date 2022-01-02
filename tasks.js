@@ -1132,25 +1132,79 @@ const games =
 function computeRanks(number, games) {
   const teams = [];
   for(let i = 0; i < number; i++){
-    teams.push({id : i, points : 0, goals : 0, missed : 0})
+    teams.push({id : i, points : 0, diff: 0, goals : 0})
   }
   for(const [teamA, teamB, goalsA, goalsB] of games){
     if(goalsA === goalsB){
       teams[teamA].points++;
       teams[teamB].points++;
-
     } else if(goalsA > goalsB){
       teams[teamA].points += 2
     } else if(goalsA < goalsB){
       teams[teamB].points += 2;
     }
+    //Голы
     teams[teamA].goals += goalsA
     teams[teamB].goals += goalsB
-    teams[teamA].missed += goalsA
-    teams[teamB].missed += goalsB
+    //Разница между пропущенными и забитыми
+    teams[teamA].diff += goalsA - goalsB
+    teams[teamB].diff += goalsB - goalsA
   }
+  //teams.forEach( obj => obj.diff = obj.goals - obj.missed) // Добавляю свойство "diff" - разница между пропущенными и забитыми голами(это свойство используется при сортировке объектов)
+
+  teams.sort( (a, b) => {
+    if(a.points < b.points){
+      return 1
+    } else if (a.points > b.points){
+      return -1
+    } else if(a.diff < b.diff){
+      return 1
+    } else if(a.diff > b.diff){
+      return -1
+    } else if(a.goals < b.goals){
+      return 1
+    } else if(a.goals > b.goals){
+      return -1
+      }
+    return 0
+  })
+  //Добавляем значение score(место) в зависимости от индекса (т.к. массив отстортирован)
+  teams.forEach((obj, i) => {
+    //Если points,diff,goals одинаковы тогда присваиваем score как у предыдущей команды (у которой такие же points,diff,goals)
+    if(i >= 1 && obj.points === teams[i-1].points && obj.diff === teams[i-1].diff && obj.goals === teams[i-1].goals){
+      return obj.score = teams[i-1].score
+    }
+    return obj.score = i+1 // i+1 Math.max(...arr.slice(0, i+1)) + 1 где arr массив с score
+  })
+  //Снова сортируем по id
+  teams.sort( (a, b) => a.id - b.id)
+  //Возвращаем новый массив в котором индекс массива = teams.id, а value = teams.score
   console.table(teams);
-  return teams
+  return teams.map( (obj) => obj.score)
 }
 
 console.log(">>>>>", computeRanks(6, games));
+
+/*
+it("exampleEmpty", function() {
+    Test.assertDeepEquals(
+        computeRanks(10, []),
+        [1,1,1,1,1,1,1,1,1,1]);
+});
+
+expected [ 1, 1, 2, 3, 4, 5, 6, 7, 8, 9 ] to deeply equal [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
+
+Только первые два совпадения по очкам получают одинаковый score, следующие совпадения получают +1 score в порядке увеличения id
+*/
+
+/*
+it("exampleOneGame", function() {
+    Test.assertDeepEquals(
+        computeRanks(8, [[0, 7, 2, 0]]),
+        [1,2,2,2,2,2,2,8]);
+});
+
+expected [ 1, 2, 2, 3, 4, 5, 6, 8 ] to deeply equal [ 1, 2, 2, 2, 2, 2, 2, 8 ]
+
+тоже самое как в предыдущем и score не привязан к порядку записи, а равен Math.max(Score) + 1
+*/
