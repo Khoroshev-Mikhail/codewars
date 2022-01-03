@@ -1116,6 +1116,12 @@ function rgb(r, g, b){
 
 console.log(rgb(255,255,-20))
 
+
+
+console.log('----------------------------ДЗ на 12/01/2022----------------------------')
+console.log('----------------------------Other Task----------------------------')
+
+
 // https://www.codewars.com/kata/5e0baea9d772160032022e8c
 const games = 
 [[0, 5, 2, 2],   // Team 0 - Team 5 => 2:2
@@ -1198,8 +1204,25 @@ function computeRanks(number, games) {
   teams.sort( (a, b) => a.id - b.id)
   //Возвращаем новый массив в котором индекс массива = teams.id, а value = teams.score
   console.table(teams);
-  console.log(teams.map( (obj) => obj.score))
   return teams.map( (obj) => obj.score)
 }
 
 console.log(">>>>>", computeRanks(6, games));
+
+
+
+console.log('----------------------------Task 136----------------------------')
+function zeroPlentiful(arr){
+  let count = 0;
+  for(let i = 0; i < arr.length; i++){
+    if(arr.slice(i, i + 4).join('') === '0000'){
+      count++
+      i += 4
+    } else if(arr.slice(i, i + 4).includes(0) && arr.slice(i, i + 4).join('') !== '0000' && arr.slice(i, i + 4).length === 4){
+      return 0
+    }
+  }
+  return count;
+}
+
+console.log(zeroPlentiful([ 1, 0, 0, 0, 0, 5, 5,  0, 0, 0, 0 ]))
