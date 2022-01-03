@@ -1170,41 +1170,36 @@ function computeRanks(number, games) {
   })
   //Добавляем значение score(место) в зависимости от индекса (т.к. массив отстортирован)
   teams.forEach((obj, i) => {
-    //Если points,diff,goals одинаковы тогда присваиваем score как у предыдущей команды (у которой такие же points,diff,goals)
+          
+    if(i > 0){
+      //Если points,diff,goals одинаковы тогда присваиваем score как у предыдущей команды (у которой такие же points,diff,goals)
+      if(obj.points === teams[i-1].points && obj.diff === teams[i-1].diff && obj.goals === teams[i-1].goals){ 
+        return obj.score = teams[i-1].score
+      }
+    }
+    return obj.score = i+1
+  })
+
+  
+  //При таком решении вернет [ 1, 2, 3, 4, 4, 6 ] - Codewars это устраивает, но место под номером 5 пропущено!
+  //Ниже решение при порядковом номере
+
+  /*let score = 0;
+  teams.forEach((obj, i) => {
     if(i >= 1 && obj.points === teams[i-1].points && obj.diff === teams[i-1].diff && obj.goals === teams[i-1].goals){
       return obj.score = teams[i-1].score
     }
-    return obj.score = i+1 // i+1 Math.max(...arr.slice(0, i+1)) + 1 где arr массив с score
-  })
+    score++
+    return obj.score = score;
+  })*/
+
+
   //Снова сортируем по id
   teams.sort( (a, b) => a.id - b.id)
   //Возвращаем новый массив в котором индекс массива = teams.id, а value = teams.score
   console.table(teams);
+  console.log(teams.map( (obj) => obj.score))
   return teams.map( (obj) => obj.score)
 }
 
 console.log(">>>>>", computeRanks(6, games));
-
-/*
-it("exampleEmpty", function() {
-    Test.assertDeepEquals(
-        computeRanks(10, []),
-        [1,1,1,1,1,1,1,1,1,1]);
-});
-
-expected [ 1, 1, 2, 3, 4, 5, 6, 7, 8, 9 ] to deeply equal [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
-
-Только первые два совпадения по очкам получают одинаковый score, следующие совпадения получают +1 score в порядке увеличения id
-*/
-
-/*
-it("exampleOneGame", function() {
-    Test.assertDeepEquals(
-        computeRanks(8, [[0, 7, 2, 0]]),
-        [1,2,2,2,2,2,2,8]);
-});
-
-expected [ 1, 2, 2, 3, 4, 5, 6, 8 ] to deeply equal [ 1, 2, 2, 2, 2, 2, 2, 8 ]
-
-тоже самое как в предыдущем и score не привязан к порядку записи, а равен Math.max(Score) + 1
-*/
