@@ -1212,17 +1212,31 @@ console.log(">>>>>", computeRanks(6, games));
 
 
 console.log('----------------------------Task 136----------------------------')
+
 function zeroPlentiful(arr){
+  console.log(arr)
+  if(! arr.includes(0)){
+    return 0
+  }
+
   let count = 0;
   for(let i = 0; i < arr.length; i++){
-    if(arr.slice(i, i + 4).join('') === '0000'){
-      count++
-      i += 4
-    } else if(arr.slice(i, i + 4).includes(0) && arr.slice(i, i + 4).join('') !== '0000' && arr.slice(i, i + 4).length === 4){
-      return 0
+    if(arr[i] === 0){
+      if(arr.slice(i, i+4).join('') === '0000'){ // Не менее 4
+        count++
+        i += 3 //Можно ли так менять i или есть другой метод.?
+        continue // Можно ли так или есть другой метод?
+      }
+      //В этом условии проверяем входит ли данный 0 в цепочку из четырех 
+      if(arr.slice(i-1, i+3).join('') === '0000' || arr.slice(i-2, i+2).join('') === '0000' || arr.slice(i-3, i+1).join('') === '0000'){
+        continue;
+      } else {
+        return 0
+      }
     }
   }
-  return count;
+  return count
 }
 
-console.log(zeroPlentiful([ 1, 0, 0, 0, 0, 5, 5,  0, 0, 0, 0 ]))
+console.log(zeroPlentiful([ 1, 0, 0, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
+
