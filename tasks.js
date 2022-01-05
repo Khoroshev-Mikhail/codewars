@@ -1213,26 +1213,29 @@ console.log(">>>>>", computeRanks(6, games));
 
 console.log('----------------------------Task 136----------------------------')
 
-function zeroPlentiful(arr){
-  console.log(arr)
-  if(! arr.includes(0)){
-    return 0
-  }
-
+function howLongNulls(arr){
   let count = 0;
   for(let i = 0; i < arr.length; i++){
+    if(arr[i] === 0 ){
+      count++
+    } else {
+      return count
+    }
+  }
+}
+
+function zeroPlentiful(arr){
+  let count = 0;
+  for(let i = 0; i < arr.length; i++){
+    //Проверяем состоит ли текущий ноль в последовательности из четырех нолей (0000), если нет то возвращаем 0 (т.к. по условию задачи последовательности нулей должны быть длинее четырех нолей)
+    if(arr[i] === 0 && arr.slice(i-1, i+3).join('') !== '0000' && arr.slice(i-2, i+2).join('') !== '0000' && arr.slice(i-3, i+1).join('') !== '0000' && arr.slice(i, i+4).join('') !== '0000'){
+      console.log('arara=' + i)
+      return 0
+    }
     if(arr[i] === 0){
-      if(arr.slice(i, i+4).join('') === '0000'){ // Не менее 4
-        count++
-        i += 3 //Можно ли так менять i или есть другой метод.?
-        continue // Можно ли так или есть другой метод?
-      }
-      //В этом условии проверяем входит ли данный 0 в цепочку из четырех 
-      if(arr.slice(i-1, i+3).join('') === '0000' || arr.slice(i-2, i+2).join('') === '0000' || arr.slice(i-3, i+1).join('') === '0000'){
-        continue;
-      } else {
-        return 0
-      }
+      count++
+      i  += howLongNulls(arr.slice(i))-1
+      continue;
     }
   }
   return count
@@ -1240,3 +1243,4 @@ function zeroPlentiful(arr){
 
 console.log(zeroPlentiful([ 1, 0, 0, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
 
+//Выучить /(^|[^0])0{1,3}(?!=$|0)/ пододные выражения и что они значат!!!
