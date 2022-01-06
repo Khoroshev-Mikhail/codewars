@@ -1062,12 +1062,6 @@ console.log(sort(['x', 'y', 'z'], [2, 1, 0]))
 
 
 
-console.log('----------------------------Task 136----------------------------')
-//Test.assertDeepEquals(zeroPlentiful([0,0,0,0,0,0]),1);
-function zeroPlentiful(arr){
-  return 0;
-}
-
 console.log('----------------------------Task 137----------------------------')
 /*The rgb function is incomplete. Complete it so that passing in RGB decimal values will result in a hexadecimal representation 
 being returned. Valid decimal values for RGB are 0 - 255. Any values that fall out of that range must be rounded to the closest 
@@ -1156,8 +1150,6 @@ function computeRanks(number, games) {
     teams[teamA].diff += goalsA - goalsB
     teams[teamB].diff += goalsB - goalsA
   }
-  //teams.forEach( obj => obj.diff = obj.goals - obj.missed) // Добавляю свойство "diff" - разница между пропущенными и забитыми голами(это свойство используется при сортировке объектов)
-
   teams.sort( (a, b) => {
     if(a.points < b.points){
       return 1
@@ -1176,7 +1168,6 @@ function computeRanks(number, games) {
   })
   //Добавляем значение score(место) в зависимости от индекса (т.к. массив отстортирован)
   teams.forEach((obj, i) => {
-          
     if(i > 0){
       //Если points,diff,goals одинаковы тогда присваиваем score как у предыдущей команды (у которой такие же points,diff,goals)
       if(obj.points === teams[i-1].points && obj.diff === teams[i-1].diff && obj.goals === teams[i-1].goals){ 
@@ -1228,13 +1219,13 @@ function zeroPlentiful(arr){
   let count = 0;
   for(let i = 0; i < arr.length; i++){
     //Проверяем состоит ли текущий ноль в последовательности из четырех нолей (0000), если нет то возвращаем 0 (т.к. по условию задачи последовательности нулей должны быть длинее четырех нолей)
-    if(arr[i] === 0 && arr.slice(i-1, i+3).join('') !== '0000' && arr.slice(i-2, i+2).join('') !== '0000' && arr.slice(i-3, i+1).join('') !== '0000' && arr.slice(i, i+4).join('') !== '0000'){
+    if(arr[i] === 0 && arr.slice(i - 1, i + 3).join('') !== '0000' && arr.slice(i - 2, i + 2).join('') !== '0000' && arr.slice(i - 3, i + 1).join('') !== '0000' && arr.slice(i, i + 4).join('') !== '0000'){
       console.log('arara=' + i)
       return 0
     }
     if(arr[i] === 0){
-      count++
-      i  += howLongNulls(arr.slice(i))-1
+      count ++
+      i  += howLongNulls(arr.slice(i)) - 1
       continue;
     }
   }
@@ -1243,4 +1234,30 @@ function zeroPlentiful(arr){
 
 console.log(zeroPlentiful([ 1, 0, 0, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
 
-//Выучить /(^|[^0])0{1,3}(?!=$|0)/ пододные выражения и что они значат!!!
+
+//Выучить регулярные выражения выражения и что они значат!!!
+
+//Решение с помощью регулярного выражения
+function newZeroPlentiful(arr){
+  const cleanned = arr.join('').split(/[^0]/).filter(e => e !== '')
+  return cleanned.every(nulls => nulls.length >= 4) ? cleanned.length : 0
+}
+
+console.log(newZeroPlentiful([ 1, 0, 0, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
+
+
+
+console.log('----------------------------Task 138----------------------------')
+
+function cake(x, y){
+  const alphabet = "abcdefghijklmnopqrstuvwxyz".split('');
+  const sum = y.split('').reduce( (accum, value, index) => {
+    return index % 2 === 0 ? accum + value.charCodeAt() : (accum + alphabet.indexOf(value) + 1)
+  }, 0)
+  return sum >= Math.round(x * 0.7) ? "Fire!" : "That was close!"
+}
+
+
+
+//Testing for 631 and "hmxmaff": expected 'That was close!' to equal 'Fire!'
+console.log(cake(631, 'hmxmaff'))
