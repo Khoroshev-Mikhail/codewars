@@ -1257,7 +1257,70 @@ function cake(x, y){
   return sum >= Math.round(x * 0.7) ? "Fire!" : "That was close!"
 }
 
-
-
-//Testing for 631 and "hmxmaff": expected 'That was close!' to equal 'Fire!'
+//Testing for 631 and "hmxmaff": expected 'That was close!'
 console.log(cake(631, 'hmxmaff'))
+
+
+console.log('----------------------------Task 139----------------------------')
+
+function span(arr, predicate) {
+  let arr1 = [];
+  let i = 0;
+  while(predicate(arr[i]) && i < arr.length){
+    arr1.push(arr[i])
+    i++
+  }
+  let arr2 = arr.slice(i);
+  return [arr1, arr2]
+}
+
+function isEven (x) {
+  return Math.abs(x) % 2 === 0;
+}
+
+var arr = [2,4,6,1,8,10];
+console.log(span(arr, isEven))
+
+
+console.log('----------------------------Task 140----------------------------')
+//Здесь нужно разобрать принципы программирования которые влияют на производительность кода ????????????????????????????????????????
+//А так же методологию тестирования производтельности
+
+function indexEqualsValue(a) {
+  /*Вариант 1 (>12000ms)
+  for(let i = 0; i < a.length; i++){
+    if(a[i] === i){
+      return i
+    }
+  }
+  return -1
+  */
+ 
+
+  /*Вариант 2 (1777ms)
+  let i = 0;
+  while(a[i] !== i && i < a.length){
+    i++
+  }
+  return a[i] === i ? i : -1 
+  */
+
+  /*Вариант 3 (3266ms)
+  const newA = a.filter( (el, i) => el === i)
+  return newA.length > 0 ? newA[0] : -1
+  */
+
+
+  /*Вариант 4 (2052ms)
+  const newA = a.find( (el, i) => el === i)
+  if(newA || newA === 0){
+    return newA
+  }
+  return -1
+  */
+
+}
+
+console.log(indexEqualsValue([0]))
+
+
