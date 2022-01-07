@@ -1287,7 +1287,7 @@ console.log('----------------------------Task 140----------------------------')
 //А так же методологию тестирования производтельности
 
 function indexEqualsValue(a) {
-  /*Вариант 1 (>12000ms)
+  /*Вариант 1 (346ms) САМЫЙ БЫСТРЫЙ (=Варианту 7)
   for(let i = 0; i < a.length; i++){
     if(a[i] === i){
       return i
@@ -1296,8 +1296,17 @@ function indexEqualsValue(a) {
   return -1
   */
  
+  /*Вариант 2 обратный цикл (432ms)
+  for(let i = a.length - 1; i >= 0; i--){
+    let newI = (a.length - 1 - i)
+    if(a[newI] === newI){
+      return newI
+    }
+  }
+  return -1
+  */
 
-  /*Вариант 2 (1777ms)
+  /*Вариант 3 (1777ms)
   let i = 0;
   while(a[i] !== i && i < a.length){
     i++
@@ -1305,13 +1314,13 @@ function indexEqualsValue(a) {
   return a[i] === i ? i : -1 
   */
 
-  /*Вариант 3 (3266ms)
+  /*Вариант 4 (3266ms)
   const newA = a.filter( (el, i) => el === i)
   return newA.length > 0 ? newA[0] : -1
   */
 
 
-  /*Вариант 4 (2052ms)
+  /*Вариант 5 (2052ms)
   const newA = a.find( (el, i) => el === i)
   if(newA || newA === 0){
     return newA
@@ -1319,8 +1328,44 @@ function indexEqualsValue(a) {
   return -1
   */
 
+  /*Вариант 6 (>12000ms, 112 тестов из 1000)
+  const newggg = {}
+  for(let i = 0; i < a.length; i++){
+    newggg[a[i]] = i;
+  }
+  for(let val in newggg){
+    if (newggg[val] == val) return +val
+  }
+  return -1
+  */
+
+  /*Вариант 7 (347ms)
+    let i = 0;
+  while(i < a.length){
+    if(a[i] === i) return i
+    i++
+  }
+  return -1
+  */
+
+  /*Вариант 8 (3130ms)
+  let arr = []
+  let i = a.length;
+  while(i >= 0){
+    if(a[i] === i) arr.push(a[i])
+    i--
+  }
+  return (arr.length > 0) ? arr[arr.length-1] : -1
+  */
+
+  /*
+  Выполнить бинарный поиск
+  */
+  
 }
 
-console.log(indexEqualsValue([0]))
+console.log(indexEqualsValue([ -20, -10, 1, 12, 4, 20 ]))
+//-20 -10 1 1 4 50 
+
 
 
