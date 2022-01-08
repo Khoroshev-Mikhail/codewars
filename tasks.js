@@ -1358,14 +1358,36 @@ function indexEqualsValue(a) {
   return (arr.length > 0) ? arr[arr.length-1] : -1
   */
 
-  /*
-  Выполнить бинарный поиск
-  */
-  
+  /* Вариант 9 (не правильное решение - подходящих индексов может быть несколько, а нужен минимальный из них)
+  Нужно найти минимальное значение
+
+  function getBaseLog(x, y) {
+    return Math.log(y) / Math.log(x);
+  }
+  let left = 0;
+  let right = a.length-1
+  let mid;
+  let end = getBaseLog(2, a.length)
+  let i = 0;
+  while(i <= end ){
+    mid = Math.floor((left + right) / 2)
+    if(a[mid] < mid){
+      left = mid + 1;
+    } else if(a[mid] > mid){
+      mid = right - 1;
+    } else if ( a[mid] === mid ){
+      return mid;
+    } 
+    i++
+  }
+  return -1;
+    */
 }
 
 console.log(indexEqualsValue([ -20, -10, 1, 12, 4, 20 ]))
 //-20 -10 1 1 4 50 
+
+
 
 
 
