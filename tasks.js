@@ -1282,7 +1282,7 @@ var arr = [2,4,6,1,8,10];
 console.log(span(arr, isEven))
 
 
-console.log('----------------------------Task 140----------------------------')
+console.log('----------------------------Task 140----------------------------') //НЕ РЕШЕНО!
 //Здесь нужно разобрать принципы программирования которые влияют на производительность кода ????????????????????????????????????????
 //А так же методологию тестирования производтельности
 
@@ -1296,6 +1296,19 @@ function indexEqualsValue(a) {
   return -1
   */
  
+  /* Вариант 1.1 (312ms)
+  function indexEqualsValue(a) {
+  if(a[a.length-1] < a.length-1) {
+    return -1;
+  }
+  for(let i = a[(a.length-1)/2] < (a.length-1)/2 ? (a.length-1)/2 : 0; i < a.length; i++){
+    if(a[i] === i){
+      return i
+    }
+  }
+  return -1
+}
+*/
   /*Вариант 2 обратный цикл (432ms)
   for(let i = a.length - 1; i >= 0; i--){
     let newI = (a.length - 1 - i)
@@ -1384,10 +1397,57 @@ function indexEqualsValue(a) {
     */
 }
 
-console.log(indexEqualsValue([ -20, -10, 1, 12, 4, 20 ]))
-//-20 -10 1 1 4 50 
+console.log('----------------------------Task 141----------------------------')
+
+function last(x){
+  const alphabet = "abcdefghijklmnopqrstuvwxyz".split('');
+  return x
+    .split(' ')
+    .sort( (a, b) => {
+      if( alphabet.indexOf( a.slice( -1 ) ) > alphabet.indexOf( b.slice(( -1 )) ) ){
+        return 1
+      } else if (alphabet.indexOf( a.slice( -1 ) ) < alphabet.indexOf( b.slice(( -1 )) )){
+        return -1
+      }
+      return 0
+  })
+}
+
+console.log(last('man i need a taxi up to ubud'))
 
 
+console.log('----------------------------Task 142----------------------------')
+function sortByLength (array) {
+  return array.sort( (a, b) => a.length - b.length)
+};
+
+console.log(sortByLength(["Beg", "Life", "I", "To"]))
 
 
+console.log('----------------------------Task 143----------------------------')
+//CODEWARS принял решение! Но не дал баллов и этот Ката висит в списке незавершенных 
+function getBaseLog(x, y) {
+  return Math.log(y) / Math.log(x);
+}
 
+function binSearch(arr, toSearch) {
+  let left = 0;
+  let right = arr.length - 1;
+  let mid = Math.floor( (left + right) / 2 )
+  let i = 0;
+  let end = getBaseLog(2, arr.length)
+  while (i <= end){
+    mid = Math.floor((left + right) / 2)
+    if(arr[mid] < toSearch){
+      left = mid + 1
+    } else if (arr[mid] > toSearch){
+      right = mid - 1;
+    } else if (arr[mid] === toSearch){
+      return mid
+    }
+    i++
+  }
+  return -1
+}
+
+console.log(binSearch([1, 2, 3, 4, 5], 2))
