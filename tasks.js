@@ -586,7 +586,7 @@ Example:
 
 
 //Перерешать, не решил самостоятельно
-function isEmptyArr(arr){
+/*function isEmptyArr(arr){
   return arr === null || arr.length === 0 
 }
 function getLengthOfMissingArray(arrayOfArrays) {
@@ -609,7 +609,7 @@ console.log(getLengthOfMissingArray([null, [1,2]])); // 0
 console.log(getLengthOfMissingArray([[1], [1,2,3]])); // undefined
 
 console.log(getLengthOfMissingArray([[1, 2], [4, 5, 1, 1], [1], [5, 6, 7, 8, 9]]))
-
+*/
 
 
 
@@ -1451,3 +1451,47 @@ function binSearch(arr, toSearch) {
 }
 
 console.log(binSearch([1, 2, 3, 4, 5], 2))
+
+
+console.log('----------------------------Task 125----------------------------')
+function getLengthOfMissingArray(arrayOfArrays){
+  if(arrayOfArrays === null){
+    return 0
+  }
+  if(arrayOfArrays.some(el => el === null)){
+    return 0
+  }
+  if(arrayOfArrays.length === 0 || arrayOfArrays.some(el => el.length === 0)){
+    return 0
+  }
+  let arr = arrayOfArrays.map(el => el.length).sort( (a, b) => a - b)
+  for(let i = 1; i < arr.length; i++){
+    if(arr[i] - arr[i-1] !== 1){
+      return arr[i]-1
+    }
+  }
+}
+
+console.log(getLengthOfMissingArray([[1, 2], [4, 5, 1, 1], [1], [5, 6, 7, 8, 9]]))
+
+
+console.log('----------------------------Other Task----------------------------')
+//https://www.codewars.com/kata/57066ad6cb72934c8400149e
+
+//'A8A8A8A8A8.-A%8.88.'
+//In Chuck's code, 'A' can be any capital letter and '8' can be any number 0-9 and any %, - or . symbols must not be changed.
+/*
+Tests:
+     'A2B8T1Q9W4.-F%5.34.' == true;
+     'a2B8T1Q9W4.-F%5.34.' == false; (small letter)
+     'A2B8T1Q9W4.-F%5.3B.' == false; (last char should be number) 
+     'A2B8T1Q9W4.£F&5.34.' == false; (symbol changed from - and %)
+*/
+function bodyCount(code) {
+  if(code.match(/(([A-Z]\d){5}\.\-[A-Z][%]\d\.\d\d\.)/) !== null){
+    return true
+  }
+  return false
+}
+
+console.log(bodyCount('dddA8A8A8A8A8.-A%8.88.ddd'))
