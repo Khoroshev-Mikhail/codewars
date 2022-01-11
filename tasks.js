@@ -962,7 +962,7 @@ const st = `1000.00
 // Total_expense__198.27
 // Average_expense__39.65
 
-function balance(book) {
+/*function balance(book) {
   let rounded = function(number){
     return +number.toFixed(2);
   }
@@ -975,20 +975,73 @@ function balance(book) {
     balance = rounded(balance - lastPurchase)
     arr[i] += ` Balance ${balance}`
   }
-  let expense = rounded(startBalance - balance)
-  let averageExpense = rounded(expense / (arr.length - 1))
-  arr.push(`Total expense  ${expense}`)
-  arr.push(`Average expense  ${averageExpense}`)
-  return arr
-}
-console.log(balance(`1223.00
-125 Market 125.45
-126 Hardware 34.95
-127 Video 7.45
-128 Book 14.32
-129 Gasoline 16.10`))
+  const [firstLine, ...rest] = book
+    .replace(/[^a-z0-9.\s]/gi, '')
+    .split('\n')
+    .filter(str => str !== "");
+  const originalBalance = Number(firstLine);
 
-console.log('----------------------------Task 135----------------------------')
+  console.log("rest", rest);
+  const arrZ = [];
+  
+  let balance = originalBalance;
+
+  for(const line of rest){
+    const [id, name, priceStr] = line.split(' ')
+    const price = Number(priceStr);
+
+    balance -= price
+    arrZ.push(`${id} ${name} ${price.toFixed(2)} Balance ${balance.toFixed(2)}`)
+  }
+
+  const expense = originalBalance - balance
+  const averageExpense = expense / rest.length
+
+  arr.push(`Total expense  ${expense.toFixed(2)}`)
+  arr.push(`Average expense  ${averageExpense.toFixed(2)}`)
+  arr.unshift('Original Balance: ' + originalBalance.toFixed(2));
+
+  return arr.join("\r\n")
+}
+
+balance(`1000.00!=
+
+125 Market !=:125.45
+126 Hardware =34.95
+127 Video! 7.45
+128 Book :14.32
+129 Gasoline ::16.10
+`);
+*/
+
+// console.log(balance(`1223.00
+// 125 Market 125.45
+// 126 Hardware 34.95
+// 127 Video 7.45
+// 128 Book 14.32
+// 129 Gasoline 16.10`));
+
+
+// `Original_Balance:_1000.00
+// 125_Market_125.45_Balance_874.55
+// 126_Hardware_34.95_Balance_839.60
+// 127_Video_7.45_Balance_832.15
+// 128_Book_14.32_Balance_817.83
+// 129_Gasoline_16.10_Balance_801.73
+// Total_expense__198.27
+// Average_expense__39.65`
+
+function ffff(...args) {
+  console.log(args);
+}
+
+// ffff`qwert ${2+2} uyguy ${7 + 9} gbjygguy`
+
+// const Component = div`
+//   width: ${x}px
+// `;
+
+console.log('----------------------------Task 135----------------------------');
 /*
 Остортировать массив по индексам заданным в другом массиве
 */ 
@@ -1029,8 +1082,77 @@ Note: Your answer should always be 6 characters long, the shorthand with 3 will 
   rgb(148, 0, 211) // returns 9400D3
 */
 
-function rgb(r){
-  return Math.floor((r)/16) + '+' + ((r+1) - Math.floor((r)/16)*16)
+function toSymbol(x){
+  switch(x){
+    case 10 : 
+      return 'A'
+    case 11 :
+      return "B"
+    case 12 : 
+      return 'C'
+    case 13 :
+      return "D"
+    case 14 : 
+      return 'E'
+    case 15 :
+      return "F"
+  }
+  return String(x);
+}
+function destruct(x){
+  if(x < 0){
+    x = 0;
+  } else if (x > 255){
+    x = 255
+  }
+  // const firstValue = Math.floor( (x) / 16)
+  // const secondValue = x - firstValue * 16
+  // return toSymbol(firstValue) + toSymbol(secondValue)
+
+  return x.toString(16).toUpperCase();
+}
+function rgb(r, g, b){
+  return [r, g, b].map(destruct).join("");
+  // return destruct(r) + destruct(g) + destruct(b)
 }
 
-console.log(rgb(153))
+console.log(rgb(255,255,-20))
+
+// https://www.codewars.com/kata/5e0baea9d772160032022e8c
+const games = 
+[[0, 5, 2, 2],   // Team 0 - Team 5 => 2:2
+[1, 4, 0, 2],   // Team 1 - Team 4 => 0:2
+[2, 3, 1, 2],   // Team 2 - Team 3 => 1:2
+[1, 5, 2, 2],   // Team 1 - Team 5 => 2:2
+[2, 0, 1, 1],   // Team 2 - Team 0 => 1:1
+[3, 4, 1, 1],   // Team 3 - Team 4 => 1:1
+[2, 5, 0, 2],   // Team 2 - Team 5 => 0:2
+[3, 1, 1, 1],   // Team 3 - Team 1 => 1:1
+[4, 0, 2, 0]]   // Team 4 - Team 0 => 2:0
+
+
+function computeRanks(number, games) {
+  const teams = [];
+  for(let i = 0; i < number; i++){
+    teams.push({id : i, points : 0, goals : 0, missed : 0})
+  }
+  for(const [teamA, teamB, goalsA, goalsB] of games){
+    if(goalsA === goalsB){
+      teams[teamA].points++;
+      teams[teamB].points++;
+
+    } else if(goalsA > goalsB){
+      teams[teamA].points += 2
+    } else if(goalsA < goalsB){
+      teams[teamB].points += 2;
+    }
+    teams[teamA].goals += goalsA
+    teams[teamB].goals += goalsB
+    teams[teamA].missed += goalsA
+    teams[teamB].missed += goalsB
+  }
+  console.table(teams);
+  return teams
+}
+
+console.log(">>>>>", computeRanks(6, games));
