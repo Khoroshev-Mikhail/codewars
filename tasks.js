@@ -1501,10 +1501,9 @@ console.log(bodyCount('dddA8A8A8A8A8.-A%8.88.ddd'))
 
 console.log('----------------------------Task 200----------------------------')
 function DNAStrand(dna){
-  let newDna = dna.replace(/[AT]/g, (x) => x === 'T' ? 'A' : 'T')
-  return newDna.replace(/[GC]/g, (x) => x === 'G' ? 'C' : 'G')
+  //let newDna = dna.replace(/[AT]/g, (x) => x === 'T' ? 'A' : 'T')
+  //return newDna.replace(/[GC]/g, (x) => x === 'G' ? 'C' : 'G')
+  return dna.replace(/./g, C => pairs[C])  //Что означает флаг g?
 }
-//Это метод внутри replace??
-//let pairs = {A:'T',T:'A',C:'G',G:'C'};
-//const DNAStrand = dna => dna.replace(/./g, c => pairs[c]);
+let pairs = { A: 'T', T : 'A', C : 'G', G : 'C'}
 console.log(DNAStrand('ATTGC'))
