@@ -1523,3 +1523,21 @@ let pairsScoreboard = {
   nine : 9
 }
 console.log(scoreboard('Arsenal just conceded another goal, two nil'))
+
+
+
+console.log('----------------------------Task 202----------------------------')
+
+function outed(meet, boss){
+  let sum = 0;
+  for(let key in meet){
+    if(key === boss){
+      sum += meet[key] * 2
+    } else {
+      sum += meet[key]
+    }
+  }
+  let averageSum = sum / Object.keys(meet).length 
+  return averageSum <= 5 ? 'Get Out Now!' : 'Nice Work Champ!'
+}
+console.log(outed({'tim':1, 'jim':3, 'randy':9, 'sandy':6, 'andy':7, 'katie':6, 'laura':9, 'saajid':9, 'alex':9, 'john':9, 'mr':8}, 'katie'))
