@@ -1176,11 +1176,8 @@ function computeRanks(number, games) {
     }
     return obj.score = i+1
   })
-
-  
   //При таком решении вернет [ 1, 2, 3, 4, 4, 6 ] - Codewars это устраивает, но место под номером 5 пропущено!
   //Ниже решение при порядковом номере
-
   /*let score = 0;
   teams.forEach((obj, i) => {
     if(i >= 1 && obj.points === teams[i-1].points && obj.diff === teams[i-1].diff && obj.goals === teams[i-1].goals){
@@ -1190,8 +1187,7 @@ function computeRanks(number, games) {
     return obj.score = score;
   })*/
 
-
-  //Снова сортируем по id
+  //Снова сортируем по id 
   teams.sort( (a, b) => a.id - b.id)
   //Возвращаем новый массив в котором индекс массива = teams.id, а value = teams.score
   console.table(teams);
