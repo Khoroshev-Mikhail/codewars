@@ -586,7 +586,7 @@ Example:
 
 
 //Перерешать, не решил самостоятельно
-function isEmptyArr(arr){
+/*function isEmptyArr(arr){
   return arr === null || arr.length === 0 
 }
 function getLengthOfMissingArray(arrayOfArrays) {
@@ -609,7 +609,7 @@ console.log(getLengthOfMissingArray([null, [1,2]])); // 0
 console.log(getLengthOfMissingArray([[1], [1,2,3]])); // undefined
 
 console.log(getLengthOfMissingArray([[1, 2], [4, 5, 1, 1], [1], [5, 6, 7, 8, 9]]))
-
+*/
 
 
 
@@ -1064,12 +1064,6 @@ console.log(sort(['x', 'y', 'z'], [2, 1, 0]))
 
 
 
-console.log('----------------------------Task 136----------------------------')
-//Test.assertDeepEquals(zeroPlentiful([0,0,0,0,0,0]),1);
-function zeroPlentiful(arr){
-  return 0;
-}
-
 console.log('----------------------------Task 137----------------------------')
 /*The rgb function is incomplete. Complete it so that passing in RGB decimal values will result in a hexadecimal representation 
 being returned. Valid decimal values for RGB are 0 - 255. Any values that fall out of that range must be rounded to the closest 
@@ -1118,6 +1112,12 @@ function rgb(r, g, b){
 
 console.log(rgb(255,255,-20))
 
+
+
+console.log('----------------------------ДЗ на 12/01/2022----------------------------')
+console.log('----------------------------Other Task----------------------------')
+
+
 // https://www.codewars.com/kata/5e0baea9d772160032022e8c
 const games = 
 [[0, 5, 2, 2],   // Team 0 - Team 5 => 2:2
@@ -1134,25 +1134,366 @@ const games =
 function computeRanks(number, games) {
   const teams = [];
   for(let i = 0; i < number; i++){
-    teams.push({id : i, points : 0, goals : 0, missed : 0})
+    teams.push({id : i, points : 0, diff: 0, goals : 0})
   }
   for(const [teamA, teamB, goalsA, goalsB] of games){
     if(goalsA === goalsB){
       teams[teamA].points++;
       teams[teamB].points++;
-
     } else if(goalsA > goalsB){
       teams[teamA].points += 2
     } else if(goalsA < goalsB){
       teams[teamB].points += 2;
     }
+    //Голы
     teams[teamA].goals += goalsA
     teams[teamB].goals += goalsB
-    teams[teamA].missed += goalsA
-    teams[teamB].missed += goalsB
+    //Разница между пропущенными и забитыми
+    teams[teamA].diff += goalsA - goalsB
+    teams[teamB].diff += goalsB - goalsA
   }
+  teams.sort( (a, b) => {
+    if(a.points < b.points){
+      return 1
+    } else if (a.points > b.points){
+      return -1
+    } else if(a.diff < b.diff){
+      return 1
+    } else if(a.diff > b.diff){
+      return -1
+    } else if(a.goals < b.goals){
+      return 1
+    } else if(a.goals > b.goals){
+      return -1
+      }
+    return 0
+  })
+  //Добавляем значение score(место) в зависимости от индекса (т.к. массив отстортирован)
+  teams.forEach((obj, i) => {
+    if(i > 0){
+      //Если points,diff,goals одинаковы тогда присваиваем score как у предыдущей команды (у которой такие же points,diff,goals)
+      if(obj.points === teams[i-1].points && obj.diff === teams[i-1].diff && obj.goals === teams[i-1].goals){ 
+        return obj.score = teams[i-1].score
+      }
+    }
+    return obj.score = i+1
+  })
+
+  
+  //При таком решении вернет [ 1, 2, 3, 4, 4, 6 ] - Codewars это устраивает, но место под номером 5 пропущено!
+  //Ниже решение при порядковом номере
+
+  /*let score = 0;
+  teams.forEach((obj, i) => {
+    if(i >= 1 && obj.points === teams[i-1].points && obj.diff === teams[i-1].diff && obj.goals === teams[i-1].goals){
+      return obj.score = teams[i-1].score
+    }
+    score++
+    return obj.score = score;
+  })*/
+
+
+  //Снова сортируем по id
+  teams.sort( (a, b) => a.id - b.id)
+  //Возвращаем новый массив в котором индекс массива = teams.id, а value = teams.score
   console.table(teams);
-  return teams
+  return teams.map( (obj) => obj.score)
 }
 
 console.log(">>>>>", computeRanks(6, games));
+
+
+
+console.log('----------------------------Task 136----------------------------')
+
+function howLongNulls(arr){
+  let count = 0;
+  for(let i = 0; i < arr.length; i++){
+    if(arr[i] === 0 ){
+      count++
+    } else {
+      return count
+    }
+  }
+}
+
+function zeroPlentiful(arr){
+  let count = 0;
+  for(let i = 0; i < arr.length; i++){
+    //Проверяем состоит ли текущий ноль в последовательности из четырех нолей (0000), если нет то возвращаем 0 (т.к. по условию задачи последовательности нулей должны быть длинее четырех нолей)
+    if(arr[i] === 0 && arr.slice(i - 1, i + 3).join('') !== '0000' && arr.slice(i - 2, i + 2).join('') !== '0000' && arr.slice(i - 3, i + 1).join('') !== '0000' && arr.slice(i, i + 4).join('') !== '0000'){
+      console.log('arara=' + i)
+      return 0
+    }
+    if(arr[i] === 0){
+      count ++
+      i  += howLongNulls(arr.slice(i)) - 1
+      continue;
+    }
+  }
+  return count
+}
+
+console.log(zeroPlentiful([ 1, 0, 0, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
+
+
+//Выучить регулярные выражения выражения и что они значат!!!
+
+//Решение с помощью регулярного выражения
+function newZeroPlentiful(arr){
+  const cleanned = arr.join('').split(/[^0]/).filter(e => e !== '')
+  return cleanned.every(nulls => nulls.length >= 4) ? cleanned.length : 0
+}
+
+console.log(newZeroPlentiful([ 1, 0, 0, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
+
+
+
+console.log('----------------------------Task 138----------------------------')
+
+function cake(x, y){
+  const alphabet = "abcdefghijklmnopqrstuvwxyz".split('');
+  const sum = y.split('').reduce( (accum, value, index) => {
+    return index % 2 === 0 ? accum + value.charCodeAt() : (accum + alphabet.indexOf(value) + 1)
+  }, 0)
+  return sum >= Math.round(x * 0.7) ? "Fire!" : "That was close!"
+}
+
+//Testing for 631 and "hmxmaff": expected 'That was close!'
+console.log(cake(631, 'hmxmaff'))
+
+
+console.log('----------------------------Task 139----------------------------')
+
+function span(arr, predicate) {
+  let arr1 = [];
+  let i = 0;
+  while(predicate(arr[i]) && i < arr.length){
+    arr1.push(arr[i])
+    i++
+  }
+  let arr2 = arr.slice(i);
+  return [arr1, arr2]
+}
+
+function isEven (x) {
+  return Math.abs(x) % 2 === 0;
+}
+
+var arr = [2,4,6,1,8,10];
+console.log(span(arr, isEven))
+
+
+console.log('----------------------------Task 140----------------------------') //НЕ РЕШЕНО!
+//Здесь нужно разобрать принципы программирования которые влияют на производительность кода ????????????????????????????????????????
+//А так же методологию тестирования производтельности
+
+function indexEqualsValue(a) {
+  /*Вариант 1 (346ms) САМЫЙ БЫСТРЫЙ (=Варианту 7)
+  for(let i = 0; i < a.length; i++){
+    if(a[i] === i){
+      return i
+    }
+  }
+  return -1
+  */
+ 
+  /* Вариант 1.1 (312ms)
+  function indexEqualsValue(a) {
+  if(a[a.length-1] < a.length-1) {
+    return -1;
+  }
+  for(let i = a[(a.length-1)/2] < (a.length-1)/2 ? (a.length-1)/2 : 0; i < a.length; i++){
+    if(a[i] === i){
+      return i
+    }
+  }
+  return -1
+}
+*/
+  /*Вариант 2 обратный цикл (432ms)
+  for(let i = a.length - 1; i >= 0; i--){
+    let newI = (a.length - 1 - i)
+    if(a[newI] === newI){
+      return newI
+    }
+  }
+  return -1
+  */
+
+  /*Вариант 3 (1777ms)
+  let i = 0;
+  while(a[i] !== i && i < a.length){
+    i++
+  }
+  return a[i] === i ? i : -1 
+  */
+
+  /*Вариант 4 (3266ms)
+  const newA = a.filter( (el, i) => el === i)
+  return newA.length > 0 ? newA[0] : -1
+  */
+
+
+  /*Вариант 5 (2052ms)
+  const newA = a.find( (el, i) => el === i)
+  if(newA || newA === 0){
+    return newA
+  }
+  return -1
+  */
+
+  /*Вариант 6 (>12000ms, 112 тестов из 1000)
+  const newggg = {}
+  for(let i = 0; i < a.length; i++){
+    newggg[a[i]] = i;
+  }
+  for(let val in newggg){
+    if (newggg[val] == val) return +val
+  }
+  return -1
+  */
+
+  /*Вариант 7 (347ms)
+    let i = 0;
+  while(i < a.length){
+    if(a[i] === i) return i
+    i++
+  }
+  return -1
+  */
+
+  /*Вариант 8 (3130ms)
+  let arr = []
+  let i = a.length;
+  while(i >= 0){
+    if(a[i] === i) arr.push(a[i])
+    i--
+  }
+  return (arr.length > 0) ? arr[arr.length-1] : -1
+  */
+
+  /* Вариант 9 (не правильное решение - подходящих индексов может быть несколько, а нужен минимальный из них)
+  Нужно найти минимальное значение
+
+  function getBaseLog(x, y) {
+    return Math.log(y) / Math.log(x);
+  }
+  let left = 0;
+  let right = a.length-1
+  let mid;
+  let end = getBaseLog(2, a.length)
+  let i = 0;
+  while(i <= end ){
+    mid = Math.floor((left + right) / 2)
+    if(a[mid] < mid){
+      left = mid + 1;
+    } else if(a[mid] > mid){
+      mid = right - 1;
+    } else if ( a[mid] === mid ){
+      return mid;
+    } 
+    i++
+  }
+  return -1;
+    */
+}
+
+console.log('----------------------------Task 141----------------------------')
+
+function last(x){
+  const alphabet = "abcdefghijklmnopqrstuvwxyz".split('');
+  return x
+    .split(' ')
+    .sort( (a, b) => {
+      if( alphabet.indexOf( a.slice( -1 ) ) > alphabet.indexOf( b.slice(( -1 )) ) ){
+        return 1
+      } else if (alphabet.indexOf( a.slice( -1 ) ) < alphabet.indexOf( b.slice(( -1 )) )){
+        return -1
+      }
+      return 0
+  })
+}
+
+console.log(last('man i need a taxi up to ubud'))
+
+
+console.log('----------------------------Task 142----------------------------')
+function sortByLength (array) {
+  return array.sort( (a, b) => a.length - b.length)
+};
+
+console.log(sortByLength(["Beg", "Life", "I", "To"]))
+
+
+console.log('----------------------------Task 143----------------------------')
+//CODEWARS принял решение! Но не дал баллов и этот Ката висит в списке незавершенных 
+function getBaseLog(x, y) {
+  return Math.log(y) / Math.log(x);
+}
+
+function binSearch(arr, toSearch) {
+  let left = 0;
+  let right = arr.length - 1;
+  let mid = Math.floor( (left + right) / 2 )
+  let i = 0;
+  let end = getBaseLog(2, arr.length)
+  while (i <= end){
+    mid = Math.floor((left + right) / 2)
+    if(arr[mid] < toSearch){
+      left = mid + 1
+    } else if (arr[mid] > toSearch){
+      right = mid - 1;
+    } else if (arr[mid] === toSearch){
+      return mid
+    }
+    i++
+  }
+  return -1
+}
+
+console.log(binSearch([1, 2, 3, 4, 5], 2))
+
+
+console.log('----------------------------Task 125----------------------------')
+function getLengthOfMissingArray(arrayOfArrays){
+  if(arrayOfArrays === null){
+    return 0
+  }
+  if(arrayOfArrays.some(el => el === null)){
+    return 0
+  }
+  if(arrayOfArrays.length === 0 || arrayOfArrays.some(el => el.length === 0)){
+    return 0
+  }
+  let arr = arrayOfArrays.map(el => el.length).sort( (a, b) => a - b)
+  for(let i = 1; i < arr.length; i++){
+    if(arr[i] - arr[i-1] !== 1){
+      return arr[i]-1
+    }
+  }
+}
+
+console.log(getLengthOfMissingArray([[1, 2], [4, 5, 1, 1], [1], [5, 6, 7, 8, 9]]))
+
+
+console.log('----------------------------Other Task----------------------------')
+//https://www.codewars.com/kata/57066ad6cb72934c8400149e
+
+//'A8A8A8A8A8.-A%8.88.'
+//In Chuck's code, 'A' can be any capital letter and '8' can be any number 0-9 and any %, - or . symbols must not be changed.
+/*
+Tests:
+     'A2B8T1Q9W4.-F%5.34.' == true;
+     'a2B8T1Q9W4.-F%5.34.' == false; (small letter)
+     'A2B8T1Q9W4.-F%5.3B.' == false; (last char should be number) 
+     'A2B8T1Q9W4.£F&5.34.' == false; (symbol changed from - and %)
+*/
+function bodyCount(code) {
+  if(code.match(/(([A-Z]\d){5}\.\-[A-Z][%]\d\.\d\d\.)/) !== null){
+    return true
+  }
+  return false
+}
+
+console.log(bodyCount('dddA8A8A8A8A8.-A%8.88.ddd'))
