@@ -961,10 +961,20 @@ const st = `1000.00
 // 129_Gasoline_16.10_Balance_801.73
 // Total_expense__198.27
 // Average_expense__39.65
-var rounded = function(number){
-  return +number.toFixed(2);
-}
-function balance(book) {
+
+/*function balance(book) {
+  let rounded = function(number){
+    return +number.toFixed(2);
+  }
+  const withOriginalBalance = 'Original Balance: ' + book.replace(/[^a-zа-яё, 0-9, .\s]/gi, '')
+  let arr = withOriginalBalance.split('\n')//[2].match(/\d+\.(\d+)/)[0]
+  let startBalance = Number(book.replace(/[^a-zа-яё, 0-9, .\s]/gi, '').split('\n')[0])
+  let balance = startBalance;
+  for(let i = 1; i < arr.length; i++){
+    let lastPurchase = arr[i].match(/\d+\.(\d+)/)[0]
+    balance = rounded(balance - lastPurchase)
+    arr[i] += ` Balance ${balance}`
+  }
   const [firstLine, ...rest] = book
     .replace(/[^a-z0-9.\s]/gi, '')
     .split('\n')
@@ -972,7 +982,7 @@ function balance(book) {
   const originalBalance = Number(firstLine);
 
   console.log("rest", rest);
-  const arr = [];
+  const arrZ = [];
   
   let balance = originalBalance;
 
@@ -981,7 +991,7 @@ function balance(book) {
     const price = Number(priceStr);
 
     balance -= price
-    arr.push(`${id} ${name} ${price.toFixed(2)} Balance ${balance.toFixed(2)}`)
+    arrZ.push(`${id} ${name} ${price.toFixed(2)} Balance ${balance.toFixed(2)}`)
   }
 
   const expense = originalBalance - balance
@@ -1002,16 +1012,8 @@ balance(`1000.00!=
 128 Book :14.32
 129 Gasoline ::16.10
 `);
+*/
 
-`expected 'Original Balance: 1000.00\r\n undefined NaN Balance NaN\r\n125 Market 125.45 
-Balance NaN\r\n126 Hardware 34.95 Balance NaN\r\n127 Video 7.45 Balance NaN\r\n128 Book 
-14.32 Balance NaN\r\n129 Gasoline 16.10 Balance NaN\r\n undefined NaN Balance NaN\r\nTotal 
-expense  NaN\r\nAverage expense  NaN' 
-to equal 
-'Original Balance: 1000.00\r\n125 Market 
-125.45 Balance 874.55\r\n126 Hardware 34.95 Balance 839.60\r\n127 Video 7.45 
-Balance 832.15\r\n128 Book 14.32 Balance 817.83\r\n129 Gasoline 16.10 Balance 
-801.73\r\nTotal expense  198.27\r\nAverage expense  39.65'`
 // console.log(balance(`1223.00
 // 125 Market 125.45
 // 126 Hardware 34.95
@@ -1039,7 +1041,7 @@ function ffff(...args) {
 //   width: ${x}px
 // `;
 
-console.log('----------------------------Task 135----------------------------')
+console.log('----------------------------Task 135----------------------------');
 /*
 Остортировать массив по индексам заданным в другом массиве
 */ 
@@ -1491,3 +1493,33 @@ function bodyCount(code) {
 }
 
 console.log(bodyCount('dddA8A8A8A8A8.-A%8.88.ddd'))
+
+
+console.log('----------------------------Task 200----------------------------')
+function DNAStrand(dna){
+  //let newDna = dna.replace(/[AT]/g, (x) => x === 'T' ? 'A' : 'T')
+  //return newDna.replace(/[GC]/g, (x) => x === 'G' ? 'C' : 'G')
+  return dna.replace(/./g, C => pairs[C]) 
+}
+let pairs = { A: 'T', T : 'A', C : 'G', G : 'C'}
+console.log(DNAStrand('ATTGC'))
+
+
+
+console.log('----------------------------Task 201----------------------------')
+function scoreboard(string) {
+  return string.split(' ').filter(el => pairsScoreboard[el] >= 0).map(word => pairsScoreboard[word])
+}
+let pairsScoreboard = {
+  nil : 0,
+  one : 1,
+  two : 2,
+  three : 3,
+  four : 4,
+  five : 5,
+  six : 6,
+  seven : 7,
+  eight : 8,
+  nine : 9
+}
+console.log(scoreboard('Arsenal just conceded another goal, two nil'))
