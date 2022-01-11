@@ -1503,7 +1503,27 @@ console.log('----------------------------Task 200----------------------------')
 function DNAStrand(dna){
   //let newDna = dna.replace(/[AT]/g, (x) => x === 'T' ? 'A' : 'T')
   //return newDna.replace(/[GC]/g, (x) => x === 'G' ? 'C' : 'G')
-  return dna.replace(/./g, C => pairs[C])  //Что означает флаг g?
+  return dna.replace(/./g, C => pairs[C]) 
 }
 let pairs = { A: 'T', T : 'A', C : 'G', G : 'C'}
 console.log(DNAStrand('ATTGC'))
+
+
+
+console.log('----------------------------Task 201----------------------------')
+function scoreboard(string) {
+  return string.split(' ').filter(el => pairsScoreboard[el] >= 0).map(word => pairsScoreboard[word])
+}
+let pairsScoreboard = {
+  nil : 0,
+  one : 1,
+  two : 2,
+  three : 3,
+  four : 4,
+  five : 5,
+  six : 6,
+  seven : 7,
+  eight : 8,
+  nine : 9
+}
+console.log(scoreboard('Arsenal just conceded another goal, two nil'))
