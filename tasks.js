@@ -1120,7 +1120,7 @@ console.log('----------------------------Other Task----------------------------'
 
 // https://www.codewars.com/kata/5e0baea9d772160032022e8c
 const games = 
-[[0, 5, 2, 2],   // Team 0 - Team 5 => 2:2
+[[0, 5, 2, 2],  // Team 0 - Team 5 => 2:2
 [1, 4, 0, 2],   // Team 1 - Team 4 => 0:2
 [2, 3, 1, 2],   // Team 2 - Team 3 => 1:2
 [1, 5, 2, 2],   // Team 1 - Team 5 => 2:2
@@ -1130,6 +1130,36 @@ const games =
 [3, 1, 1, 1],   // Team 3 - Team 1 => 1:1
 [4, 0, 2, 0]]   // Team 4 - Team 0 => 2:0
 
+
+const compare1 = (a, b) => {
+  if(a.points < b.points){
+    return 1
+  } else if (a.points > b.points){
+    return -1
+  } else if(a.diff < b.diff){
+    return 1
+  } else if(a.diff > b.diff){
+    return -1
+  } else if(a.goals < b.goals){
+    return 1
+  } else if(a.goals > b.goals){
+    return -1
+    }
+  return 0
+};
+
+const compare = (a, b) => {
+  if(a.points !== b.points){
+    return b.points - a.points
+  }
+  if(a.diff !== b.diff){
+    return b.diff - a.diff
+  }
+  if(a.goals !== b.goals){
+    return b.goals - a.goals
+  } 
+  return 0
+};
 
 function computeRanks(number, games) {
   const teams = [];
@@ -1152,31 +1182,15 @@ function computeRanks(number, games) {
     teams[teamA].diff += goalsA - goalsB
     teams[teamB].diff += goalsB - goalsA
   }
-  teams.sort( (a, b) => {
-    if(a.points < b.points){
-      return 1
-    } else if (a.points > b.points){
-      return -1
-    } else if(a.diff < b.diff){
-      return 1
-    } else if(a.diff > b.diff){
-      return -1
-    } else if(a.goals < b.goals){
-      return 1
-    } else if(a.goals > b.goals){
-      return -1
-      }
-    return 0
-  })
+  teams.sort(compare);
   //Добавляем значение score(место) в зависимости от индекса (т.к. массив отстортирован)
-  teams.forEach((obj, i) => {
-    if(i > 0){
-      //Если points,diff,goals одинаковы тогда присваиваем score как у предыдущей команды (у которой такие же points,diff,goals)
-      if(obj.points === teams[i-1].points && obj.diff === teams[i-1].diff && obj.goals === teams[i-1].goals){ 
-        return obj.score = teams[i-1].score
-      }
+  teams.forEach( (arr, i) => {
+    //Если у двух команд значения: points,diff,goals одинаковые - тогда присваиваем одинаковый score
+    if(i > 0 && compare(arr, teams[i-1]) === 0){ 
+        arr.score = teams[i-1].score
+    } else {
+        arr.score = i+1
     }
-    return obj.score = i+1
   })
   //При таком решении вернет [ 1, 2, 3, 4, 4, 6 ] - Codewars это устраивает, но место под номером 5 пропущено!
   //Ниже решение при порядковом номере
@@ -1212,13 +1226,11 @@ function howLongNulls(arr){
     }
   }
 }
-
 function zeroPlentiful(arr){
   let count = 0;
   for(let i = 0; i < arr.length; i++){
     //Проверяем состоит ли текущий ноль в последовательности из четырех нолей (0000), если нет то возвращаем 0 (т.к. по условию задачи последовательности нулей должны быть длинее четырех нолей)
     if(arr[i] === 0 && arr.slice(i - 1, i + 3).join('') !== '0000' && arr.slice(i - 2, i + 2).join('') !== '0000' && arr.slice(i - 3, i + 1).join('') !== '0000' && arr.slice(i, i + 4).join('') !== '0000'){
-      console.log('arara=' + i)
       return 0
     }
     if(arr[i] === 0){
@@ -1230,9 +1242,35 @@ function zeroPlentiful(arr){
   return count
 }
 
+function zeroPlentiful(arr){
+  let position = 0;
+
+  let atLeastFourZerosSubsequenceCounter = 0;
+  let allZerosSubsequenceCounter = 0;
+
+  for (const number of arr) {
+    if (number === 0) {
+      position++;
+    } else {
+      position = 0;
+    }
+
+    if (position === 4) {
+      atLeastFourZerosSubsequenceCounter++;
+    }
+    if (position === 1) {
+      allZerosSubsequenceCounter++;
+    }
+  }
+
+  if (atLeastFourZerosSubsequenceCounter < allZerosSubsequenceCounter) {
+    return 0;
+  }
+
+  return atLeastFourZerosSubsequenceCounter;
+}
+
 console.log(zeroPlentiful([ 1, 0, 0, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
-
-
 //Выучить регулярные выражения выражения и что они значат!!!
 
 //Решение с помощью регулярного выражения
@@ -1250,9 +1288,9 @@ console.log('----------------------------Task 138----------------------------')
 function cake(x, y){
   const alphabet = "abcdefghijklmnopqrstuvwxyz".split('');
   const sum = y.split('').reduce( (accum, value, index) => {
-    return index % 2 === 0 ? accum + value.charCodeAt() : (accum + alphabet.indexOf(value) + 1)
+    return accum + (index % 2 === 0 ? value.charCodeAt() : alphabet.indexOf(value) + 1);
   }, 0)
-  return sum >= Math.round(x * 0.7) ? "Fire!" : "That was close!"
+  return sum >= x * 0.7 ? "Fire!" : "That was close!"
 }
 
 //Testing for 631 and "hmxmaff": expected 'That was close!'
@@ -1262,21 +1300,25 @@ console.log(cake(631, 'hmxmaff'))
 console.log('----------------------------Task 139----------------------------')
 
 function span(arr, predicate) {
-  let arr1 = [];
-  let i = 0;
+  
+  /*let i = 0;
   while(predicate(arr[i]) && i < arr.length){
     arr1.push(arr[i])
     i++
+  }*/
+  const i = arr.findIndex(el => predicate(el))
+  if(i === -1){
+    return [arr, []]
   }
-  let arr2 = arr.slice(i);
-  return [arr1, arr2]
+  return [arr.slice(0, i-1), arr.slice(i)]
 }
 
 function isEven (x) {
   return Math.abs(x) % 2 === 0;
 }
 
-var arr = [2,4,6,1,8,10];
+// var arr = [2,4,6,1,8,10];
+var arr = [1,3,5,7,9];
 console.log(span(arr, isEven))
 
 
@@ -1375,36 +1417,38 @@ function indexEqualsValue(a) {
   function getBaseLog(x, y) {
     return Math.log(y) / Math.log(x);
   }
+  */
   let left = 0;
   let right = a.length-1
-  let mid;
-  let end = getBaseLog(2, a.length)
-  let i = 0;
-  while(i <= end ){
-    mid = Math.floor((left + right) / 2)
+  let result = -1
+
+  while(right >= left ){
+    let mid = Math.floor((left + right) / 2)
     if(a[mid] < mid){
       left = mid + 1;
     } else if(a[mid] > mid){
-      mid = right - 1;
-    } else if ( a[mid] === mid ){
-      return mid;
-    } 
-    i++
+      right = mid - 1;
+    } else if ( a[mid] === mid){
+      result = mid;
+      console.log('right='+right)
+      console.log('left='+left)
+      console.log('mid='+mid)
+      right = mid - 1 
+    }
   }
-  return -1;
-    */
+  return result  
 }
+console.log(indexEqualsValue([-8,0,1,2,4]))
 
 console.log('----------------------------Task 141----------------------------')
 
-function last(x){
-  const alphabet = "abcdefghijklmnopqrstuvwxyz".split('');
+/*function last(x){
   return x
     .split(' ')
     .sort( (a, b) => {
-      if( alphabet.indexOf( a.slice( -1 ) ) > alphabet.indexOf( b.slice(( -1 )) ) ){
+     if(a.at(-1) > b.at(-1)) {
         return 1
-      } else if (alphabet.indexOf( a.slice( -1 ) ) < alphabet.indexOf( b.slice(( -1 )) )){
+      } else if (a.at(-1) < b.at(-1)){
         return -1
       }
       return 0
@@ -1412,7 +1456,7 @@ function last(x){
 }
 
 console.log(last('man i need a taxi up to ubud'))
-
+*/
 
 console.log('----------------------------Task 142----------------------------')
 function sortByLength (array) {
@@ -1452,20 +1496,19 @@ console.log(binSearch([1, 2, 3, 4, 5], 2))
 
 
 console.log('----------------------------Task 125----------------------------')
+
+
+const isNullOrEmpty = el => el === null || el.length === 0;
 function getLengthOfMissingArray(arrayOfArrays){
-  if(arrayOfArrays === null){
+  if(isNullOrEmpty(arrayOfArrays) || arrayOfArrays.some(isNullOrEmpty)){
     return 0
   }
-  if(arrayOfArrays.some(el => el === null)){
-    return 0
-  }
-  if(arrayOfArrays.length === 0 || arrayOfArrays.some(el => el.length === 0)){
-    return 0
-  }
-  let arr = arrayOfArrays.map(el => el.length).sort( (a, b) => a - b)
+
+  const arr = arrayOfArrays.map(el => el.length).sort((a, b) => a - b)
+
   for(let i = 1; i < arr.length; i++){
     if(arr[i] - arr[i-1] !== 1){
-      return arr[i]-1
+      return arr[i] - 1
     }
   }
 }
@@ -1486,20 +1529,24 @@ Tests:
      'A2B8T1Q9W4.£F&5.34.' == false; (symbol changed from - and %)
 */
 function bodyCount(code) {
-  if(code.match(/(([A-Z]\d){5}\.\-[A-Z][%]\d\.\d\d\.)/) !== null){
-    return true
-  }
-  return false
+  return /(([A-Z]\d){5}\.\-[A-Z]%\d\.\d\d\.)/.test(code)
 }
+
+const str = 'table football';
+const globalRegex = /foo/g;
+console.log(globalRegex.test(str)); // true
+console.log(globalRegex.lastIndex);
+console.log(globalRegex.test(str)); // false
+console.log(globalRegex.lastIndex);
+
 
 console.log(bodyCount('dddA8A8A8A8A8.-A%8.88.ddd'))
 
 
 console.log('----------------------------Task 200----------------------------')
 function DNAStrand(dna){
-  //let newDna = dna.replace(/[AT]/g, (x) => x === 'T' ? 'A' : 'T')
-  //return newDna.replace(/[GC]/g, (x) => x === 'G' ? 'C' : 'G')
-  return dna.replace(/./g, C => pairs[C]) 
+  //return dna.replace(/[AT]/g, (x) => x === 'T' ? 'A' : 'T').replace(/[GC]/g, (x) => x === 'G' ? 'C' : 'G')
+  return dna.replace(/./g, c => pairs[c]) 
 }
 let pairs = { A: 'T', T : 'A', C : 'G', G : 'C'}
 console.log(DNAStrand('ATTGC'))
@@ -1508,7 +1555,7 @@ console.log(DNAStrand('ATTGC'))
 
 console.log('----------------------------Task 201----------------------------')
 function scoreboard(string) {
-  return string.split(' ').filter(el => pairsScoreboard[el] >= 0).map(word => pairsScoreboard[word])
+  return string.split(' ').filter(el => el in pairsScoreboard).map(word => pairsScoreboard[word])
 }
 let pairsScoreboard = {
   nil : 0,
@@ -1537,7 +1584,7 @@ function outed(meet, boss){
       sum += meet[key]
     }
   }
-  let averageSum = sum / Object.keys(meet).length 
+  const averageSum = sum / Object.keys(meet).length 
   return averageSum <= 5 ? 'Get Out Now!' : 'Nice Work Champ!'
 }
 console.log(outed({'tim':1, 'jim':3, 'randy':9, 'sandy':6, 'andy':7, 'katie':6, 'laura':9, 'saajid':9, 'alex':9, 'john':9, 'mr':8}, 'katie'))
