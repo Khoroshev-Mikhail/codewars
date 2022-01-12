@@ -1430,9 +1430,6 @@ function indexEqualsValue(a) {
       right = mid - 1;
     } else if ( a[mid] === mid){
       result = mid;
-      console.log('right='+right)
-      console.log('left='+left)
-      console.log('mid='+mid)
       right = mid - 1 
     }
   }
