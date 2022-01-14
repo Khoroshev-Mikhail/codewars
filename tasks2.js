@@ -69,4 +69,26 @@ function isEqual(obj1, obj2){
   return true
 }
 
-console.log('----------------------------Task 136 Для тренировки----------------------------')
+console.log('----------------------------Task 205----------------------------')
+function arithmetic(a, b, operator){
+  return pairs[operator]( a, b)
+}
+const pairs = {
+  add : (a,b)=>{ return a + b }, 
+  subtract : (a, b) => { return a - b}, 
+  divide : (a, b) => {return a / b},
+  multiply : (a, b) => {return a * b}
+}
+
+console.log(arithmetic(2,2, 'multiply'))
+
+//Переписать через eval()
+
+/* РАЗОБРАТЬ!!!!!!
+const arithmetic = (a, b, operator) => ({
+  'add'     : a + b,
+  'subtract': a - b,
+  'multiply': a * b,
+  'divide'  : a / b
+}[operator]);
+*/
