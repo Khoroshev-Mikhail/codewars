@@ -1243,31 +1243,7 @@ function zeroPlentiful(arr){
 }
 
 function zeroPlentiful(arr){
-  let position = 0;
-
-  let atLeastFourZerosSubsequenceCounter = 0;
-  let allZerosSubsequenceCounter = 0;
-
-  for (const number of arr) {
-    if (number === 0) {
-      position++;
-    } else {
-      position = 0;
-    }
-
-    if (position === 4) {
-      atLeastFourZerosSubsequenceCounter++;
-    }
-    if (position === 1) {
-      allZerosSubsequenceCounter++;
-    }
-  }
-
-  if (atLeastFourZerosSubsequenceCounter < allZerosSubsequenceCounter) {
-    return 0;
-  }
-
-  return atLeastFourZerosSubsequenceCounter;
+  
 }
 
 console.log(zeroPlentiful([ 1, 0, 0, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
