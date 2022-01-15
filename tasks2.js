@@ -72,6 +72,7 @@ function isEqual(obj1, obj2){
 console.log('----------------------------Task 205----------------------------')
 function arithmetic(a, b, operator){
   return pairs[operator]( a, b)
+  //return eval(a + pairsEval[operator] + b)
 }
 const pairs = {
   add : (a,b)=>{ return a + b }, 
@@ -79,12 +80,14 @@ const pairs = {
   divide : (a, b) => {return a / b},
   multiply : (a, b) => {return a * b}
 }
+const pairsEval = {
+  add : "+", 
+  subtract : "-", 
+  divide : "/",
+  multiply : "*"
+}
 
-console.log(arithmetic(2,2, 'multiply'))
-
-//Переписать через eval()
-
-/* РАЗОБРАТЬ!!!!!!
+/* Что это за конструкция???
 const arithmetic = (a, b, operator) => ({
   'add'     : a + b,
   'subtract': a - b,
@@ -92,3 +95,63 @@ const arithmetic = (a, b, operator) => ({
   'divide'  : a / b
 }[operator]);
 */
+console.log(arithmetic(2,3, 'divide'))
+
+
+console.log('----------------------------Task 206----------------------------')
+function pluck(objs, name) {
+  /*let result = []
+  for(let i = 0; i < objs.length; i++){
+    objs[i].hasOwnProperty(name) ? result.push(objs[i][name]) : result.push(undefined)
+  }
+  return result
+  */
+  return objs.map(el => el[name])
+}
+console.log( 
+  pluck(
+    [
+      {a:1}, 
+      {a:2}, 
+      {a:3, b:9},
+      {b:6}
+    ], 
+    'a'
+  ) 
+)
+
+console.log('----------------------------Task 207----------------------------')
+function removeDuplicateWords (s) {
+  return [...new Set(s.split(' '))].join(' ')
+  /*
+  let obj = {}
+  s.split(' ').forEach(el => {
+    obj[el] = el
+  })
+  return Object.keys(obj).join(' ')
+  */
+}
+console.log(removeDuplicateWords('alpha beta beta gamma gamma gamma delta alpha beta beta gamma gamma gamma delta'))
+
+
+console.log('----------------------------Task 208----------------------------')
+function findUnique(numbers) {
+  //Вариант 1 - Execution Timed Out (12000 ms) - O( N * 2N)
+  //return +numbers.filter( el => numbers.indexOf(el) === numbers.lastIndexOf(el)) 
+}
+console.log(findUnique([ 1, 8, 4, 4, 6, 1, 8 ]))
+
+
+console.log('----------------------------Task 209----------------------------')
+function greetDevelopers(list) {
+  list.forEach(el => {
+    el.greeting = `Hi ${el.firstName}, what do you like the most about ${el.language}?`
+  })
+  return list
+}
+const list1 = [
+  { firstName: 'Sofia', lastName: 'I.', country: 'Argentina', continent: 'Americas', age: 35, language: 'Java' },
+  { firstName: 'Lukas', lastName: 'X.', country: 'Croatia', continent: 'Europe', age: 35, language: 'Python' },
+  { firstName: 'Madison', lastName: 'U.', country: 'United States', continent: 'Americas', age: 32, language: 'Ruby' } 
+];
+console.log(greetDevelopers(list1))
