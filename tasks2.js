@@ -193,7 +193,22 @@ function convertHashToArray(hash){
   for(let keyAndValue of Object.entries(hash)){
     result.push(keyAndValue)
   }
-  return result
+  return result.sort( (a, b) => {
+    return forSort(a[1]) - forSort(b[1])
+  })
 }
 
-console.log(convertHashToArray({name: 'Jeremy', age: 24, role: 'Software Engineer'}))
+function forSort(str){
+  if(typeof str === 'number'){
+    return str*(-50)
+  }
+  return (str
+    .substr(0,1)
+    .toUpperCase()
+    .charCodeAt(0) 
+    - 96 )
+}
+
+console.log(convertHashToArray({name: 'Aeremy', age: 24, role: 'Boftware Engineer'}))
+//console.log('J'.toLowerCase().substr(0,1).charCodeAt(0)-96)
+//console.log('S'.toLowerCase().substr(0,1).charCodeAt(0)-96)
