@@ -134,12 +134,6 @@ function removeDuplicateWords (s) {
 console.log(removeDuplicateWords('alpha beta beta gamma gamma gamma delta alpha beta beta gamma gamma gamma delta'))
 
 
-console.log('----------------------------Task 208----------------------------')
-function findUnique(numbers) {
-  //Вариант 1 - Execution Timed Out (12000 ms) - O( N * 2N)
-  //return +numbers.filter( el => numbers.indexOf(el) === numbers.lastIndexOf(el)) 
-}
-console.log(findUnique([ 1, 8, 4, 4, 6, 1, 8 ]))
 
 
 console.log('----------------------------Task 209----------------------------')
@@ -155,3 +149,51 @@ const list1 = [
   { firstName: 'Madison', lastName: 'U.', country: 'United States', continent: 'Americas', age: 32, language: 'Ruby' } 
 ];
 console.log(greetDevelopers(list1))
+
+
+console.log('----------------------------Task 208----------------------------')
+function findUnique(numbers) {
+
+  //Вариант 1 - Execution Timed Out (12000 ms) - O( N * 2N)
+  //return +numbers.filter( el => numbers.indexOf(el) === numbers.lastIndexOf(el)) 
+
+  //Вариант 2
+  /*
+  //Получаем уникальные значения
+  let uniques = [...new Set(numbers)]
+  //Входящий массив - уникальные значения = дубликаты (только те значения которые дублируются)
+  let duplicates = numbers;
+  uniques.forEach(el => duplicates.splice( duplicates.indexOf(el), 1))
+  //Уникальные значения отфильтровать от дубликатов = уникальное значение
+  return +uniques.filter(el => !duplicates.includes(el))
+  */
+
+  //Вариант 3
+  /*
+  let obj = {}
+  numbers.forEach(el => obj.hasOwnProperty(el) ? ( obj[el]++ ) : ( obj[el] = 0 ))
+  return +numbers.filter(el => obj[el] === 0)
+  */
+
+  //Разобрать !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  //return numbers.reduce((a, b) => a ^ b);
+
+  //Вариант 4
+  let set = new Set();
+  numbers.forEach(el => set.has(el) ? set.delete(el) : set.add(el))
+  return +[...set]
+}
+console.log(findUnique([ 1, 8, 4, 4, 6, 1, 8 ]))
+
+
+
+console.log('----------------------------Task 210----------------------------')
+function convertHashToArray(hash){
+  let result = []
+  for(let keyAndValue of Object.entries(hash)){
+    result.push(keyAndValue)
+  }
+  return result
+}
+
+console.log(convertHashToArray({name: 'Jeremy', age: 24, role: 'Software Engineer'}))
