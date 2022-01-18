@@ -193,22 +193,55 @@ function convertHashToArray(hash){
   for(let keyAndValue of Object.entries(hash)){
     result.push(keyAndValue)
   }
-  return result.sort( (a, b) => {
-    return forSort(a[1]) - forSort(b[1])
+  return result.sort()
+}
+console.log(convertHashToArray({name: 'Aeremy', age: 24, role: 'Boftware Engineer'}))
+
+
+console.log('----------------------------Task 211----------------------------')
+/*
+function abbreviate(string) {
+ return string.split(' ').map(str => {
+    if(str.length < 4){
+      return str
+    }
+    if(str.indexOf('-') !== -1){
+      return str.split('-').map(el => toAbbreviate(el)).join('-')
+    }
+    return toAbbreviate(str)
+  }).join(' ')
+}
+
+function toAbbreviate(word){
+  let punctuation = ''
+  if(/[^\w]/g.test(word.substr(-1))){
+    punctuation = word.substr(-1)
+    word = word.slice(0, (word.length - 1) )
+  }
+  let mid = word.length - 2;
+  let first = word.substr(0, 1)
+  let last = word.substr(-1)
+  return (first + mid + last + punctuation)
+}
+*/
+
+function abbreviate(string) {
+  return string.replace(/\w{4,}/g, x => {
+    return x[0] + (x.length - 2) + x.slice(-1);
   })
 }
+console.log(abbreviate("You need, need not want, to complete this code-wars mission!"))
 
-function forSort(str){
-  if(typeof str === 'number'){
-    return str*(-50)
-  }
-  return (str
-    .substr(0,1)
-    .toUpperCase()
-    .charCodeAt(0) 
-    - 96 )
+
+
+console.log('----------------------------Task 212----------------------------')
+function isValidIP(str) {
+  return /\b(\d{1,3}\.){3}\d{1,3}\b/g.test(str)
 }
 
-console.log(convertHashToArray({name: 'Aeremy', age: 24, role: 'Boftware Engineer'}))
-//console.log('J'.toLowerCase().substr(0,1).charCodeAt(0)-96)
-//console.log('S'.toLowerCase().substr(0,1).charCodeAt(0)-96)
+/*
+Test.assertEquals(isValidIP("0.0.0.0"), true);
+Test.assertEquals(isValidIP("12.255.56.1"), true);
+Test.assertEquals(isValidIP("137.255.156.100"), true);
+*/
+console.log(isValidIP('123.123.123.123'))
