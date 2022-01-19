@@ -1,17 +1,16 @@
 console.log('----------------------------ДЗ на 19.01.22----------------------------')
 console.log('----------------------------Task 203----------------------------')
 const whosOnline = (friends) => {
-  let result = {}
-  for(let man of friends){
-    let status = man.status
-    if (man.status === 'online' && man.lastActivity > 10) {
-      status = 'away'
+  const result = {}
+  for(const { status, lastActivity, username } of friends){
+    let key = status
+    if (status === 'online' && lastActivity > 10) {
+      key = 'away'
     }
-    if( !result.hasOwnProperty(status)){
-      result[status] = [man.username]
-    } else {
-      result[status].push(man.username)
+    if(!result.hasOwnProperty(key)){
+      result[key] = []
     }
+    result[key].push(username)
   }
   return result
 }
@@ -35,50 +34,57 @@ console.log('----------------------------Task 204----------------------------')
 //Ответ CODEWARS: should test for something
 
 function anagrams(word, words) {
-  let result = [];
-  let objFromTheWord = wordToObject(word)
-  for(let i = 0; i < words.length; i++){      
-    let anagram = wordToObject(words[i])
-    if( isEqual( objFromTheWord, anagram) ) result.push(words[i])
-  }
-  return result
+  return words.filter(el => isAnagrams(word, el))
 }
+
+function isAnagrams(a, b) {
+  return isEqual(wordToObject(a), wordToObject(b));
+}
+
+
 console.log(anagrams('abba', ['ara', 'abab', 'baba']))
 
 //wordToObject(word) принимает слово(string) и возвращает объект.
 //Ключи объекта - это символы из которых состоит слово, 
 //Значение каждого ключа - это количество повторений символа в слове
 function wordToObject(word){
-  let obj = {}
-  word.split('').forEach(el => {
-    obj.hasOwnProperty(el) ? ( obj[el]++ ) : ( obj[el] = 1)
-  })
+  const obj = {}
+  for(const el of word) {
+    if (!obj.hasOwnProperty(el)) {
+      obj[el] = 0;
+    }
+    obj[el]++;
+  }
   return obj
 }
 //isEqual(obj1, obj2) сравнивает два объекта, если ключи объектов и их значения одинаковые - возвращает true
+// Object.getOwnPropertyNames([]) === ["length"]
+// Object.keys()  
 function isEqual(obj1, obj2){
   const obj1Keys = Object.getOwnPropertyNames(obj1)
   const obj2Keys = Object.getOwnPropertyNames(obj2)
   if(obj1Keys.length !== obj2Keys.length) return false 
-  for(let i = 0; i < obj1Keys.length; i++){
-    let key = Object.getOwnPropertyNames(obj1)[i];
-    if(obj1[key] !== obj2[key]){
-      return false
-    }
-  }
-  return true
+
+  // for(const key of obj1Keys){
+  //   if(obj1[key] !== obj2[key]){
+  //     return false
+  //   }
+  // }
+  // return true
+
+  return obj1Keys.every(el => obj1[el] === obj2[el])
 }
 
 console.log('----------------------------Task 205----------------------------')
 function arithmetic(a, b, operator){
-  return pairs[operator]( a, b)
+  return pairs[operator](a, b)
   //return eval(a + pairsEval[operator] + b)
 }
 const pairs = {
-  add : (a,b)=>{ return a + b }, 
-  subtract : (a, b) => { return a - b}, 
-  divide : (a, b) => {return a / b},
-  multiply : (a, b) => {return a * b}
+  add: (a,b)=> a + b,
+  subtract: (a, b) =>  a - b,
+  divide: (a, b) => a / b,
+  multiply: (a, b) => a * b,
 }
 const pairsEval = {
   add : "+", 
@@ -138,10 +144,16 @@ console.log(removeDuplicateWords('alpha beta beta gamma gamma gamma delta alpha 
 
 console.log('----------------------------Task 209----------------------------')
 function greetDevelopers(list) {
-  list.forEach(el => {
-    el.greeting = `Hi ${el.firstName}, what do you like the most about ${el.language}?`
-  })
-  return list
+  return list.map(el => ({
+    ...el,
+    greeting: `Hi ${el.firstName}, what do you like the most about ${el.language}?`,
+  }));
+  
+  // let list2 = []
+  // for(const el of list){
+  //   list2.push({...el, greeting : `Hi ${el.firstName}, what do you like the most about ${el.language}?`})
+  // }
+  // return list2
 }
 const list1 = [
   { firstName: 'Sofia', lastName: 'I.', country: 'Argentina', continent: 'Americas', age: 35, language: 'Java' },
@@ -149,6 +161,7 @@ const list1 = [
   { firstName: 'Madison', lastName: 'U.', country: 'United States', continent: 'Americas', age: 32, language: 'Ruby' } 
 ];
 console.log(greetDevelopers(list1))
+console.log(list1);
 
 
 console.log('----------------------------Task 208----------------------------')
@@ -169,14 +182,34 @@ function findUnique(numbers) {
   */
 
   //Вариант 3
-  /*
-  let obj = {}
-  numbers.forEach(el => obj.hasOwnProperty(el) ? ( obj[el]++ ) : ( obj[el] = 0 ))
-  return +numbers.filter(el => obj[el] === 0)
-  */
+  
+  // N = 1_000_000_000
+  const obj = {}
+  numbers.forEach(el => obj.hasOwnProperty(el) ? ( obj[el]++ ) : ( obj[el] = 0 )) // O(N)
+  for(const key in obj) { // O(N/2)
+    if (obj[+key] === 0) {
+      return +key;
+    }
+  }
+  return +numbers.filter(el => obj[el] === 0) // O(N)
 
   //Разобрать !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   //return numbers.reduce((a, b) => a ^ b);
+
+
+  //  5 === 0101
+  // 10 === 1010
+
+  // 5^10 === 1111 === 15
+
+
+  // 5 ^ 5 === 0
+  // 0 ^ 123 === 123
+
+  // 8 
+
+  // 3 & 6
+  // 8 | 12
 
   //Вариант 4
   let set = new Set();
@@ -189,13 +222,29 @@ console.log(findUnique([ 1, 8, 4, 4, 6, 1, 8 ]))
 
 console.log('----------------------------Task 210----------------------------')
 function convertHashToArray(hash){
-  let result = []
-  for(let keyAndValue of Object.entries(hash)){
-    result.push(keyAndValue)
-  }
-  return result.sort()
+  return Object.entries(hash).sort((a, b) => a[0] < b[0] ? -1 : 1);
+  return Object.keys(hash).sort().map(key => [key, hash[key]]);
+  // return result.sort( (a,b) => {
+  //   if(a[0] < b[0]){
+  //     return -1
+  //   } 
+  //   if(a[0] > b[0]){
+  //     return 1
+  //   }
+  //   return 0
+  // })
 }
 console.log(convertHashToArray({name: 'Aeremy', age: 24, role: 'Boftware Engineer'}))
+
+console.log(['a,b,c,d', 'a,b,c'].sort())
+
+const o = {
+  'a,b,c,d': 'asdfghj',
+  'a,b,c': 'qwertyui',
+};
+//[ [ 'a,b,c,d', 'asdfghj' ], [ 'a,b,c', 'qwertyui' ] ]
+//[ 'a,b,c,d,asdfghj', 'a,b,c,qwertyui' ]
+console.log(convertHashToArray(o));
 
 
 console.log('----------------------------Task 211----------------------------')
@@ -227,7 +276,8 @@ function toAbbreviate(word){
 
 function abbreviate(string) {
   return string.replace(/\w{4,}/g, x => {
-    return x[0] + (x.length - 2) + x.slice(-1);
+    return x[0] + (x.length - 2) + x[x.length - 1];
+    return x[0] + (x.length - 2) + x.at(-1);
   })
 }
 console.log(abbreviate("You need, need not want, to complete this code-wars mission!"))
@@ -235,21 +285,9 @@ console.log(abbreviate("You need, need not want, to complete this code-wars miss
 
 
 console.log('----------------------------Task 212----------------------------')
-//Ошибка в CODEWARS
 function isValidIP(str) {
-  let regexp = /^(0\.|[1-9]\d{0,2}\.)(0\.|[1-9]\d{0,2}\.)(0\.|[1-9]\d{0,2}\.)(0|[1-9]\d{0,2})$/
-  let result = regexp.test(str);
-  if(result){
-    let arr = str.match(regexp)
-    for(let i = 1; i < arr.length; i++){
-      if(arr[i] > 255){
-        result = false
-      }
-    }
-    return result
-  }
-  return false
-}
+  let regexp = /^(0\.|[1-9]\d{0,2}\.){3}(0|[1-9]\d{0,2})$/
+  return regexp.test(str) && str.split('.').every(el => el < 256);
 
 
 console.log(isValidIP('12.255.56.1'))
