@@ -288,6 +288,6 @@ console.log('----------------------------Task 212----------------------------')
 function isValidIP(str) {
   let regexp = /^(0\.|[1-9]\d{0,2}\.){3}(0|[1-9]\d{0,2})$/
   return regexp.test(str) && str.split('.').every(el => el < 256);
-
+}
 
 console.log(isValidIP('12.255.56.1'))
