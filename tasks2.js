@@ -235,13 +235,21 @@ console.log(abbreviate("You need, need not want, to complete this code-wars miss
 
 
 console.log('----------------------------Task 212----------------------------')
+//Ошибка в CODEWARS
 function isValidIP(str) {
-  return /\b(\d{1,3}\.){3}\d{1,3}\b/g.test(str)
+  let regexp = /^(0\.|[1-9]\d{0,2}\.)(0\.|[1-9]\d{0,2}\.)(0\.|[1-9]\d{0,2}\.)(0|[1-9]\d{0,2})$/
+  let result = regexp.test(str);
+  if(result){
+    let arr = str.match(regexp)
+    for(let i = 1; i < arr.length; i++){
+      if(arr[i] > 255){
+        result = false
+      }
+    }
+    return result
+  }
+  return false
 }
 
-/*
-Test.assertEquals(isValidIP("0.0.0.0"), true);
-Test.assertEquals(isValidIP("12.255.56.1"), true);
-Test.assertEquals(isValidIP("137.255.156.100"), true);
-*/
-console.log(isValidIP('123.123.123.123'))
+
+console.log(isValidIP('12.255.56.1'))
