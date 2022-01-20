@@ -19,7 +19,10 @@ console.log(frequency([1, 10, 12, 2, 1, 10, 2, 2]))
 
 console.log('----------------------------Task 215----------------------------')
 function incrementString (strng) {
-  const regexp = /(0+)([1-9]+)$/
+  const regexp = /(0*)([1-9]*)$/
+  if(! regexp.test(strng)){
+    return strng + 1
+  }
   const num = strng.match(regexp)
   const count = +num[2] + 1
   let zeros = num[1]
@@ -30,5 +33,5 @@ function incrementString (strng) {
   return str + zeros + count
 }
 
-console.log(incrementString("foobar00999"))
+console.log(incrementString("foobar"))
 
