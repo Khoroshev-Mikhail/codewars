@@ -95,9 +95,9 @@ function frequency(arr, options = {}) {
 }
 
 //console.log( frequency(  persons, {criteria: profession, compareTo: frequencyCompare}  ) )
-//console.log( frequency(  [1, 10, 12, 2, 1, 10, 2, 2, 1, 2]  ) )
+console.log( frequency(  [1, 10, 12, 2, 1, 10, 2, 2, 1, 2]  ) )
 //Ожидается : [[1, 3], [2, 4], [10, 2], [12, 1]]
-//Возвращает : [ [ '1', 3 ], [ '10', 2 ], [ '12', 1 ], [ '2', 4 ] ] т.е. ключи = это строки, а должны быть цифрами
+//Возвращает : [ [ '1', 3 ], [ '10', 2 ], [ '12', 1 ], [ '2', 4 ] ] т.е. ключи = преобразовались в строки, а должны быть цифрами
 
 //console.log( frequency(  persons, {criteria: profession, compareTo: frequencyCompare}  ))
 //Ожидается: [["scientific", 3], ["teacher", 2], ["politician", 1]]
