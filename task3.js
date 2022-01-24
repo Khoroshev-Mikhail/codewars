@@ -107,35 +107,39 @@ console.log( frequency(  [1, 10, 12, 2, 1, 10, 2, 2, 1, 2]  ) )
 
 console.log('----------------------------Task 216----------------------------')
 function findPair(arr1,arr2){
-  const obj1 = {...arr1}
-  const obj2 = {...arr2}
-  const summOfObj = {}
-  for(let val in obj1){
-    summOfObj[val] = obj1[val] + obj2[val]
-  }
-  console.log(obj1)
-  console.log(obj2)
-  console.log(summOfObj)
-  let max = summOfObj[0];
-  for(let val in summOfObj){
-    if(summOfObj[val] > max){
-      max = summOfObj[val]
-    }
-  }
-  return max
-  /*const pairs = []
+  const pairs = []
   for(let key in arr1){
     pairs.push([arr1[key], arr2[key]])
   }
   const summOfPairs = pairs.map(el => el.reduce( (a, b) => a + b) )
-  return summOfPairs
-  */
+  let maxSumm = Math.max(...summOfPairs.filter(el => summOfPairs.indexOf(el) !== summOfPairs.lastIndexOf(el)))
+  return pairs.filter(el => (el[0] + el[1]) === maxSumm)
+  
   //return pairs.sort((a,b) => (b[0]+b[1]) - (a[0]+a[1]))
   /*const summOfPairs = pairs.map(el => el.reduce( (a, b) => a + b) )
   const obj = {}
   for(let key in summOfPairs){
     obj[key] = summOfPairs[key]
   }*/
+  /*
+  expected [ [ 740, 1212 ],
+  [ 1471, 481 ],
+  [ 1010, 942 ],
+  [ 1775, 177 ],
+  [ 644, 1308 ],
+  [ 1672, 280 ],
+  [ 136, 1816 ],
+  [ 1413, 539 ] ] to deeply equal [ [ 11, 433 ],
+  [ 814, -370 ],
+  [ 271, 173 ],
+  [ 0, 444 ],
+  [ 286, 158 ],
+  [ 1082, -638 ],
+  [ -765, 1209 ],
+  [ -230, 674 ],
+  [ 195, 249 ],
+  [ -102, 546 ],
+  [ -517, 961 ] ]*/
 }
 
 console.log(findPair([1,2,3,4,5],[9,8,0,0,0]))
