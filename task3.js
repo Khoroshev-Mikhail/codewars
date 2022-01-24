@@ -102,3 +102,40 @@ console.log( frequency(  [1, 10, 12, 2, 1, 10, 2, 2, 1, 2]  ) )
 //console.log( frequency(  persons, {criteria: profession, compareTo: frequencyCompare}  ))
 //Ожидается: [["scientific", 3], ["teacher", 2], ["politician", 1]]
 //Возвращает: [ [ 'teacher', 2 ], [ 'scientific', 3 ], [ 'politician', 1 ] ]
+
+
+
+console.log('----------------------------Task 216----------------------------')
+function findPair(arr1,arr2){
+  const obj1 = {...arr1}
+  const obj2 = {...arr2}
+  const summOfObj = {}
+  for(let val in obj1){
+    summOfObj[val] = obj1[val] + obj2[val]
+  }
+  console.log(obj1)
+  console.log(obj2)
+  console.log(summOfObj)
+  let max = summOfObj[0];
+  for(let val in summOfObj){
+    if(summOfObj[val] > max){
+      max = summOfObj[val]
+    }
+  }
+  return max
+  /*const pairs = []
+  for(let key in arr1){
+    pairs.push([arr1[key], arr2[key]])
+  }
+  const summOfPairs = pairs.map(el => el.reduce( (a, b) => a + b) )
+  return summOfPairs
+  */
+  //return pairs.sort((a,b) => (b[0]+b[1]) - (a[0]+a[1]))
+  /*const summOfPairs = pairs.map(el => el.reduce( (a, b) => a + b) )
+  const obj = {}
+  for(let key in summOfPairs){
+    obj[key] = summOfPairs[key]
+  }*/
+}
+
+console.log(findPair([1,2,3,4,5],[9,8,0,0,0]))
