@@ -112,8 +112,14 @@ function findPair(arr1,arr2){
     pairs.push([arr1[key], arr2[key]])
   }
   const summOfPairs = pairs.map(el => el.reduce( (a, b) => a + b) )
-  let maxSumm = Math.max(...summOfPairs.filter(el => summOfPairs.indexOf(el) !== summOfPairs.lastIndexOf(el)))
-  return pairs.filter(el => (el[0] + el[1]) === maxSumm)
+  let maxSumm = summOfPairs.filter(el => summOfPairs.indexOf(el) !== summOfPairs.lastIndexOf(el))
+  let result;
+  let count;
+  for(let val of maxSumm){
+    result = val
+  }
+  return maxSumm
+  //return pairs.filter(el => (el[0] + el[1]) === maxSumm)
   
   //надо найти самое колво сум
 }
