@@ -76,7 +76,7 @@ var persons = [
 ];
 
 //Мои функции:
-function countOfEntries(arr, options){
+function countOfEntries(arr, options = false){
   let obj = {}
   for(let el of arr){
     if(options.criteria) {
@@ -107,21 +107,25 @@ console.log( frequency(  [1, 10, 12, 2, 1, 10, 2, 2, 1, 2]  ) )
 
 console.log('----------------------------Task 216----------------------------')
 function findPair(arr1,arr2){
+  //Создаём массив с парами значений 
   const pairs = []
   for(let key in arr1){
-    pairs.push([arr1[key], arr2[key]])
+    pairs.push([ arr1[key], arr2[key] ])
   }
-  const summOfPairs = pairs.map(el => el.reduce( (a, b) => a + b) )
-  let maxSumm = summOfPairs.filter(el => summOfPairs.indexOf(el) !== summOfPairs.lastIndexOf(el))
-  let result;
-  let count;
-  for(let val of maxSumm){
-    result = val
-  }
-  return maxSumm
-  //return pairs.filter(el => (el[0] + el[1]) === maxSumm)
-  
-  //надо найти самое колво сум
+  //Массив сум всех подмассивов
+  const sumOfPairs = pairs.map(el => el.reduce( (a, b) => a + b) )
+  //Массив всех повторяющихся сум
+  const repitingSum = sumOfPairs.filter(el => sumOfPairs.indexOf(el) !== sumOfPairs.lastIndexOf(el))
+  //Самая часто встречающаяся сумма пар
+  const popularSum = countOfEntries(repitingSum).reduce( (a,b) =>{ a[1] > b[1]
+    if(a[1] > b[1]){
+      return a
+    } else {
+      return b
+    }
+  }, [0, 0])
+  //Возвращаем те пары сумма которых = самой часто встречающейся сумме значений
+  return pairs.filter(el => (el[0] + el[1]) === +popularSum[0])
 }
 
 console.log(findPair([11,740,814,271,1471,0,286,1010,-488,1082,879,281,1775,-765,644,1672,-426,451,-230,136,1413,326,-342,728,195,1314,-102,-517],
