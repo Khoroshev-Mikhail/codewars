@@ -130,3 +130,34 @@ function findPair(arr1,arr2){
 
 console.log(findPair([11,740,814,271,1471,0,286,1010,-488,1082,879,281,1775,-765,644,1672,-426,451,-230,136,1413,326,-342,728,195,1314,-102,-517],
   [433,1212,-370,173,481,444,158,942,417,-638,-49,-147,177,1209,1308,280,-684,379,674,1816,539,679,5,1137,249,1109,546,961]))
+
+
+  
+
+console.log('----------------------------Task 217----------------------------')
+function calculate(expression) {
+  const regexp = /\s*([\*\+\-\/])[\s\n](\-*\d+\.*\d*)[\s\n](\-*\d+\.*\d*)/;
+  while(regexp.test(expression)){
+    expression = expression.replace(regexp, (str, p1, p2, p3) => {
+      return ' ' + choiceOperator(p2, p1, p3)
+    })
+  }
+  return +expression.trim()
+}
+//Вместо Eval
+function choiceOperator(p2, p1, p3) {
+  p2 = Number(p2)
+  p3 = Number(p3)
+  switch(p1){
+    case '/':
+      return p2 / p3;
+    case '*':
+      return p2 * p3;
+    case '-':
+      return p2 - p3;
+    case '+':
+      return p2 + p3;
+  }
+}
+console.log(calculate('+ 504004.9748443216e+21 4.6257758916450324'))
+//console.log(calculate('- 0.4970828104395045 / -53554231107236880 - 587871.2760567085 -465019.0035653822'))
