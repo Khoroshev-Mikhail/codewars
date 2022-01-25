@@ -136,10 +136,10 @@ console.log(findPair([11,740,814,271,1471,0,286,1010,-488,1082,879,281,1775,-765
 
 console.log('----------------------------Task 217----------------------------')
 function calculate(expression) {
-  const regexp = /\s*([\*\+\-\/])[\s\n](\-*\d+\.*\d*)[\s\n](\-*\d+\.*\d*)/;
+  const regexp = /([\*\+\-\/])[\s\n](\-*\d+\.*\d*)[\s\n](\-*\d+\.*\d*)/;
   while(regexp.test(expression)){
     expression = expression.replace(regexp, (str, p1, p2, p3) => {
-      return ' ' + choiceOperator(p2, p1, p3)
+      return choiceOperator(p2, p1, p3)
     })
   }
   return +expression.trim()
@@ -159,5 +159,6 @@ function choiceOperator(p2, p1, p3) {
       return p2 + p3;
   }
 }
-console.log(calculate('+ 504004.9748443216e+21 4.6257758916450324'))
+console.log(calculate('/ + 3 5 * 2 2'))
+//console.log(calculate('+ 504004.9748443216e+21 4.6257758916450324'))
 //console.log(calculate('- 0.4970828104395045 / -53554231107236880 - 587871.2760567085 -465019.0035653822'))
