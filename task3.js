@@ -1,19 +1,6 @@
 console.log('----------------------------ДЗ на 26.01.22----------------------------')
 console.log('----------------------------Task 215----------------------------')
 function incrementString (strng) {
- /* const regexp = /(0*)([1-9]*)$/
-  if(! regexp.test(strng)){
-    return strng + 1
-  }
-  const num = strng.match(regexp)
-  const count = +num[2] + 1
-  let zeros = num[1]
-  const str = strng.substr(0, num.index)
-  if(num[2].length !== String(count).length){
-    zeros = zeros.substr(0, zeros.length-1)
-  }
-  return str + zeros + count*/
-
   return strng.replace(/(0*)([1-9]*)$/, (_, zeros, number) => {
     let newNumber = Number(number) + 1
     if(zeros !== '' && number.length !== String(newNumber).length){
@@ -30,11 +17,11 @@ console.log(incrementString("foobar00999"))
 console.log('----------------------------Task 211----------------------------')
 function kebabize(str) {
   return str
-  .replace(/([A-Z])(\d*)/g, x=> '-' + x.toLowerCase())
+  .replace(/[A-Z]/g, x=> '-' + x.toLowerCase())
   .replace(/\d/g, '')
   .replace(/^-/, '')
 }
-console.log(kebabize('camelsHaveThreeHumps'))
+console.log(kebabize('camelsHave3Thr3eeHumps'))
 
 
 
@@ -168,7 +155,7 @@ console.log(calculate('/ + 3 5 * 2 2'))
 
 console.log('----------------------------Task 218----------------------------')
 function hexStringToRGB(hexString) {
-  const rgb = {}
+  /*const rgb = {}
   hexString.replace(/#/, '').replace(/([\d\w][\d\w])([\d\w][\d\w])([\d\w][\d\w])/, (str, red, green ,blue) => {
     rgb.r = parseInt(red, 16)
     rgb.g = parseInt(green, 16)
@@ -176,10 +163,13 @@ function hexStringToRGB(hexString) {
     return str
   })
   return rgb
+  */
+  const [r, g, b] = hexString.match(/\w{2}/g).map(el => parseInt(el, 16))
+  return {r, g, b}
 }
 console.log(hexStringToRGB('#FF9933'))
 
-/*
+/* Что за формулировка? 
 function hexStringToRGB(hex) {
   hex = parseInt(hex.substring(1), 16)
   return {r: hex >> 16, g: (hex & 0x00FF00) >> 8, b: (hex & 0x0000FF)}
