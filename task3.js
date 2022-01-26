@@ -162,3 +162,26 @@ function choiceOperator(p2, p1, p3) {
 console.log(calculate('/ + 3 5 * 2 2'))
 //console.log(calculate('+ 504004.9748443216e+21 4.6257758916450324'))
 //console.log(calculate('- 0.4970828104395045 / -53554231107236880 - 587871.2760567085 -465019.0035653822'))
+
+
+  
+
+console.log('----------------------------Task 218----------------------------')
+function hexStringToRGB(hexString) {
+  const rgb = {}
+  hexString.replace(/#/, '').replace(/([\d\w][\d\w])([\d\w][\d\w])([\d\w][\d\w])/, (str, red, green ,blue) => {
+    rgb.r = parseInt(red, 16)
+    rgb.g = parseInt(green, 16)
+    rgb.b = parseInt(blue, 16)
+    return str
+  })
+  return rgb
+}
+console.log(hexStringToRGB('#FF9933'))
+
+/*
+function hexStringToRGB(hex) {
+  hex = parseInt(hex.substring(1), 16)
+  return {r: hex >> 16, g: (hex & 0x00FF00) >> 8, b: (hex & 0x0000FF)}
+}
+*/
