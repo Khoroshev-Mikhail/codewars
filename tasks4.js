@@ -82,3 +82,21 @@ function mostContiguousVowels(str){
 
 console.log(sortStringsByVowels([ 'AIBRH', '', 'YOUNG', 'GREEEN' ]))
 
+console.log('----------------------------Task 224: "My Languages"----------------------------')
+function myLanguages(results) {
+    //return Object.entries(results).filter(el => el[1] >= 60).sort(([_, a], [__, b]) => b - a).map(([lang, _]) => lang)
+    return Object.keys(results).filter(el => results[el] >= 60).sort((a, b) => results[b] - results[a])
+}
+console.log(myLanguages({"Java" : 60, "Ruby" : 65, "Python" : 75}))
+
+
+console.log('----------------------------Task 225: "Double Sort"----------------------------')
+function dbSort(a){
+    const numbers = a.filter(el => typeof el === 'number').sort((a, b) => a - b)
+    const strings = a.filter(el => typeof el === 'string').sort()
+    return numbers.concat(strings)
+    //dbSort=emc2=>emc2.sort((proton,neutron)=>!neutron.split-!proton.split||neutron<proton||-1);
+    //const dbSort = array => array.sort((a, b) => (typeof(a) == 'string') - (typeof(b) == 'string') || (a > b) - (a < b));
+}
+console.log(dbSort(["Banana", "Orange", "Apple", "Mango", 0, 2, 2]))
+
