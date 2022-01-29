@@ -114,13 +114,24 @@ console.log(persistence(999))
 
 console.log('----------------------------Task 229: "Group Anagrams"----------------------------')
 function groupAnagrams(words){
-    let results = []
-    for(let i = 0; i < words.length; i++){
-        results.push(words.filter(el => isAnagrams(words[i], el)))
+    let obj = {}
+    for(let str of words){
+        obj[str] = 0
     }
-    return results
+    for(let i = 0; i < words.length; i++){ 
+        Object.keys(obj).forEach(el => {
+            if(isAnagrams(el, words[i])){
+                obj[el] = i
+            }
+        })
+    }
+    return obj
 }
 
+function isAnagrams(a, b){
+    return a.split('').sort().join('') === b.split('').sort().join('')
+}
+/*
 function isAnagrams(a, b) {
     return isEqual(wordToObject(a), wordToObject(b));
 }
@@ -140,4 +151,6 @@ function wordToObject(word){
     }
     return obj
 }
+*/
 console.log(groupAnagrams(["tsar", "rat", "tar", "star", "tars", "cheese"]))
+
