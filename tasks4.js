@@ -100,3 +100,44 @@ function dbSort(a){
 }
 console.log(dbSort(["Banana", "Orange", "Apple", "Mango", 0, 2, 2]))
 
+
+console.log('----------------------------Task 228: "Persistent Bugger."----------------------------')
+function persistence(num) {
+    let count = 0;
+    while(num.toString().length !== 1){
+        num = num.toString().split('').reduce((a, b) => a*b)
+        count++
+    }
+    return count
+}
+console.log(persistence(999))
+
+console.log('----------------------------Task 229: "Group Anagrams"----------------------------')
+function groupAnagrams(words){
+    let results = []
+    for(let i = 0; i < words.length; i++){
+        results.push(words.filter(el => isAnagrams(words[i], el)))
+    }
+    return results
+}
+
+function isAnagrams(a, b) {
+    return isEqual(wordToObject(a), wordToObject(b));
+}
+function isEqual(obj1, obj2){
+    const obj1Keys = Object.getOwnPropertyNames(obj1)
+    const obj2Keys = Object.getOwnPropertyNames(obj2)
+    if(obj1Keys.length !== obj2Keys.length) return false 
+    return obj1Keys.every(el => obj1[el] === obj2[el])
+}
+function wordToObject(word){
+    const obj = {}
+    for(const el of word) {
+        if (!obj.hasOwnProperty(el)) {
+        obj[el] = 0;
+        }
+        obj[el]++;
+    }
+    return obj
+}
+console.log(groupAnagrams(["tsar", "rat", "tar", "star", "tars", "cheese"]))
