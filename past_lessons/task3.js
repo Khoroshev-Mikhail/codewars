@@ -194,3 +194,7 @@ function hexStringToRGB(hex) {
   return {r: hex >> 16, g: (hex & 0x00FF00) >> 8, b: (hex & 0x0000FF)}
 }
 */
+function maskify(cc) {
+  return ('#'.repeat(cc.length - 4) + cc.slice(-4))
+}
+console.log(maskify('444444444'))

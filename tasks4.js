@@ -125,7 +125,8 @@ function groupAnagrams(words){
             }
         })
     }
-    return obj
+    let result = [];
+    return Object.entries(obj).sort((a, b) => a[1] - b[1])
 }
 
 function isAnagrams(a, b){
