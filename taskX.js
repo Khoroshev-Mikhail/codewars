@@ -1,20 +1,5 @@
-console.log('----------------------------Task 011: "String insert values"----------------------------')
-var format = function (str, obj) {
-    if(Array.isArray(obj)){
-        obj = Object.assign(obj)
-    }
-    return str.replace(/{\w+}/g, x => {
-        if(x.slice(1, -1) in obj){
-            return obj[x.slice(1, -1)]
-        }
-        return x
-    })
-};
-/*
-var format = function (str, obj) {
-  var re = new RegExp('{(' + Object.keys(obj).join('|') + ')}', 'g');
-  return str.replace(re, function (match, capture) { return obj[capture] });
-};
-*/
-const obj = { foo : 'Jack', '0' : 'sandwich' };
-console.log(format('Hello {foo} - make me a {0}', obj))
+console.log('----------------------------Task 007: "create-phone-number"----------------------------')
+function createPhoneNumber(numbers){
+  return `(${numbers.slice(0,3).join('')}) ${numbers.slice(3,6).join('')}-${numbers.slice(6,10).join('')}`
+}
+console.log(createPhoneNumber([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]))
