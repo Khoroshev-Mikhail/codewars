@@ -1,5 +1,15 @@
 console.log('----------------------------Task 007: "create-phone-number"----------------------------')
-function createPhoneNumber(numbers){
-  return `(${numbers.slice(0,3).join('')}) ${numbers.slice(3,6).join('')}-${numbers.slice(6,10).join('')}`
+function solution(number){
+  let i = 0;
+  let arr = [0]
+  while( i < number){
+    if(i % 3 == 0 || i % 5 == 0){
+      arr.push(i)
+    }    
+    i++
+  }
+  console.log(arr)
+  return arr.reduce((a, b) => a + b)
 }
-console.log(createPhoneNumber([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]))
+
+console.log(solution(10))
