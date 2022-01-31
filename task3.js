@@ -169,7 +169,8 @@ function hexStringToRGB(hexString) {
 }
 console.log(hexStringToRGB('#FF9933'))
 
-/* Что за формулировка? 
+/* 
+Что за формулировка? 
 function hexStringToRGB(hex) {
   hex = parseInt(hex.substring(1), 16)
   return {r: hex >> 16, g: (hex & 0x00FF00) >> 8, b: (hex & 0x0000FF)}
