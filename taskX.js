@@ -1,18 +1,20 @@
-var runLengthEncoding = function(str){
-const obj = {}
-const arr = str.split('');
-for(let symbol of arr){
-    if(!obj.hasOwnProperty(symbol)){
-    obj[symbol] = 0
+console.log('----------------------------Task 011: "String insert values"----------------------------')
+var format = function (str, obj) {
+    if(Array.isArray(obj)){
+        obj = Object.assign(obj)
     }
-    obj[symbol]++
-}
-    return Object.entries(obj).map( ([a, b]) => [b, a])
-}
-
-console.log(runLengthEncoding('VVVIIIIISOOOHHZZKKKKJJJXXUUFFYYYYTTNNNNAAAA'))
+    return str.replace(/{\w+}/g, x => {
+        if(x.slice(1, -1) in obj){
+            return obj[x.slice(1, -1)]
+        }
+        return x
+    })
+};
 /*
-expected 
-'VVVIIIIISOOOHHZZKKKKJJJXXUUFFYYYYTTNNNNAAAA'
-'VVVIIISOHHZZKKKKJJJXXOOUUFFIIYYYYTTNNNNAAAA'
+var format = function (str, obj) {
+  var re = new RegExp('{(' + Object.keys(obj).join('|') + ')}', 'g');
+  return str.replace(re, function (match, capture) { return obj[capture] });
+};
 */
+const obj = { foo : 'Jack', '0' : 'sandwich' };
+console.log(format('Hello {foo} - make me a {0}', obj))

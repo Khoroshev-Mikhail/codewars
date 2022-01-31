@@ -116,42 +116,39 @@ console.log('----------------------------Task 229: "Group Anagrams"-------------
 function groupAnagrams(words){
     let obj = {}
     for(let str of words){
-        obj[str] = 0
+        let key = str.split('').sort().join('')
+        if(!obj.hasOwnProperty(key)){
+            obj[key] = []
+            obj[key].push(str)
+        } else{
+            obj[key].push(str)
+        }
+        //obj[key] = (obj[key] || []).concat([key]);  ???? Как прочитать?
     }
-    for(let i = 0; i < words.length; i++){ 
-        Object.keys(obj).forEach(el => {
-            if(isAnagrams(el, words[i])){
-                obj[el] = i
-            }
-        })
-    }
-    let result = [];
-    return Object.entries(obj).sort((a, b) => a[1] - b[1])
+    return Object.values(obj)
 }
 
-function isAnagrams(a, b){
-    return a.split('').sort().join('') === b.split('').sort().join('')
-}
-/*
-function isAnagrams(a, b) {
-    return isEqual(wordToObject(a), wordToObject(b));
-}
-function isEqual(obj1, obj2){
-    const obj1Keys = Object.getOwnPropertyNames(obj1)
-    const obj2Keys = Object.getOwnPropertyNames(obj2)
-    if(obj1Keys.length !== obj2Keys.length) return false 
-    return obj1Keys.every(el => obj1[el] === obj2[el])
-}
-function wordToObject(word){
-    const obj = {}
-    for(const el of word) {
-        if (!obj.hasOwnProperty(el)) {
-        obj[el] = 0;
-        }
-        obj[el]++;
-    }
-    return obj
-}
-*/
+
 console.log(groupAnagrams(["tsar", "rat", "tar", "star", "tars", "cheese"]))
 
+
+console.log('----------------------------Task 011: "String insert values"----------------------------')
+var format = function (str, obj) {
+    if(Array.isArray(obj)){
+        obj = Object.assign(obj)
+    }
+    return str.replace(/{\w+}/g, x => {
+        if(x.slice(1, -1) in obj){
+            return obj[x.slice(1, -1)]
+        }
+        return x
+    })
+};
+/*
+var format = function (str, obj) {
+  var re = new RegExp('{(' + Object.keys(obj).join('|') + ')}', 'g');
+  return str.replace(re, function (match, capture) { return obj[capture] });
+};
+*/
+const obj = { foo : 'Jack', '0' : 'sandwich' };
+console.log(format('Hello {foo} - make me a {0}', obj))
