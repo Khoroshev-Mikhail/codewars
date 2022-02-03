@@ -1,10 +1,11 @@
-console.log('----------------------------Task 227: " Evaluating prefix Polish notation"----------------------------')
-// 2 for обратный
-function calculate(expression) {
-  return expression.split(' ')
+console.log('----------------------------Task: "Рекурсия"----------------------------')
+function sumTo(n){
+  if(n === 1){
+    return n
+  } else {
+    return n + sumTo(n - 1)
+  }
 }
-console.log(calculate('/ + 3 5 * 2 2'))
-// / + 3 5 * 2 2       7
-// / + 3 5 4           5
-// / 8 4               3
-// 2                   1
+console.log(sumTo(100))
+
+
