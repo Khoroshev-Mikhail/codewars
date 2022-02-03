@@ -219,11 +219,4 @@ console.log(calculate('/ + 3 5 * 2 2'))
 // 13 === 1101
 // (13).toString(2)
 
-console.log('----------------------------Task 227: "Sorting by bits"----------------------------')
 
-//learnjavascript
-
-detect_int(n => n ** 2 > 30, n => n % 2 === 1)      // => 7
-function detect_int(...args) {
-    return arguments.length
-}
