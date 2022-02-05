@@ -1,6 +1,6 @@
-console.log('----------------------------Task:301 "Ho ho ho"----------------------------')
-function ho() {
-  return str ? 'Ho ' + str : 'Ho!'
+console.log('----------------------------Task:303 "Functional Addition"----------------------------')
+function add() {
+  return name
 }
-
-console.log(ho(ho()))
+let name = 'Mike'
+console.log(add(''))
