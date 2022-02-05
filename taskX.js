@@ -1,6 +1,18 @@
-console.log('----------------------------Task:303 "Functional Addition"----------------------------')
-function add() {
-  return name
+console.log('----------------------------Task:306 "Function composition"----------------------------')
+function makeLooper(str) {
+  let count = -1
+  const arr = str.split('')
+  return () => {
+    count++
+    if(count > str.length - 1){
+      count = 0
+    }
+    return arr[count]
+  }
 }
-let name = 'Mike'
-console.log(add(''))
+let abc = makeLooper('abc')
+console.log(abc())
+console.log(abc())
+console.log(abc())
+console.log(abc())
+console.log(abc())

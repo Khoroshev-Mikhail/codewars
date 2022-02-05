@@ -8,69 +8,61 @@ function detect_int(...args) {
             return i
         }
     }
-    //Либо
-    /*let i = 0;
-    while(i++){
-        if(args.every(fns => fns(i))) {
-            return i
-        }
-    }
-    */
 }
 console.log(detect_int((x) => x % 5 == 0, (x) => x % 3 == 0))
 
-console.log('----------------------------Task: "Рекурсия1"----------------------------')
-function sumTo(n){
-  //  return (1 + n) / 2 * n
-  if(n === 1){
-    return n
-  } else {
-    return n + sumTo(n - 1)
-  }
-}
-console.log(sumTo(100))
-
-console.log('----------------------------Task: "Рекурсия2"----------------------------')
-function factorial(n){
-  if(n === 1){
-    return n
-  } else {
-    return n * factorial(n - 1)
-  }
-}
-console.log(factorial(5))
-console.log('----------------------------Task: "Рекурсия3"----------------------------')
-function fib(n){
-  if(n <= 1){
-    return n
-  } else {
-    return fib(n-1) + fib(n-2)
-  }
-}
-console.log(fib(7))
-console.log('----------------------------Task: "Рекурсия4"----------------------------')
-let obj = {
-  value: 1,
-  next: {
-    value: 2,
-    next: {
-      value: 3,
-      next: {
-        value: 4,
-        next: null
-      }
-    }
-  }
-};
-function printList(list){
-  console.log(list.value)
-  if(list.next !== null){
-    printList(list.next)
-  }
-}
-console.log(printList(obj))
-
 console.log('----------------------------Task:301 "Ho ho ho"----------------------------')
-function ho() {
+function ho(str) {
   return str ? 'Ho ' + str : 'Ho!'
 }
+//console.log(ho(ho(ho())))
+
+console.log('----------------------------Task:303 "Functional Addition"----------------------------')
+function add(a) {
+  return function (b){
+    return a + b
+  }
+}
+let addOne = add(3)
+
+console.log(addOne(3))
+
+console.log('-----------Task:304 "currying-functions-multiply-all-elements-in-an-array"-----------')
+multiplyAll = a => b => a.map(el => el* b)
+
+console.log(multiplyAll([1, 2, 3])(3))
+
+console.log('----------------------------Task:305 "always"----------------------------')
+always = n => () => n
+console.log(always(5)())
+
+
+console.log('----------------------------Task:306 "Function composition"----------------------------')
+const addOne = (a) => a + 1
+const multTwo = (b) => b * 2
+compose = (...args) => (n) => args.reduceRight( (a, b) => b(a), n)
+
+console.log(compose(multTwo, addOne)(5))
+
+console.log('----------------------------Task:307 "lazy repeater"----------------------------')
+function makeLooper(str) {
+  let count = -1
+  const arr = str.split('')
+  return () => {
+    count++
+    if(count > str.length - 1){
+      count = 0
+    }
+    return arr[count]
+  }
+  /*
+    let i = 0;
+  return () => str[i++%str.length];
+  */
+}
+let abc = makeLooper('abc')
+console.log(abc())
+console.log(abc())
+console.log(abc())
+console.log(abc())
+console.log(abc())
