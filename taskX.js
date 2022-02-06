@@ -1,18 +1,12 @@
-console.log('----------------------------Task:306 "Function composition"----------------------------')
-function makeLooper(str) {
-  let count = -1
-  const arr = str.split('')
-  return () => {
-    count++
-    if(count > str.length - 1){
-      count = 0
+console.log('----------------------------Task:312 "A Chain adding function"----------------------------')
+function add(m){
+  console.log(m)
+  return (n) =>{ //функция
+    return (z) => { //Функция
+      return (y) => { //число
+        return m + n + z + y
+      }
     }
-    return arr[count]
   }
 }
-let abc = makeLooper('abc')
-console.log(abc())
-console.log(abc())
-console.log(abc())
-console.log(abc())
-console.log(abc())
+console.log(add(1)(2)(3)(4))

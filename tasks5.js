@@ -37,14 +37,14 @@ always = n => () => n
 console.log(always(5)())
 
 
-console.log('----------------------------Task:306 "Function composition"----------------------------')
+console.log('----------------------------Task:305 "Function composition"----------------------------')
 const addOne = (a) => a + 1
 const multTwo = (b) => b * 2
 compose = (...args) => (n) => args.reduceRight( (a, b) => b(a), n)
 
 console.log(compose(multTwo, addOne)(5))
 
-console.log('----------------------------Task:307 "lazy repeater"----------------------------')
+console.log('----------------------------Task:306 "lazy repeater"----------------------------')
 function makeLooper(str) {
   let count = -1
   const arr = str.split('')
@@ -62,7 +62,51 @@ function makeLooper(str) {
 }
 let abc = makeLooper('abc')
 console.log(abc())
-console.log(abc())
-console.log(abc())
-console.log(abc())
-console.log(abc())
+
+
+console.log('----------------------------Task:307 "lazy repeater"----------------------------')
+//Не решено (не проходит один тест)
+function memo(fn) {
+  let cache = {} //let cache = new Map()
+  return (n) => {
+    if(n in cache){
+      return cache[n]
+    } else{
+      let result = fn(n)
+      cache[n] = result
+      return result
+    }
+  }
+}
+/*
+cumulative tree depth with expensive depth
+sumDepth()
+Possibly your memo function cannot handle `Object` arguments: expected 140000 to equal 23843
+*/
+/*
+describe("cumulative tree depth with expensive depth",()=>{
+  const toTree = s => s ? { value: s[0], left: toTree(s.slice(1,s.length/2+1)), right: toTree(s.slice(s.length/2+1)) } : null ;
+  const depth = memo( tree => tree ? busyWait(5e3) || 1 + Math.max(depth(tree.left),depth(tree.right)) : 0 );
+  const sumDepth = tree => tree ? depth(tree) + sumDepth(tree.left) + sumDepth(tree.right) : 0 ;
+  const busyWait = n => n && busyWait(n-1) ;
+  let duration;
+  it("<code>sumDepth()</code>",()=>{
+    const start = Date.now();
+    Test.assertEquals( sumDepth(toTree("-".repeat(1e4))), 23843, "Possibly your memo function cannot handle `Object` arguments" );
+    duration = Date.now() - start;
+  });
+  it("That should have been done within a second",()=>{
+    Test.expect( duration < 1000, `but it took ${duration} ms` );
+  });
+});
+*/
+
+console.log('----------------------------Task:308 "once"----------------------------')
+//Не работает
+function once(fn) {
+  if(once.counter < 1){
+    once.counter++
+    return fn
+  }
+}
+once.counter = 0
