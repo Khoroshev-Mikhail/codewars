@@ -110,3 +110,23 @@ function once(fn) {
   }
 }
 once.counter = 0
+
+
+//Не решено
+console.log('----------------------------Task:312 "A Chain adding function"----------------------------')
+function add(m){
+  let sum = 0;
+  //Если add(x) возвращает число тогда += sum возвращаем sum
+  //Если add(x) возвращает функцию тогда += sum и возвращаем функцию add(x)
+  return (n) =>{ //функция
+    sum += n
+    return (z) => { //Функция
+      sum += z
+      return (y) => { //число
+        sum += y
+        return sum
+      }
+    }
+  }
+}
+console.log(add(1)(2)(3)(4))
