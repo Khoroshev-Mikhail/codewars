@@ -1,5 +1,6 @@
 console.log('----------------------------Task:308 "once"----------------------------')
 function once(fn) {
+  //fn.apply(this, arguments)????
   let count = 0
   return (...x) => {
     if(count == 0){
@@ -10,6 +11,6 @@ function once(fn) {
     }
   }
 }
-logOnce = once(Math.max) // здесь вызывается только once
-console.log(logOnce(6, 2, 99, 4)) //Здесь вызывается отдельно живущая fn. Как добраться до её "тела" внутри функции fn?
+logOnce = once(Math.max)
+console.log(logOnce(6, 2, 99, 4)) 
 console.log(logOnce(99, 55, 31))

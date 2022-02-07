@@ -65,7 +65,7 @@ console.log(abc())
 
 
 console.log('----------------------------Task:307 "lazy repeater"----------------------------')
-//Не решено (не проходит один тест)
+//Не решено (не проходит 1 тест из 10)
 function memo(fn) {
   let cache = {} //let cache = new Map()
   return (n) => {
