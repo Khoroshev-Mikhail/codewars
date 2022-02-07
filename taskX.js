@@ -1,17 +1,15 @@
 console.log('----------------------------Task:308 "once"----------------------------')
-//Не работает
 function once(fn) {
-  return fn.name
+  let count = 0
+  return (...x) => {
+    if(count == 0){
+      count++
+      return fn(...x)
+    }else{
+      undefined
+    }
+  }
 }
-logOnce = once(console.log)
-logOnce("foo")
-logOnce("bar")
-
-
-function makeCounter() {
-  let count = 0;
-
-  return function() {
-    return count++; // есть доступ к внешней переменной "count"
-  };
-}
+logOnce = once(Math.max) // здесь вызывается только once
+console.log(logOnce(6, 2, 99, 4)) //Здесь вызывается отдельно живущая fn. Как добраться до её "тела" внутри функции fn?
+console.log(logOnce(99, 55, 31))
