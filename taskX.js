@@ -1,17 +1,25 @@
 console.log('----------------------------Task:309 "I Spy"----------------------------')
-function spyOn(fn){
-  let cache = {}
-  return (...args) => {
-    if(!args){
-      this.ara = 2
+let worker = {
+  slow(min, max){
+    return min + max
+  }
+}
+function chachingDecoration(fn, hash){
+  let cache = new Map();
+  return function(){
+    let key = hash(arguments)
+    if(cache.has(key)){
+      return cache.get(key) + ' --- из кеша' 
     } else{
-      return fn(...args)
+      let result = fn.apply(this, arguments)
+      cache.set(key, result)
+      return result
     }
   }
 }
-
-function adder(n1, n2) { return n1 + n2; }
-var adderSpy = spyOn( adder );
-console.log(adderSpy.ara())
-console.log(adderSpy(2,5))
-console.log(adderSpy(2,5))
+function hash(){
+  return [].join.call(arguments) // Почему не работает???
+}
+worker.slow = chachingDecoration(worker.slow, hash)
+console.log(worker.slow(3,5))
+console.log(worker.slow(3,5))
