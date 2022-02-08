@@ -1,16 +1,17 @@
-console.log('----------------------------Task:308 "once"----------------------------')
-function once(fn) {
-  //fn.apply(this, arguments)????
-  let count = 0
-  return (...x) => {
-    if(count == 0){
-      count++
-      return fn(...x)
-    }else{
-      undefined
+console.log('----------------------------Task:309 "I Spy"----------------------------')
+function spyOn(fn){
+  let cache = {}
+  return (...args) => {
+    if(!args){
+      return cache[callCount]
+    } else{
+      return fn(...args)
     }
   }
 }
-logOnce = once(Math.max)
-console.log(logOnce(6, 2, 99, 4)) 
-console.log(logOnce(99, 55, 31))
+
+function adder(n1, n2) { return n1 + n2; }
+var adderSpy = spyOn( adder );
+console.log(adderSpy())
+console.log(adderSpy(2,5))
+console.log(adderSpy(2,5))

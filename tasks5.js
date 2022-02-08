@@ -64,7 +64,7 @@ let abc = makeLooper('abc')
 console.log(abc())
 
 
-console.log('----------------------------Task:307 "lazy repeater"----------------------------')
+console.log('----------------------------Task:307 "Memo"----------------------------')
 //Не решено (не проходит 1 тест из 10)
 function memo(fn) {
   let cache = {} //let cache = new Map()
