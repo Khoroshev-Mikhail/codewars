@@ -98,7 +98,7 @@ function spyOn(fn){
   function wrapper(...args){
     wrapper.countOfCalls++
     wrapper.calls.push(...args)
-    let result = fn.apply(this, args)
+    let result = fn(...args)
     wrapper.results.push(result)
     return result
   }

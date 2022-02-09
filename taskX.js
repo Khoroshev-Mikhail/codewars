@@ -1,33 +1,14 @@
-console.log('----------------------------Task:309 "I Spy"----------------------------')
-let worker = (min) => {
-  return min*2
-}
-function spy(fn){
-  wrapper.calls = [];
-  wrapper.countOfCalls = 0;
-  wrapper.results = [];
-  function wrapper(...args){
-    wrapper.countOfCalls++
-    wrapper.calls.push(...args)
-    let result = fn.apply(this, arguments)
-    wrapper.results.push(result)
-    return result
+console.log('----------------------------Task:312 "Stringing me along"----------------------------')
+function add(n){
+  let sum = n
+  return function repit(x){
+    if(x === undefined){
+      return sum
+    } else {
+      sum += x
+      return repit
+    }
   }
+}
 
-  wrapper.callCount = () => {
-    return wrapper.countOfCalls
-  }
-  wrapper.wasCalledWith = (val) =>{
-    return wrapper.calls.includes(val)
-  }
-  wrapper.returned = (val) => {
-    return wrapper.results.includes(val)
-  }
-  return wrapper;
-}
-worker = spy(worker)
-worker(1)
-console.log(worker(5))
-console.log(worker.calls)
-console.log(worker.wasCalledWith(1))
-console.log(worker.returned(8))
+console.log(add(1)(2)(3)())
