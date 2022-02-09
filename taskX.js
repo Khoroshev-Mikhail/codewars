@@ -1,25 +1,33 @@
 console.log('----------------------------Task:309 "I Spy"----------------------------')
-let worker = {
-  slow(min, max){
-    return min + max
+let worker = (min) => {
+  return min*2
+}
+function spy(fn){
+  wrapper.calls = [];
+  wrapper.countOfCalls = 0;
+  wrapper.results = [];
+  function wrapper(...args){
+    wrapper.countOfCalls++
+    wrapper.calls.push(...args)
+    let result = fn.apply(this, arguments)
+    wrapper.results.push(result)
+    return result
   }
-}
-function chachingDecoration(fn, hash){
-  let cache = new Map();
-  return function(){
-    let key = hash(arguments)
-    if(cache.has(key)){
-      return cache.get(key) + ' --- из кеша' 
-    } else{
-      let result = fn.apply(this, arguments)
-      cache.set(key, result)
-      return result
-    }
+
+  wrapper.callCount = () => {
+    return wrapper.countOfCalls
   }
+  wrapper.wasCalledWith = (val) =>{
+    return wrapper.calls.includes(val)
+  }
+  wrapper.returned = (val) => {
+    return wrapper.results.includes(val)
+  }
+  return wrapper;
 }
-function hash(){
-  return [].join.call(arguments) // Почему не работает???
-}
-worker.slow = chachingDecoration(worker.slow, hash)
-console.log(worker.slow(3,5))
-console.log(worker.slow(3,5))
+worker = spy(worker)
+worker(1)
+console.log(worker(5))
+console.log(worker.calls)
+console.log(worker.wasCalledWith(1))
+console.log(worker.returned(8))

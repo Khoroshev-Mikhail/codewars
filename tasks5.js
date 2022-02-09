@@ -95,3 +95,32 @@ function once(fn) {
 logOnce = once(Math.max) 
 console.log(logOnce(6, 2, 99, 4))
 
+console.log('----------------------------Task:309 "I Spy"----------------------------')
+let worker = (min) => {
+  return min*2
+}
+function spyOn(fn){
+  wrapper.calls = [];
+  wrapper.countOfCalls = 0;
+  wrapper.results = [];
+  function wrapper(...args){
+    wrapper.countOfCalls++
+    wrapper.calls.push(...args)
+    let result = fn.apply(this, args)
+    wrapper.results.push(result)
+    return result
+  }
+
+  wrapper.callCount = () => wrapper.countOfCalls
+  wrapper.wasCalledWith = (val) =>wrapper.calls.includes(val)
+  wrapper.returned = (val) => wrapper.results.includes(val)
+  
+  return wrapper;
+}
+worker = spy(worker)
+worker(1)
+console.log(worker(5))
+console.log(worker.calls)
+console.log(worker.wasCalledWith(1))
+console.log(worker.returned(8))
+
