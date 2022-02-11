@@ -1,14 +1,7 @@
 console.log('----------------------------Task:312 "Stringing me along"----------------------------')
-function add(n){
-  let sum = n
-  return function repit(x){
-    if(x === undefined){
-      return sum
-    } else {
-      sum += x
-      return repit
-    }
+function add(y){
+  return function two(x){
+    return add(x + y)
   }
 }
-
-console.log(add(1)(2)(3)())
+console.log(add(1)(2)(3)(4)(5))
