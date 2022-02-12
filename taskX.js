@@ -1,7 +1,8 @@
-console.log('----------------------------Task:312 "Stringing me along"----------------------------')
-function add(y){
-  return function two(x){
+function add(y){  
+  function two(x){
     return add(x + y)
   }
+  two[Symbol.toPrimitive] = () => y
+  return two
 }
-console.log(add(1)(2)(3)(4)(5))
+console.log(+add(2)(3)(4))
