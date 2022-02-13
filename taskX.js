@@ -1,8 +1,17 @@
-function add(y){  
-  function two(x){
-    return add(x + y)
+console.log('----------------------------Task:309 "I Spy"----------------------------')
+function spyOn (func) {
+  function inner(func){
+    return func
   }
-  two[Symbol.toPrimitive] = () => y
-  return two
+
+  inner.ara = () => { return 1}
+
+  return inner
 }
-console.log(+add(2)(3)(4))
+
+function func(x){
+  return x*x
+}
+let fn = func(5)
+let spi = spyOn(fn)
+console.log(spi.ara())
