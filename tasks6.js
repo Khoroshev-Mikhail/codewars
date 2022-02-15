@@ -1,3 +1,29 @@
+console.log('----------------------------Task:309 "I Spy"----------------------------')
+function spyOn (func) {
+  let count = 0
+  let cache = []
+  let cacheResults = []
+  function inner(...x){
+    count++
+    let result = func(...x)
+    cache.push(...x)
+    cacheResults.push(result)
+    return result
+  }
+
+  inner.callCount = () => {
+    return count
+  }
+  inner.wasCalledWith = (val) => {
+    return cache.includes(val)
+  }
+  inner.returned = (val) => {
+    return cacheResults.includes(val)
+  }
+  return inner
+}
+
+
 console.log('----------------------------Task:313 "currying-vs-partial-application"----------------------------')
 function add(x, y, z) {
   return x + y + z;
