@@ -1,10 +1,28 @@
 console.log('----------------------------Task:309 "I Spy"----------------------------')
 function spyOn (func) {
-  function inner(func){
-    return func
+  let count = 0
+  let cache = new Map()
+  function inner(x){
+    count++
+    let result = cache.get(n)
+    if(!result){
+      result = func(x)
+      cache.set(x, result)
+    }
+    return result
   }
 
-  inner.ara = () => { return 1}
+  inner.callCount = () => {
+    return count
+  }
+  inner.wasCalledWith = (val) => {
+    return cache.has(val)
+  }
+  inner.returned = (val) => {
+    if(cache.has(val)){
+      
+    }
+  }
 
   return inner
 }
