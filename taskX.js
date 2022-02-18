@@ -1,12 +1,11 @@
-console.log('----------------------------Task:500 "Factorial"----------------------------')
-function smartSum(...x){
-  return x.reduce((a,b) => {
-    if(!Array.isArray(b)){
-      return a + b
-    } else {
-      return a + smartSum(...b)
-    }
-  }, 0)
+console.log('----------------------------Task:503 "happy-numbers-5"----------------------------')
+const { PerformanceObserver, performance } = require('perf_hooks');
+var time = performance.now();
+let x = 0
+for(let i = 0; i < 99999999; i++){
+  if(i === 1){
+    x = 1
+  }
 }
-
-console.log(smartSum(1,2,[[3,4],5],6))
+time = performance.now() - time;
+console.log('Время выполнения = ', time);
