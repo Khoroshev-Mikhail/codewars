@@ -1,21 +1,24 @@
 console.log('----------------------------Task:227 "Sorting by bits"----------------------------')
-function countOfBits(x) {
-  const length = Math.floor(Math.log2(x))
-  let result = []
-  for(let i = length; i >= 0; i--){
-    result.push(Math.pow(2, i))
-  }
-  for(let i = 0; i <= length; i++){
-    if( (x - result[i]) >= 0 ){
-      x = x - result[i]
-      result[i] = 1
-    } else{
-      result[i] = 0
-    }
-  }
-  return result.filter(el => el === 1).length
-}
-function sortByBit(arr) {
-  return arr.sort((a, b) => countOfBits(a) - countOfBits(b) || a - b)
-}
-console.log(sortByBit([9,4,5,3,5,7,2,56,8,2,6,8,0]))
+const True = T => F => T;
+const False = T => F => F;
+
+const And = A => B => A(B)(False);
+
+
+And(True)(True) === True
+And(True)(False) === False  
+And(False)(True) === False
+And(False)(False) === False
+
+Not(False) === True
+Not(True) === False
+
+OR(True)(True) === True
+Or(False)(True) === True
+Or(True)(False) === True
+OR(False)(False) === False 
+
+const Not = A => null
+const And = A => B => null
+const Or = A => B => null
+const Xor = A => B => null
