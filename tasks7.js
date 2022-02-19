@@ -51,3 +51,38 @@ function happyNumbers(x){
   return result
 }
 console.log(happyNumbers(100))
+
+console.log('----------------------------Task:220 "Is a number prime?"----------------------------')
+function isPrime(num) {
+  if(num <= 1 || num % 1 != 0) {
+    return false
+  }
+  for(let i = 2; i < num; i++){
+    if(num % i == 0){
+      return false
+    }
+  }
+  return true
+}
+console.log(isPrime(197))
+
+console.log('----------------------------Task:227 "Sorting by bits"----------------------------')
+function countOfBits(x) {
+  const length = Math.floor(Math.log2(x))
+  let result = []
+  for(let i = length; i >= 0; i--){
+    result.push(Math.pow(2, i))
+  }
+  for(let i = 0; i <= length; i++){
+    if( (x - result[i]) >= 0 ){
+      x = x - result[i]
+      result[i] = 1
+    } else{
+      result[i] = 0
+    }
+  }
+  return result.filter(el => el === 1).length
+}
+function sortByBit(arr) {
+  return arr.sort((a, b) => countOfBits(a) - countOfBits(b) || a - b)
+}
