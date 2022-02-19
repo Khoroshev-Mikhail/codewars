@@ -91,7 +91,7 @@ describe("Simple tests", () => {
 // const True = T => F => T;
 // const False = T => F => F;
 
-// const And = A => B => A/*True*/(B/*True*/)(False);
+// const And = A => B => A(B)(False);
 
 // And(True)(True) === True
 // And(True)(False) === False  
