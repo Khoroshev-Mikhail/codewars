@@ -112,3 +112,13 @@ const Xor = A => B => A(B(False)(A))(A(True)(B))
 // Xor(False)(True) === True
 // Xor(True)(False) === True
 // Xor(False)(False) === False
+
+console.log('----------------------------Task:313 "Currying-vs-partial-application"----------------------------')
+function curryPartial(fn, ...args) {
+    if(fn.length <= args.length){
+        return fn(...args)
+    }
+    return function currentCurry(...x){
+        return curryPartial(fn, ...args, ...x)
+    }
+}
