@@ -1,7 +1,7 @@
 console.log('----------------------------Task:314 "ES5 Generators(i)"----------------------------')
-function generator(fn){
+function generator(fn, ...args){
     return {
-        next: fn(),
+        next: fn(...args),
     }
 }
 function fibonacciSeq(){
@@ -31,37 +31,23 @@ function factorialSeq(){
 //var seq = generator(factorialSeq)
 function rangeSeq(start, step){
     let currentStep = start - step; //Рефакторинг? Как изменить переменную после её возвращения
-    return () => () => {
+    return () => {
         currentStep += step;
         return currentStep
     }
 }
-//var seq = generator(rangeSeq(1, 2))
-function partialSumSeq(...args){
-    let arr = []
-    let i = -1 //Тоже самое
-    args.reduce((a, b) => {
-        arr.push(a + b)
-        return a + b
-    }, 0)
-    return () => () =>{
-        i++
-        return arr[i]
-    }
-
-}
-//var seq = generator(partialSumSeq(1, 3, 7, 2, 0))
+//var seq = generator(rangeSeq, 1, 2)
 function isPrime(num) {
     if(num <= 1 || num % 1 != 0) {
-      return false
+        return false
     }
     for(let i = 2; i < num; i++){
-      if(num % i == 0){
+        if(num % i == 0){
         return false
-      }
+        }
     }
     return true
-  }
+}
 function primeSeq(){
     let primeNum = 1;
     return () => {
@@ -71,3 +57,20 @@ function primeSeq(){
         return primeNum
     }
 }
+function partialSumSeq(...args){
+    let arr = []
+    let i = -1 //Тоже самое
+    args.reduce((a, b) => {
+        arr.push(a + b)
+        return a + b
+    }, 0)
+    return () =>{
+        i++
+        if(arr[i] === undefined){
+            return error;
+        }
+        return arr[i]
+    }
+
+}
+//var seq = generator(partialSumSeq, 1, 3, 7, 2, 0)
