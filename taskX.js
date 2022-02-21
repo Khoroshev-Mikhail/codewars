@@ -6,10 +6,16 @@ function isEven(el){
 function isGTten(el){
     return el > 10;
 }
+
 var multiFilter = function(){
-	return (x) =>{
-        return arguments[0](x) && arguments[1](x) 
+    let ggg = arguments
+    let i = 0
+	return function ara(x){
+        i++
+        console.log(i+'----'+x)
+        return ggg[0](x) && ggg[1](x)
     }
 };
 //console.log(multiFilter(isEven, isGTten))
 console.log([1,2,3,4,10,11,12,20,21,22].filter(multiFilter(isEven, isGTten)))
+//console.log(multiFilter(isEven))
