@@ -190,24 +190,29 @@ function fibonacciSeq(){
 }
 //var seq = generator(fibonacciSeq)
 function factorialSeq(){
-    let n = -1; //Рефакторинг в данном случае???
-    function factorial(n){
-        if(n <= 1){
-            return 1
-        }
-        return n * factorial(n - 1)
-    }
+    // let n = -1; //Рефакторинг в данном случае???
+    // function factorial(n){
+    //     if(n <= 1){
+    //         return 1
+    //     }
+    //     return n * factorial(n - 1)
+    // }
+    let n = 0;
+    let factorial = 1;
     return () => {
-        n++
-        return factorial(n)
+      const tmp = factorial;
+      n++;
+      factorial *= n;
+      return tmp;
     }
 }
 //var seq = generator(factorialSeq)
 function rangeSeq(start, step){
-    let currentStep = start - step; //Рефакторинг? Как изменить переменную после её возвращения
+    let currentStep = start; //Рефакторинг? Как изменить переменную после её возвращения
     return () => {
+        const tmp = currentStep;
         currentStep += step;
-        return currentStep
+        return tmp;
     }
 }
 //var seq = generator(rangeSeq, 1, 2)
@@ -223,12 +228,13 @@ function isPrime(num) {
     return true
 }
 function primeSeq(){
-    let primeNum = 1;
+    let primeNum = 2;
     return () => {
+        const tmp = primeNum;
         do{
             primeNum++
         }while(!isPrime(primeNum))
-        return primeNum
+        return tmp
     }
 }
 function partialSumSeq(...args){
