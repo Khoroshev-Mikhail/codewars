@@ -1,8 +1,8 @@
 console.log('----------------------------Task:515 "Sum of a sequence"----------------------------')
-let i = 0;
 const sequenceSum = (begin, end, step) => {
-  if(i === end){
-    return 
+  if(begin > end){
+    return 0
   }
+  return begin += sequenceSum(begin + step, end, step)
 };
-console.log(sequenceSum(2, 6, 2))
+console.log(sequenceSum(1, 5, 1))
