@@ -1,7 +1,21 @@
-console.log('----------------------------Task:522 "Sum squares of numbers in list that may contain more lists"----------------------------')
-function SumSquares(l){
-  return l.reduce((a, b) => {
-    return Array.isArray(b) ? a + SumSquares(b) : a + b**2
-  }, 0)
+console.log('----------------------------Task:505 "Simple repeated words"----------------------------')
+function ara(str, sentence) {
+  let res = []
+  for(let i = 0; i < str.length; i++){
+    let underRes = []
+    sentence.split('').forEach((element, index) => {
+      if(element === str[i]){
+        underRes.push(index)
+      }
+    });
+    res.push(underRes)
+  }
+  return res
 }
-console.log(SumSquares([1, 5, 1, [[2]]]))
+let i = 0;
+function solve(x){
+  if(i === x.length - 1){
+    return 
+  }
+}
+console.log(solve([ [ 0, 2, 7 ], [ 1, 3 ], [ 0, 2, 7 ] ]))

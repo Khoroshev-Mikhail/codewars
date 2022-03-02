@@ -42,3 +42,55 @@ function SumSquares(l){
   }, 0)
 }
 console.log(SumSquares([1, 5, 1, [[2]]]))
+
+console.log('----------------------------Task:501 "determine-sizeof-c-datatype-beginner-no-prior-c-knowledge-required"----------------------------')
+const types = {
+  "char" : 1,
+  "short" : 2,
+  "int" : 2,
+  "long" : 4,
+  "long long" : 8,
+  "unsigned char" : 1,
+  "unsigned short" : 2,
+  "unsigned int" : 2,
+  "unsigned long" : 4,
+  "unsigned long long" : 8,
+  "float" : 4,
+  "double" : 8
+}
+function sizeof(x) {
+  if(x.type === 'struct'){
+    return x.members.reduce((a, b) => {
+      if(typeof b === 'object'){
+        return a + sizeof(b)
+      }
+      return a + types[b]
+    }, 0)
+  }
+  if(x.type === 'union'){
+    if(x.members.length < 1){ //Как кратко записать это условие? Как-нибудь вроде Math.max(...x) || 0
+      return 0
+    }
+    return Math.max(...x.members.map(el => {
+      if(typeof el === 'object'){
+        return sizeof(el)
+      }
+      return types[el]
+    })) || 0
+  }
+  if(x in types){
+    return types.x
+  }
+}
+console.log(sizeof({
+  type: "struct",
+  members: [
+    "int",
+    "int",
+    "float",
+    {
+      type: "union",
+      members: []
+    }
+  ]
+}))
