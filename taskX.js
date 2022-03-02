@@ -1,4 +1,5 @@
 console.log('----------------------------Task:505 "Simple repeated words"----------------------------')
+
 function ara(str, sentence) {
   let res = []
   for(let i = 0; i < str.length; i++){
@@ -12,10 +13,7 @@ function ara(str, sentence) {
   }
   return res
 }
-let i = 0;
 function solve(x){
-  if(i === x.length - 1){
-    return 
-  }
+  
 }
 console.log(solve([ [ 0, 2, 7 ], [ 1, 3 ], [ 0, 2, 7 ] ]))
