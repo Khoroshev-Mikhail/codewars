@@ -1,26 +1,24 @@
 console.log('----------------------------Task:506 "Flatten a Nested Map"----------------------------')
 let enter = 
-{   
-  'y' : 4,
-    'a': {
-        'b': 12,
-        'e' : 11,
-        'g' : {
-          'h' : 100
-          },
-        'j' : 55
-        }
-}
+          {   
+            'a': {
+                'b': 12,
+                'e' : 11,
+                'g' : {
+                  'h' : 100
+                  },
+                'j' : 55
+                },
+              'u' : 999
+          }
 function flattenMap(map, str = '', res = {}) {
     if(typeof map === 'number'){
       res[str] = map
-      str = ''
       return map
     } else{
       for(let val in map){
         str += val + '/'
         flattenMap(map[val], str, res)
-        str = ''
       }
       return res
     }  
