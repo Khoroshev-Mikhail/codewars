@@ -94,3 +94,27 @@ console.log(sizeof({
     }
   ]
 }))
+
+console.log('----------------------------Task:506 "Flatten a Nested Map"----------------------------')
+let enter = {
+  'a': {
+    'b': {
+      'c': 12,
+      'd': 'Hello World'
+    },
+    'e': null
+  }
+}
+function flattenMap(map, str = '', res = {}) {
+    if(typeof map !== 'object' || Array.isArray(map) || map == null){
+      res[str] = map
+      return map
+    } else{
+      for(let val in map){
+        let newStr = str == '' ? val : str + '/' + val
+        flattenMap(map[val], newStr, res)
+      }
+      return res
+    }  
+}
+console.log(flattenMap(enter))
