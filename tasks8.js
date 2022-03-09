@@ -8,9 +8,9 @@ function isGTten(el){
 function islessThenFifteen(el){
     return el < 15
 }
-var multiFilter = function(){
+var multiFilter = function(...args){
 	return (x) => {
-        return Object.values(arguments).every(fn => fn(x))
+        return args.every(fn => fn(x))
     }
 };
 console.log([1,2,3,4,10,11,12,20,21,22].filter(multiFilter(isEven, isGTten, islessThenFifteen)))
@@ -59,29 +59,21 @@ const types = {
   "double" : 8
 }
 function sizeof(x) {
+  if(typeof x === "string"){
+    return types[x]
+  }
+
+  const sizes = x.members.map(sizeof);
   if(x.type === 'struct'){
-    return x.members.reduce((a, b) => {
-      if(typeof b === 'object'){
-        return a + sizeof(b)
-      }
-      return a + types[b]
-    }, 0)
+    return sizes.reduce((a, b) => a + b, 0)
   }
   if(x.type === 'union'){
-    if(x.members.length < 1){ //Можно ли как-нибудь зарефакторить это условие? Вроде Math.max(...x) || 0
-      return 0
-    }
-    return Math.max(...x.members.map(el => {
-      if(typeof el === 'object'){
-        return sizeof(el)
-      }
-      return types[el]
-    })) 
-  }
-  if(x in types){
-    return types.x
+    return Math.max(...sizes, 0); 
   }
 }
+// if(x.members.length < 1){ //Можно ли как-нибудь зарефакторить это условие? Вроде Math.max(...x) || 0
+//   return 0
+// }
 console.log(sizeof({
   type: "struct",
   members: [
@@ -95,10 +87,10 @@ console.log(sizeof({
   ]
 }))
 
-/*
+
 console.log('----------------------------Task:505 "Simple repeated words"----------------------------')
-function ara(str, sentence) {
-  let res = []
+function solve(str, sentence) {
+  /*let res = []
   for(let i = 0; i < str.length; i++){
     let underRes = []
     sentence.split('').forEach((element, index) => {
@@ -108,13 +100,38 @@ function ara(str, sentence) {
     });
     res.push(underRes)
   }
-  return res
+  return res*/
+  if (str === "") {
+    return 1;
+  }
+  let sum = 0;
+  for(let i = 0; i < sentence.length; i++){
+    if(sentence[i] === str[0]){
+      sum += solve(str.slice(1), sentence.slice(i+1))
+    }
+  }
+  return sum;
 }
-function solve(x){
+console.log(solve("zaz","zazapulz"))
+//solve("zaz","zazapulz") = 4 because they are ZAZapulz, ZAzapulZ, ZazApulZ, zaZApulZ
+
+//1 разбиваем на оставшееся предложение от каждого вхождение первого символа
+//
+
+// 'x' 'axxa' // 2
+// '' 'xa'
+// '' 'a'
+
+
+// 'az' 'azapulz'  // 3
+// 'az' 'apulz'    // 1
+// 'az' ''         // 0
+
+// function solve(x){
   
-}
-console.log(solve([ [ 0, 2, 7 ], [ 1, 3 ], [ 0, 2, 7 ] ]))
-*/
+// }
+// console.log(solve([ [ 0, 2, 7 ], [ 1, 3 ], [ 0, 2, 7 ] ]))
+
 
 console.log('----------------------------Task:506 "Flatten a Nested Map"----------------------------')
 let enter = {
@@ -126,16 +143,14 @@ let enter = {
     'e': null
   }
 }
-function flattenMap(map, str = '', res = {}) {
-    if(typeof map !== 'object' || Array.isArray(map) || map == null){
-      res[str] = map
-      return map
-    } else{
-      for(let val in map){
-        let newStr = str == '' ? val : str + '/' + val
-        flattenMap(map[val], newStr, res)
-      }
-      return res
-    }  
+function flattenMap(map, path = []) {
+  if(typeof map !== 'object' || Array.isArray(map) || map == null){
+    return { [path.join("/")]: map }
+  }
+  const res = {}
+  for(let val in map){
+    Object.assign(res, flattenMap(map[val], [...path, val]));
+  }
+  return res  
 }
 console.log(flattenMap(enter))
