@@ -1,21 +1,23 @@
 console.log('----------------------------Task:506 "Flatten a Nested Map"----------------------------')
-let result = []
-function combos(x, i = 4){
-  let arr = [...x]
-  let el = Math.min(...arr)
-  let index = arr.indexOf(el)
-  arr[index]++
-  let res = arr.slice(0, index + 1);
-  let last = res[res.length-1]
-  while(res.reduce((a, b) => a + b, 0) <= 8){
-    res.push(last)
+
+function combos(x, i = 8){
+  let arr = [...x] 
+  let min = Math.min(...arr)
+  let index = arr.indexOf(min) //Находим первый индекс = минимальному элементу
+  arr[index]++ //Увеличиваем этот элемент на 1
+  let part = arr.slice(0, index + 1); //Вырезаем массив с 0 до этого элемента включительно
+  while(part.reduce((a, b) => a+ b, 0) < i){
+    let sum = part.reduce((a, b) => a+ b, 0)
+    if(sum + min >= i){
+      min = i - sum
+    }
+    part.push(min)
   }
-  result.push(arr)
-  return res
+  return part
 }
 
-console.log(combos([4, 1, 1, 1, 1, 1, 1]))
-
+let b = [3, 2, 1, 1]
+console.log(combos(b))
 
 
 
