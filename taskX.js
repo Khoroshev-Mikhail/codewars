@@ -1,19 +1,21 @@
 console.log('----------------------------Task:512 "Object depth"----------------------------')
-//Проходит тесты, но не решение
-//UPD: Надо найти максимальную глубину массива
-function depth(obj, depth = 0, arr = []) {
-  let newDepth = depth
-  if(typeof obj === 'object'){
-    newDepth++
-    arr.push(newDepth)
+function depth(obj, d = 0, arr = []) {
+  if(typeof obj !== 'object' || obj === null){
+    return 0
+  }
+  if(typeof obj === 'object' && obj.length != 0 && Object.keys(obj).length != 0){
+    if(!Array.isArray(obj)){
+      d++
+      arr.push(d)
+    }
     for(let el in obj){
-      console.log(obj[el])
+      depth(obj[el], d, arr)
     }
   }
-  return arr
+  return Math.max(...arr, 0)
 }
 
-console.log(depth({a: 1, b: {c: 2}}))
+console.log(depth(['a', 'b', {g:22}]))
 /*
 console.log('----------------------------Task:506 "Flatten a Nested Map"----------------------------')
 function combos(x, i = 8){
