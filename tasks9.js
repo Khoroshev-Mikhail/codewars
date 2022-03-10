@@ -41,20 +41,22 @@ console.log(sumTheTreeValues(simpleNode))
 
 console.log('----------------------------Task:512 "Object depth"----------------------------')
 //Проходит тесты, но не решение
-function depth(obj) {
-  if(obj == null || Object.keys(obj).length == 0){
+//UPD: Надо найти максимальную глубину массива и не их сумму
+function depth(obj, depth = 0) {
+  /*if(obj == null || Object.keys(obj).length == 0){
     return 0
-  }
-  let d = 0;
-  if(!Array.isArray(obj) && typeof obj === 'object'){
-    d = 1
-  }
+  }*/
+  let arr = []
   if(typeof obj === 'object'){
     for(let val in obj){
-      d+= depth(obj[val])
+      if(!Array.isArray(obj[val]) && typeof obj[val] === 'object'){
+        let newDepth = depth + 1
+        arr.push(newDepth)
+        depth(obj[val], newDepth)
+      }
     }
   }
-  return d;
+  return Math.max(...arr);
 }
 
 console.log(depth(['a', ['b', {c : 22}]]))

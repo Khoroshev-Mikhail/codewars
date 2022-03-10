@@ -1,21 +1,19 @@
-console.log('----------------------------Task:513 "Tree Depth"----------------------------')
-function recordDepth(tree, depth = 0) {
-  if(typeof tree !== 'object'){
-    return null
+console.log('----------------------------Task:512 "Object depth"----------------------------')
+//Проходит тесты, но не решение
+//UPD: Надо найти максимальную глубину массива
+function depth(obj, depth = 0, arr = []) {
+  let newDepth = depth
+  if(typeof obj === 'object'){
+    newDepth++
+    arr.push(newDepth)
+    for(let el in obj){
+      console.log(obj[el])
+    }
   }
-  if(typeof tree === 'object' && tree.length == 0 && Object.keys(tree).length == 0){
-    return null
-  }
-  tree.depth = depth
-  for(let val in tree){
-    recordDepth(tree[val], depth + 1)
-  }
-  return tree
+  return arr
 }
 
-console.log(recordDepth([]))
-
-
+console.log(depth({a: 1, b: {c: 2}}))
 /*
 console.log('----------------------------Task:506 "Flatten a Nested Map"----------------------------')
 function combos(x, i = 8){
