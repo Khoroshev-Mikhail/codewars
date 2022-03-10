@@ -58,3 +58,20 @@ function depth(obj) {
 }
 
 console.log(depth(['a', ['b', {c : 22}]]))
+
+console.log('----------------------------Task:513 "Tree Depth"----------------------------')
+function recordDepth(tree, depth = 0) {
+  if(typeof tree !== 'object' || tree === null){
+    return null
+  }
+  if(typeof tree === 'object' && tree.length == 0 && Object.keys(tree).length == 0){
+    return null
+  }
+  tree.depth = depth
+  for(let val in tree){
+    recordDepth(tree[val], depth + 1)
+  }
+  return tree
+}
+
+console.log(recordDepth(null))

@@ -1,23 +1,19 @@
-console.log('----------------------------Task:512 "Object depth"----------------------------')
-function depth(obj) {
-  if(obj == null || Object.keys(obj).length == 0){
-    return 0
+console.log('----------------------------Task:513 "Tree Depth"----------------------------')
+function recordDepth(tree, depth = 0) {
+  if(typeof tree !== 'object'){
+    return null
   }
-  let d = 0;
-  if(!Array.isArray(obj) && typeof obj === 'object'){
-    d = 1
+  if(typeof tree === 'object' && tree.length == 0 && Object.keys(tree).length == 0){
+    return null
   }
-  if(typeof obj === 'object'){
-    for(let val in obj){
-      d+= depth(obj[val])
-    }
+  tree.depth = depth
+  for(let val in tree){
+    recordDepth(tree[val], depth + 1)
   }
-  return d;
+  return tree
 }
 
-console.log(depth(['a', ['b', {c : 22}]]))
-
-
+console.log(recordDepth([]))
 
 
 /*
