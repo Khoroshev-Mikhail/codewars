@@ -1,5 +1,27 @@
-console.log('----------------------------Task:506 "Flatten a Nested Map"----------------------------')
+console.log('----------------------------Task:512 "Object depth"----------------------------')
+function depth(obj) {
+  if(obj == null || Object.keys(obj).length == 0){
+    return 0
+  }
+  let d = 0;
+  if(!Array.isArray(obj) && typeof obj === 'object'){
+    d = 1
+  }
+  if(typeof obj === 'object'){
+    for(let val in obj){
+      d+= depth(obj[val])
+    }
+  }
+  return d;
+}
 
+console.log(depth(['a', ['b', {c : 22}]]))
+
+
+
+
+/*
+console.log('----------------------------Task:506 "Flatten a Nested Map"----------------------------')
 function combos(x, i = 8){
   //1 1 1 1 1 1 1 1 1 1
   //2 1 1 1 1 1 1 1 1
@@ -26,7 +48,7 @@ function combos(x, i = 8){
 let b = [3, 2, 1, 1]
 console.log(combos(b))
 
-
+*/
 
 
 
