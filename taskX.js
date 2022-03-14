@@ -1,17 +1,17 @@
-console.log('----------------------------Task:514 "Ackermann Function"----------------------------')
-Ackermann = function(m,n) {
-  if(m == 0){
-    return n + 1
+console.log('----------------------------Task:518 "Reverse linked list"----------------------------')
+function reverseList(list, arr = []) {
+  arr.push(list[0])
+  if(list[1] === null){
+    /*let newArr = []
+    for(let i = 0; i < arr.length; i++){
+      
+    }*/
+    return arr
   }
-  if(m > 0 && n == 0){
-    return Ackermann(m - 1, 1)
-  }
-  if (m > 0 && n > 0){
-    return Ackermann(m-1, Ackermann(m, n-1))  
-  }
+  return reverseList(list[1], arr) //[3, [2, [1, null]]]
 }
 
-console.log(Ackermann(4,0))
+console.log(reverseList([1, [2, [3, null]]]))
 /*
 console.log('----------------------------Task:506 "Flatten a Nested Map"----------------------------')
 function combos(x, i = 8){
