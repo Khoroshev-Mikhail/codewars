@@ -1,17 +1,33 @@
 console.log('----------------------------Task:518 "Reverse linked list"----------------------------')
 function reverseList(list, arr = []) {
+  if(list == null){
+    return 0
+  }
   arr.push(list[0])
   if(list[1] === null){
-    /*let newArr = []
-    for(let i = 0; i < arr.length; i++){
-      
-    }*/
-    return arr
+    let temporary = null
+    for(let i = 0; i < arr.length ; i++){
+      let val = arr[i];
+      let tail = temporary
+      temporary = [val, tail]
+    }
+    return temporary
   }
   return reverseList(list[1], arr) //[3, [2, [1, null]]]
 }
-
 console.log(reverseList([1, [2, [3, null]]]))
+/*
+function two(list){
+  let temporary = null
+  for(let i = 0; i < list.length ; i++){
+    let val = list[i];
+    let tail = temporary
+    temporary = [val, tail]
+  }
+  return temporary
+}
+console.log(two(reverseList([1, [2, [3, null]]])))
+/*
 /*
 console.log('----------------------------Task:506 "Flatten a Nested Map"----------------------------')
 function combos(x, i = 8){
