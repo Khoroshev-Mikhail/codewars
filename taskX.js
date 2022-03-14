@@ -1,21 +1,17 @@
-console.log('----------------------------Task:512 "Object depth"----------------------------')
-function depth(obj, d = 0, arr = []) {
-  if(typeof obj !== 'object' || obj === null){
-    return 0
+console.log('----------------------------Task:514 "Ackermann Function"----------------------------')
+Ackermann = function(m,n) {
+  if(m == 0){
+    return n + 1
   }
-  if(typeof obj === 'object' && obj.length != 0 && Object.keys(obj).length != 0){
-    if(!Array.isArray(obj)){
-      d++
-      arr.push(d)
-    }
-    for(let el in obj){
-      depth(obj[el], d, arr)
-    }
+  if(m > 0 && n == 0){
+    return Ackermann(m - 1, 1)
   }
-  return Math.max(...arr, 0)
+  if (m > 0 && n > 0){
+    return Ackermann(m-1, Ackermann(m, n-1))  
+  }
 }
 
-console.log(depth(['a', 'b', {g:22}]))
+console.log(Ackermann(4,0))
 /*
 console.log('----------------------------Task:506 "Flatten a Nested Map"----------------------------')
 function combos(x, i = 8){
