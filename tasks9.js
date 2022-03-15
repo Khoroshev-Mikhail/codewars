@@ -87,20 +87,28 @@ Ackermann = function(m,n) {
 console.log(Ackermann(4,0))
 
 console.log('----------------------------Task:518 "Reverse linked list"----------------------------')
-//Не решено (Превышен максимальный размер стека вызовов)
+//Тесты проходит, в решении: Превышен максимальный размер стэка вызовов 
 function reverseList(list, arr = []) {
-  if(list == null){
-    return 0
+  if(list === null){
+    return null
   }
-  arr.push(list[0])
-  if(list[1] === null){
-    let temporary = null
-    for(let i = 0; i < arr.length ; i++){
-      let val = arr[i];
-      let tail = temporary
-      temporary = [val, tail]
+  if(list.length === 0){
+    if(arr.length === 0){
+      return null
     }
-    return temporary
+    return arr
   }
-  return reverseList(list[1], arr) //[3, [2, [1, null]]]
+  let [val, tail] = list
+  let newArr = [val, arr]
+  if(arr.length === 0){ //Рефакторинг?
+    newArr = [val, null]
+  }
+  if(tail === null){
+    return newArr
+  }
+  return reverseList(tail, newArr)
 }
+console.log(reverseList([1, [2, [3, null]]])) 
+console.log(reverseList(null)) 
+console.log(reverseList([null, []])) 
+console.log(reverseList([])) 
