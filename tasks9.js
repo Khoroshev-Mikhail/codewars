@@ -87,13 +87,13 @@ Ackermann = function(m,n) {
 console.log(Ackermann(4,0))
 
 console.log('----------------------------Task:518 "Reverse linked list"----------------------------')
-//Тесты проходит, в решении: Превышен максимальный размер стэка вызовов 
+//Тесты проходит, в решении: Превышен максимальный размер стэка вызовов
 function reverseList(list, arr = []) {
   if(list === null){
     return null
   }
-  if(list.length === 0){
-    if(arr.length === 0){
+  if(list.length === 0){ //На случай если в аргументы приходит []
+    if(arr.length === 0){ //На случай если в первом вызове сразу пустой массив
       return null
     }
     return arr
@@ -112,3 +112,31 @@ console.log(reverseList([1, [2, [3, null]]]))
 console.log(reverseList(null)) 
 console.log(reverseList([null, []])) 
 console.log(reverseList([])) 
+
+console.log('----------------------------Task:525 "Fibonacci"----------------------------')
+function fibonacci(n){
+  if(n <= 1){
+    return n
+  }else{
+    return fibonacci(n - 1) + fibonacci(n - 2)
+  }
+};
+console.log(fibonacci(5))
+
+console.log('----------------------------Task:524 "Halving Sum"----------------------------')
+function halvingSum(n) {
+  if(n === 1){
+    return 1
+  }
+  return n + Math.floor(halvingSum(n / 2))
+}
+console.log(halvingSum(25))
+
+console.log('----------------------------Task:523 "Greatest common divisor"----------------------------')
+function mygcd(x,y){
+  if(x % y === 0){
+    return y
+  } 
+  return mygcd(y, x % y)
+}
+console.log(mygcd(30, 12))
