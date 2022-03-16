@@ -1,11 +1,29 @@
-console.log('----------------------------Task:523 "Greatest common divisor"----------------------------')
-function mygcd(x,y){
-  if(x % y === 0){
-    return y
-  } 
-  return mygcd(y, x % y)
+console.log('----------------------------Task:521 "File Finder"----------------------------')
+let files = {
+  'one': {
+    'one2': {}
+  },
+  'two': {
+    'two2': {
+      'funnyjoke.txt': 'lol i pranked you!!!'
+    }
+  },
+  'three': {}
+};
+//throw new Error('No files!');
+// New folder (1)/New folder/funnyjoke.txt
+function search(files, path = []) {
+  if (typeof files === 'string')
+    return path.join('/')
+  for(let folder in files){
+    try {
+      return search(files[folder], [...path, folder]);
+    }
+    catch(e) {}
+  }
+  throw new Error('No files!');
 }
-console.log(mygcd(30, 12))
+console.log(search(files))
 
 
 

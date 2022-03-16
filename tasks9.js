@@ -126,9 +126,9 @@ console.log(fibonacci(5))
 console.log('----------------------------Task:524 "Halving Sum"----------------------------')
 function halvingSum(n) {
   if(n === 1){
-    return 1
+    return n
   }
-  return n + Math.floor(halvingSum(n / 2))
+  return n + halvingSum(Math.floor(n / 2))
 }
 console.log(halvingSum(25))
 
@@ -140,3 +140,73 @@ function mygcd(x,y){
   return mygcd(y, x % y)
 }
 console.log(mygcd(30, 12))
+
+console.log('----------------------------Task:522 "Sum squares"----------------------------')
+function SumSquares(l){
+  return l.reduce((a, b) => {
+    if(Array.isArray(b)){
+      return a + SumSquares(b)
+    }
+    return a + b**2
+  }, 0)
+}
+console.log(SumSquares([10,[[10],10],[10]]))
+
+
+console.log('----------------------------Task:521 "File Finder"----------------------------')
+let files = {
+  'one': {
+    'one2': {}
+  },
+  'two': {
+    'two2': {
+      'funnyjoke.txt': 'lol i pranked you!!!'
+    }
+  },
+  'three': {}
+};
+//Изначально я написал так
+function search(files, path = []) {
+  if (typeof files === 'string'){
+    return path.join('/')
+  }
+  //Но так не сработало потому что пробегается только по первой ветке
+  for(let folder in files){
+    return search(files[folder], [...path, folder]); 
+  }
+}
+//В решении увидел это
+//Как это работает???
+function search(files, path = []) {
+  if (typeof files === 'string')
+    return path.join('/')
+  for(let folder in files){
+    try {
+      return search(files[folder], [...path, folder]);
+    }
+    catch(e) {}
+  }
+  throw new Error('No files!');
+}
+//Решил так
+function search(files) {
+  function two(files, path = []){
+    if(typeof files !== 'object'){
+      return path.join('/')
+    }
+    let res;
+    for(let folder in files){
+      let temp = two(files[folder], [...path, folder])
+      if(temp){
+        res = temp
+      }
+    }
+    return res
+  }
+  if(!two(files)){
+    throw new Error('No files!');
+  } else{
+    return two(files)
+  }
+}
+console.log(search(files))

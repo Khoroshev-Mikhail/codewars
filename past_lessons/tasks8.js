@@ -140,7 +140,8 @@ let enter = {
       'c': 12,
       'd': 'Hello World'
     },
-    'e': null
+    'e': null,
+    'gg' : {}
   }
 }
 function flattenMap(map, path = []) {
