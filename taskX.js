@@ -1,4 +1,5 @@
 console.log('----------------------------Task:517 "Deep comparison of objects"----------------------------')
+//Перерефактори на return, а не arr.push()
 const obj1 = {
   ara : 2,
   bara : {
@@ -53,7 +54,6 @@ function deepCompare(o1, o2, arr = []) {
   return !arr.includes(false)
 };
 console.log(deepCompare({}, {}))
-console.log(typeof null)
 
 
 
