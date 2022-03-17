@@ -14,25 +14,46 @@ const obj2 = {
   }
 }
 function deepCompare(o1, o2, arr = []) {
-  console.log('o1='+o1)
-  console.log(typeof o1)
-  console.log('o2='+o2)
-  console.log(typeof o2)
-  if(typeof o1 !== 'object' || o1 === null || o2 === null){
-    console.log(o1 === o2)
-    return o1 === o2
+  if(o1 === null || o2 === null){
+    arr.push(o1 === o2)
   }
-  
-  for(let el in o1){
-    if(typeof o1[el] === 'object' && !Array.isArray(o1[el])){
-      deepCompare(o1[el], o2[el], arr)
-    }else{
-      arr.push(o1[el] === o2[el])
+  if(typeof o1 !== 'object' && typeof o2 !== 'object'){
+    arr.push(o1 === o2)
+  }
+  if(typeof o1 === 'object' && typeof o2 === 'object' && o1 !== null && o2 !== null){
+    //Если это массивы
+    if(Array.isArray(o1) && Array.isArray(o2)){
+      if(o1.length !== o2.length){
+        arr.push(false)
+      }
+      if(o1.length === 0 && o2.length === 0){
+        arr.push(true)
+      }
     }
+    //Если это объекты
+    if(!Array.isArray(o1) && !Array.isArray(o2)){
+      if(Object.keys(o1).length !== Object.keys(o2).length){
+        arr.push(false)
+      }
+      if(Object.keys(o1).length === 0 && Object.keys(o2).length === 0){
+        arr.push(true)
+      }
+    }
+    //Если это массив и объект
+    if(!Array.isArray(o1) && Array.isArray(o2)){
+      arr.push(false)
+    }
+    for(let el in o1){
+      deepCompare(o1[el], o2[el], arr)
+    }
+  }
+  if(typeof o1 !== 'object' && typeof o2 !== 'object'){
+    arr.push(o1 === o2)
   }
   return !arr.includes(false)
 };
-console.log(deepCompare(null, undefined))
+console.log(deepCompare({}, {}))
+console.log(typeof null)
 
 
 
