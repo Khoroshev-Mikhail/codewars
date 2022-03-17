@@ -210,3 +210,15 @@ function search(files) {
   }
 }
 console.log(search(files))
+
+console.log('----------------------------Task:520 "Nested List Depth"----------------------------')
+function arrayDepth(array, deep = 1, arrOfDeeps = []) {
+	if(Array.isArray(array)){
+    arrOfDeeps.push(deep)
+    for(let el of array){
+      arrayDepth(el, deep + 1, arrOfDeeps)
+    }
+  }
+  return Math.max(...arrOfDeeps)
+}
+console.log(arrayDepth([]))
