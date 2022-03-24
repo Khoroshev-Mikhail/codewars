@@ -1,5 +1,21 @@
 console.log('----------------------------Task:510 "Boggle Word Checker"----------------------------')
-let ara =[ 
+var TreeNode = function(value, left, right) {
+  this.value = value;
+  this.left = left;
+  this.right = right;
+};
+var root = new TreeNode(5, new TreeNode(-22, new TreeNode(9), new TreeNode(50)), new TreeNode(11, new TreeNode(9), new TreeNode(2)));
+
+function maxSum(root, arr = []) {
+  let res = []
+  if(!root.left && !root.right){
+    res.push(arr)
+  }
+}
+
+console.log(maxSum(root));
+
+/*let ara =[ 
   ["I","L","A","W"],
   ["B","N","G","E"],
   ["I","U","A","O"],
@@ -14,4 +30,4 @@ function BGW(grid, word, lvl1 = [0, grid.length], lvl2 = [0, grid.length]){
     }
   }
 }
-console.log(BGW(ara, "INA"))
+console.log(BGW(ara, "INA"))*/
