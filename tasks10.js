@@ -1,4 +1,4 @@
-console.log('----------------------------Task:510 "Boggle Word Checker"----------------------------')
+console.log('----------------------------Task:516 "Fun with trees: max sum"----------------------------')
 var TreeNode = function(value, left, right) {
   this.value = value;
   this.left = left;
