@@ -13,30 +13,18 @@ function maxSum(root, accum = 0) {
   if(!root.left && !root.right){
     return accum + root.value
   }
-  if(!root.left && root.right){
+  if(!root.left ){
     return Math.max(maxSum(root.right, accum + root.value), 0)
   }
-  if(!root.right && root.left){
+  if(!root.right){
     return Math.max(0, maxSum(root.left, accum + root.value))
   }
   return Math.max(maxSum(root.right, accum + root.value), maxSum(root.left, accum + root.value))
 }
 
-console.log(maxSum(null));
-
-/*let ara =[ 
-  ["I","L","A","W"],
-  ["B","N","G","E"],
-  ["I","U","A","O"],
-  ["A","S","R","L"]
-]
-function BGW(grid, word, lvl1 = [0, grid.length], lvl2 = [0, grid.length]){
-  for(let i = lvl1[0]; i < lvl1[1]; i++){
-    for(let k = lvl2[0]; k < grid[i].length; k++){
-      if(grid[k][i] === word.charAt(0)){
-        console.log('Есть пробитие')
-      }
-    }
-  }
+//Почему это сработало?? Как js понимает, что нужно сравнивать свойство .value ???
+function maxSum(root) {
+    if (!root) return 0;
+    return root.value + Math.max(maxSum(root.left), maxSum(root.right))
 }
-console.log(BGW(ara, "INA"))*/
+//
