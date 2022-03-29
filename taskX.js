@@ -1,15 +1,12 @@
 console.log('----------------------------Task:510 "Boggle Word Checker"----------------------------')
 let arr =[ 
-  ["I","N","G","W"],
-  ["B","U","A","E"],
+  ["I","L","A","W"],
+  ["B","N","G","E"],
   ["I","U","A","O"],
-  ["A","S","R","L"]
+  ["A","S","R","L"] 
 ]
-//UNGA
-let word = 'NGA'
 function BGW(grid, substr, x, y){
   let symbol = substr.charAt(0)
-  
   if(x >= 1 && y >= 1 && grid[x - 1][y - 1] === symbol){
     if(substr.length === 1){
       return true
@@ -67,4 +64,14 @@ function BGW(grid, substr, x, y){
   }
   return false
 }
-console.log(BGW(arr, word, 1, 1))
+function checkWord(grid, word) {
+  const first = word.charAt(0)
+  for(let i = 0; i < grid.length; i++){
+    for(let k = 0; k < grid.length; k++){
+      if(grid[i][k] === first){
+        return BGW(grid, word, i, k)
+      }
+    }
+  }
+}
+console.log(checkWord(arr, 'BUNGIE'))
