@@ -1,12 +1,13 @@
-let arr =[ 
-    ["I","L","A","W"],
-    ["B","N","G","E"],
-    ["I","U","A","O"],
-    ["A","S","R","L"] 
-  ]
+let arr =[
+  ["E","A","R","A"],
+  ["N","L","E","C"],
+  ["I","A","I","S"],
+  ["B","Y","O","R"]
+];
+
 
 //Функция возвращает возможные координаты для след.символа
-function coordinates(y, x, grid){
+function coordinates(y, x, grid, lastHits){
     let arr = [
         [y - 1, x - 1], [y - 1, x], [y - 1, x + 1],
         [y, x - 1], /*[y, x]*/, [y, x + 1],
@@ -15,44 +16,59 @@ function coordinates(y, x, grid){
     //Координаты - это индексы многомерного массива, они не могут быть меньше 0 и больше его длины
     const endY = grid.length
     const endX = grid[0].length
-    return arr.filter(el => 
+    let filtred = arr.filter(el => 
         el[0] >= 0 && 
         el[0] < endY && 
         el[1] >= 0 && 
         el[1] < endX
         )
-}
-//Функция для фильтрации символом которые уже использовались
-function lastCoordinates(coordinates, lastHits){
+    //Так же фильтруем координаты тех символов по которым уже пробегалась функция
     const newLastHits = lastHits.map(el => el.join(''))
-    return coordinates.filter(el => {
-        return !newLastHits.includes(el.join(''))
+    return filtred.filter(el => {
+      return !newLastHits.includes(el.join(''))
     })
+
 }
 
-function BGW(grid, str, y, x, hits = []){
+function BGW(grid, str, y, x, hits = [], result = []){
     let symbol = str.charAt(0)
-    let arr2 = lastCoordinates(coordinates(y, x, grid), hits)
-    for(let i = 0; i < arr2.length; i++){
-        let [nextY, nextX] = arr2[i]
+    let arr = coordinates(y, x, grid, hits)
+    console.log(symbol)
+    console.log(arr)
+    for(let i = 0; i < arr.length; i++){
+        let [nextY, nextX] = arr[i]
         if(grid[nextY][nextX] === symbol){
-            if(str.length === 1){
-                return true
-            }
-            hits.push([nextY, nextX])
-            return BGW(grid, str.substring(1), nextY, nextX, hits)
+          console.log(`Найденные координаты для ${symbol} = ${nextY} - ${nextX}`)
+          if(str.length === 1){
+            result.push(true)
+          }
+          hits.push([nextY, nextX])
+          BGW(grid, str.substring(1), nextY, nextX, hits, result)
         }
     }
-    return false
+    return result.some(el => el === true)
 }
 function checkWord(grid, word) {
-    const first = word.charAt(0)
-    for(let i = 0; i < grid.length; i++){
-      for(let k = 0; k < grid.length; k++){
-        if(grid[i][k] === first){
-          return BGW(grid, word, i, k)
+  let res = []
+  const first = word.charAt(0)
+  for(let i = 0; i < grid.length; i++){
+    for(let k = 0; k < grid.length; k++){
+      if(grid[i][k] === first){
+        if(word.length === 1){
+          return true
         }
+        res.push(BGW(grid, word.substring(1), i, k))
+        console.log('---------------'+i+''+k)
+        BGW(grid, word.substring(1), i, k)
       }
     }
   }
-  console.log(checkWord(arr, 'BINGO'))
+  return res.some(el => el === true)
+}
+let test = [
+  ['N','B','R','A'],
+  ['C','R','P','A'],
+  ['L','A','A','P'],
+  ['S','O','A','A']
+]
+console.log(checkWord(test, "PARAPARAS"))
