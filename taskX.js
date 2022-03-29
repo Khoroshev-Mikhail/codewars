@@ -1,10 +1,10 @@
 console.log('----------------------------Task:510 "Boggle Word Checker"----------------------------')
-let arr =[
-  ["E","A","R","A"],
-  ["N","L","E","C"],
-  ["I","A","I","S"],
-  ["B","Y","O","R"]
-];
+let arr =[ 
+  ["I","L","A","W"],
+  ["B","N","G","E"],
+  ["I","U","A","O"],
+  ["A","S","R","L"] 
+]
 
 function BGW(grid, substr, x, y, hits = []){
   hits.push([x, y])

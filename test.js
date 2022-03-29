@@ -1,9 +1,9 @@
-let arr =[
-    ["E","A","R","A"],
-    ["N","L","E","C"],
-    ["I","A","I","S"],
-    ["B","Y","O","R"]
-  ];
+let arr =[ 
+    ["I","L","A","W"],
+    ["B","N","G","E"],
+    ["I","U","A","O"],
+    ["A","S","R","L"] 
+  ]
 
 //Функция возвращает возможные координаты для след.символа
 function coordinates(y, x, grid){
@@ -29,10 +29,30 @@ function lastCoordinates(coordinates, lastHits){
         return !newLastHits.includes(el.join(''))
     })
 }
-//ЕСТЬ ПРОБЛЕМА ЕСЛИ ВЫЗОВ ФУНКЦИИ НЕ ПРОЙДЕТ ДО КОНЦА, КООРДИНАТЫ ВСЁРАВНО ЗАПИШУТСЯ
-let ggg = coordinates(3, 1, arr)
-let last =[[2, 2], [3, 0]]
 
-function BGW(grid, str, x, y, hits = []){
-    
+function BGW(grid, str, y, x, hits = []){
+    let symbol = str.charAt(0)
+    let arr2 = lastCoordinates(coordinates(y, x, grid), hits)
+    for(let i = 0; i < arr2.length; i++){
+        let [nextY, nextX] = arr2[i]
+        if(grid[nextY][nextX] === symbol){
+            if(str.length === 1){
+                return true
+            }
+            hits.push([nextY, nextX])
+            return BGW(grid, str.substring(1), nextY, nextX, hits)
+        }
+    }
+    return false
 }
+function checkWord(grid, word) {
+    const first = word.charAt(0)
+    for(let i = 0; i < grid.length; i++){
+      for(let k = 0; k < grid.length; k++){
+        if(grid[i][k] === first){
+          return BGW(grid, word, i, k)
+        }
+      }
+    }
+  }
+  console.log(checkWord(arr, 'BINGO'))
