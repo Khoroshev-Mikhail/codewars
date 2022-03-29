@@ -28,7 +28,11 @@ function lastCoordinates(coordinates, lastHits){
     return coordinates.filter(el => {
         return !newLastHits.includes(el.join(''))
     })
-}//ЕСТЬ ПРОБЛЕМА ЕСЛИ ВЫЗОВ ФУНКЦИИ НЕ ПРОЙДЕТ ДО КОНЦА, КООРДИНАТЫ ВСЁРАВНО ЗАПИШУТСЯ
+}
+//ЕСТЬ ПРОБЛЕМА ЕСЛИ ВЫЗОВ ФУНКЦИИ НЕ ПРОЙДЕТ ДО КОНЦА, КООРДИНАТЫ ВСЁРАВНО ЗАПИШУТСЯ
 let ggg = coordinates(3, 1, arr)
 let last =[[2, 2], [3, 0]]
-console.log(lastCoordinates(ggg, last))
+
+function BGW(grid, str, x, y, hits = []){
+    
+}
