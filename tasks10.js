@@ -32,77 +32,96 @@ function maxSum(root) {
 
 
 console.log('----------------------------Task:510 "Boggle Word Checker"----------------------------')
-let arr =[
+/*let arr =[
   ["E","A","R","A"],
   ["N","L","E","C"],
   ["I","A","I","S"],
   ["B","Y","O","R"]
 ];
-
+*/
 //Функция возвращает возможные координаты для след.символа
 function coordinates(y, x, grid, lastHits){
-    let arr = [
-        [y - 1, x - 1], [y - 1, x], [y - 1, x + 1],
-        [y, x - 1], /*[y, x]*/, [y, x + 1],
-        [y + 1, x - 1], [y + 1, x], [y + 1, x + 1],
-    ]
     //Координаты - это индексы многомерного массива, они не могут быть меньше 0 и больше его длины
+    //ну или как удалить (отфильтровать) значения массива которые присутствуют в другом МНОГОМЕРНОМ массиве???
+    
+}
+
+function BGW(grid, str, y, x, hits = []){
+  //Вместо push & pop буквы заменять на ' ' и обратно
+    if (str === "") {
+        return true;
+    }
+
     const endY = grid.length
     const endX = grid[0].length
-    let filtred = arr.filter(el => 
-        el[0] >= 0 && 
-        el[0] < endY && 
-        el[1] >= 0 && 
-        el[1] < endX
-        )
-    //Так же фильтруем координаты тех символов по которым уже пробегалась функция
-    const newLastHits = lastHits.map(el => el.join(''))
-    return filtred.filter(el => {
-      return !newLastHits.includes(el.join(''))
-    })
-    //ну или как удалить (отфильтровать) значения массива которые присутствуют в другом МНОГОМЕРНОМ массиве???
+    if (!(y >= 0 && y < endY && x >= 0 && x < endX)) {
+        return false;
+    }
+    if(hits.some(hit => hit[0] === y && hit[1] === x)) {
+        return false;
+    }
+    if(grid[y][x] !== str[0]){
+        return false;
+    }
+    
+    hits.push([y, x])
+    
+    const arr = [
+        [y - 1, x - 1], [y - 1, x], [y - 1, x + 1],
+        [y, x - 1], /*[y, x], */ [y, x + 1],
+        [y + 1, x - 1], [y + 1, x], [y + 1, x + 1],
+    ];
 
-}
-
-function BGW(grid, str, y, x, hits = [], result = []){
-    let symbol = str.charAt(0)
-    let arr = coordinates(y, x, grid, hits)
-    //console.log(symbol)
-    //console.log(arr)
-    for(let i = 0; i < arr.length; i++){
-        let [nextY, nextX] = arr[i]
-        if(grid[nextY][nextX] === symbol){
-          //console.log(`Найденные координаты для ${symbol} = ${nextY} - ${nextX}`)
-          if(str.length === 1){
-            result.push(true)
-          }
-          hits.push([nextY, nextX])
-          BGW(grid, str.substring(1), nextY, nextX, hits, result)
+    for(const [nextY, nextX] of arr) {
+        if (BGW(grid, str.substring(1), nextY, nextX, hits)) {
+            hits.pop([y, x])
+            return true;
         }
     }
-    return result.some(el => el === true)
+    hits.pop([y, x])
+    return false;
 }
 function checkWord(grid, word) {
-  let res = []
-  const first = word.charAt(0)
   for(let i = 0; i < grid.length; i++){
     for(let k = 0; k < grid.length; k++){
-      if(grid[i][k] === first){
-        if(word.length === 1){
-          return true
-        }
-        res.push(BGW(grid, word.substring(1), i, k))
-        console.log('---------------'+i+''+k)
-        BGW(grid, word.substring(1), i, k)
+      if(BGW(grid, word, i, k)){
+        return true;
       }
     }
   }
-  return res.some(el => el === true)
+  return false;
 }
-let test = [
-  ['N','B','R','A'],
-  ['C','R','P','A'],
-  ['L','A','A','P'],
-  ['S','O','A','A']
-]
-console.log(checkWord(test, "PARAPARAS"))
+// let test = [
+//   ['N','B','R','A'],
+//   ['C','R','P','A'],
+//   ['L','A','A','P'],
+//   ['S','O','A','A']
+// ]
+// let test = [
+//   ['N','B','R','O'],
+//   ['C','R','P','O'],
+//   ['L','A','T','A'],
+//   ['S','O','X','O']
+// ]
+// console.log(checkWord(test, "PARAPARAS"))
+var testBoard = [
+  ["E","A","R","A"],
+  ["N","L","E","C"],
+  ["I","A","I","S"],
+  ["B","Y","O","R"]
+];
+console.log(checkWord(testBoard, "RSCAREIOYBAILNEA")) 
+// console.log(BGW(testBoard, "EAINEA", 1, 2)) 
+// console.log(checkWord(testBoard, "EAINEA")) 
+
+
+
+//BAILER - true
+//"Must be able to check indefinite word lengths going in all directions"
+
+/*
+combos(3) => [ [ 3 ], [ 1, 1, 1 ], [ 1, 2 ], [2, 1] ]
+*/
+
+combos(3)
+ []
