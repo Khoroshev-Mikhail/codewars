@@ -122,6 +122,3 @@ console.log(checkWord(testBoard, "RSCAREIOYBAILNEA"))
 /*
 combos(3) => [ [ 3 ], [ 1, 1, 1 ], [ 1, 2 ], [2, 1] ]
 */
-
-combos(3)
- []
