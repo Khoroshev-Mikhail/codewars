@@ -88,34 +88,16 @@ console.log(combos(6))
 // с 5   : countChange(5, [5,2,3])
 // без 5 : countChange(10, [2,3])
 //1, [2, 3]
-function countChange(n, arr, path = []){
+function countChange(n, arr){
     if(arr.length === 0){
-        return []
+        return 0
     }
     if(n === 0){
-        return [path.join("+")]
+        return 1
     }
     if(n < 0){
-        return []
+        return 0
     }
-    return [...countChange(n-arr[0], arr, [...path, arr[0]]), ...countChange(n, arr.slice(1), path)]
+    return countChange(n-arr[0], arr) + countChange(n, arr.slice(1))
 }
-
 console.log(countChange(10, [5, 2, 3]))
-
-//[ 1, 1, 1 ].sameStructureAs( [ 2, 2, 2 ] );  
-//[ 1, [ 1, 1 ] ].sameStructureAs( [ 2, [ 2, 2 ] ] );  
-
-Array.prototype.sameStructureAs = function(x) {
-    return sameStructureAs(this, x);
-}
-
-function sameStructureAs(a, b) {
-    if()
-}
-
-/*
-Array.prototype.square = function(){
-    return this.map(n => n*n)
-}
-*/
