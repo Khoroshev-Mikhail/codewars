@@ -1,4 +1,4 @@
-console.log('----------------------------Task:507 "Find all possible number combos that sum to a number"----------------------------')
+console.log('----------------------------Task:400----------------------------')
 var numbers = [1, 2, 3, 4, 5]
 
 Array.prototype.square = function(){
