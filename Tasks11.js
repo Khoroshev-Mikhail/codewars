@@ -112,5 +112,69 @@ Object.prototype.hash = function(string) {
     }
     return this[val].hash(arr.slice(1).join('.'))
 }
-
 console.log(obj.hash('person.name'))
+
+
+console.log('----------------------------Task:403 String like [Char]----------------------------')
+String.prototype.map = function(fn){
+    const arr = this.split('')
+    const result = [];
+    for(let i = 0; i < arr.length; i++){
+        result.push( fn(arr[i]) )
+    }
+    return result.join('')
+}
+
+String.prototype.join = function(str){
+    return this.split('').join(str)
+}
+String.prototype.reverse = function(){
+    return this.split('').reverse().join('')
+}
+String.prototype.sort = function(fn){
+    return this.split('').sort(fn).join('')
+}
+String.prototype.filter = function(fn){
+    if(this.split('').filter(fn)){
+        return this.split('').filter(fn).join('')
+    }
+    return undefined
+}
+
+String.prototype.forEach = function(fn){
+    if(this.split('').forEach(fn)){
+        return this.split('').forEach(fn).join('')
+    }
+    return undefined
+}
+String.prototype.some = function(fn){
+    return this.split('').some(fn)
+}
+String.prototype.every = function(fn){
+    return this.split('').every(fn)
+}
+String.prototype.push = function(str){
+    return this + str
+}
+String.prototype.pop = function(str){
+    return this.replace(/^./, '')
+}
+String.prototype.shift = function(str){
+    return this.split('').splice(0, 1).join('')
+}
+String.prototype.unshift = function(str){
+    return (str + this).length
+}
+String.prototype.splice = function(...args){
+    const arr = this.split('')
+    arr.splice(...args)
+    return arr.join('')
+}
+String.prototype.reduce = function(fn){  
+    return this.split('').reduce(fn).join('')
+}
+String.prototype.reduceRight = function(fn){
+    return this.split('').reduceRight(fn, 0).join('')
+}
+console.log('Hello Peter'.reduce((a, b) => a + b + b))
+
