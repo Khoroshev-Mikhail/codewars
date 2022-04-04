@@ -124,7 +124,6 @@ String.prototype.map = function(fn){
     }
     return result.join('')
 }
-
 String.prototype.join = function(str){
     return this.split('').join(str)
 }
