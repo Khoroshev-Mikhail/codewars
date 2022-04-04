@@ -140,7 +140,6 @@ String.prototype.filter = function(fn){
     }
     return undefined
 }
-
 String.prototype.forEach = function(fn){
     if(this.split('').forEach(fn)){
         return this.split('').forEach(fn).join('')
@@ -170,11 +169,10 @@ String.prototype.splice = function(...args){
     arr.splice(...args)
     return arr.join('')
 }
-String.prototype.reduce = function(fn){  
-    return this.split('').reduce(fn).join('')
+String.prototype.reduce = function(fn, x){ 
+    return this.split('').reduce(fn, x)
 }
-String.prototype.reduceRight = function(fn){
-    return this.split('').reduceRight(fn, 0).join('')
+String.prototype.reduceRight = function(fn, x){
+    return this.split('').reduceRight(fn, x).join('')
 }
-console.log('Hello Peter'.reduce((a, b) => a + b + b))
 
