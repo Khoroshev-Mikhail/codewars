@@ -178,14 +178,33 @@ String.prototype.reduceRight = function(fn, x){
 console.log('----------------------------Task:404 Insert value into an array----------------------------')
 Object.defineProperty( Array.prototype, "insert", {
     value: function(index, value){
-        if(Array.isArray(this)){
-            this.splice(index, 0, value)
-            return this
-        }
-        return undefined
+        this.splice(index, 0, value)
+        return this
     }, 
     enumerable: false,  // устанавливаем, что свойство перечислимо 
 });
 let arr = [1,2,3]
 console.log(arr.insert(0, 10))
 console.log(arr.insert(0, 2))
+
+console.log('----------------------------Task:405----------------------------')
+function NameMe(first, last) {
+    this.firstName = first;
+    this.lastName = last;
+    this.name = this.firstName + ' ' + this.lastName
+}
+var n = new NameMe('John', 'Doe');
+
+
+console.log('----------------------------Task:406----------------------------')
+//Не решено
+function NamedOne(first, last) {
+        this.firstName = first;
+        this.lastName = last;
+        this.fullName = this.firstName + ' ' + this.lastName;
+    }
+var namedOne = new NamedOne("Naomi","Wang") 
+namedOne.firstName = "John"
+console.log(namedOne.firstName)
+console.log(namedOne.lastName)
+console.log(namedOne.fullName) 
