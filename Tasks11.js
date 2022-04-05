@@ -114,3 +114,5 @@ Object.prototype.hash = function(string) {
 }
 
 console.log(obj.hash('person.name'))
+
+console.log('----------------------------Task:402 Extract Nested Object Reference----------------------------')
