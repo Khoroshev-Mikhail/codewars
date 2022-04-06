@@ -8,24 +8,28 @@ function sameStructureAs(a, b){
     //isStringOrNumber(a) !== isStringOrNumber(b) подразумевает что они оба 'object'
     //Значит если кто-то из них !Array.isArray(a) значит это false
     //Но это плохо читабельно
-    if(isStringOrNumber(a) !== isStringOrNumber(b) || !Array.isArray(a) || !Array.isArray(b)){
-        return false
+    if(Array.isArray(a) && !Array.isArray(b) || !Array.isArray(a) && Array.isArray(b)){
+        return false;
     }
-    for(let i = 0; i < a.length; i++){
-        if(typeof a[i] === 'object' && typeof b[i] === typeof a[i] && a[i].length !== b[i].length){
-            return false
-        }
-        if(typeof a[i] === 'object' && typeof b[i] === 'object'){
-            return sameStructureAs(a[i], b[i])
-        }
-        //isStringOrNumber(a[i]) !== isStringOrNumber(b[i]) почему не работает???
-        if(typeof a[i] === 'object' && typeof b[i] !== 'object' 
-        || typeof b[i] === 'object' && typeof a[i] !== 'object'){
-            return false
-        }
+    if (!Array.isArray(a) && !Array.isArray(b)) {
+        return true;
     }
-    return true
+
+    if (a.length !== b.length) {
+        return false;
+    }
+    
+    return a.every((_, i) => sameStructureAs(a[i], b[i]));
 }
+
+// for(let i = 0; i < a.length; i++){
+//     if (!sameStructureAs(a[i], b[i])) {
+//         return false;
+//     }
+// }
+// return true
+
+//[1,'[',']'] same as ['[',']',1]
 function isStringOrNumber(x){
     if(typeof x !== 'string' || typeof x !== 'number'){
         return false
@@ -48,7 +52,7 @@ Array.prototype.cube = function(){
     return this.map(n => n*n*n)
 }
 Array.prototype.average = function(){
-    return this.reduce((a, b) => a + b, 0) / this.length
+    return this.sum() / this.length
 }
 Array.prototype.sum = function(){
     return this.reduce((a, b) => a + b, 0)
@@ -61,18 +65,18 @@ Array.prototype.odd = function(){
 }
 
 console.log('----------------------------Task:401 Implementing Array.prototype.groupBy method----------------------------')
-Array.prototype.groupBy = function(fn){
+Array.prototype.groupBy = function(fn = x => x){
     const obj = {}
     this.forEach(el => {
-        let result = el
-        if(fn){
-            result = fn(el)
-        }
+        const result = fn(el)
         /* Как это работает???
         (obj[result] = obj[result] || []).push(el)
+        
+        obj[result] ??= []
+        obj[result].push(el)
         */
         /* Почему не сработало????????
-        if(!result in obj){
+        if(!(result in obj)){
             obj[result] = []
         }
         obj[result].push(el)
@@ -102,15 +106,20 @@ var obj = {
     }
   };
 Object.prototype.hash = function(string) {
-    let arr = string.split('.')
-    let val = arr[0]
-    if(!this.hasOwnProperty(val)){
+// https://learn.javascript.ru/regexp-lookahead-lookbehind#retrospektivnaya-proverka
+//(?<=.*)\.
+// "a.b.c.d".split(/(?<=a)\./)
+
+
+    const [key, ...nestedKeys] = string.split(".")
+
+    if(!this.hasOwnProperty(key)){
         return undefined
     }
-    if(arr.length === 1){
-        return this[val]
+    if(nestedKeys.length === 0){
+        return this[key];
     }
-    return this[val].hash(arr.slice(1).join('.'))
+    return this[key].hash(nestedKeys.join('.'))
 }
 console.log(obj.hash('person.name'))
 
@@ -201,10 +210,60 @@ console.log('----------------------------Task:406----------------------------')
 function NamedOne(first, last) {
         this.firstName = first;
         this.lastName = last;
-        this.fullName = this.firstName + ' ' + this.lastName;
+        /*Object.defineProperty(this, 'fullName', {
+            get: function(){
+                return this.firstName + ' ' + this.lastName
+            },
+            set: function(str){
+                this.firstName = str.split(' ')[0]
+                this.lastName = str.split(' ')[1]
+            }
+        }
+        )*/
+        
     }
+Object.defineProperty(NamedOne.prototype, 'fullName', {
+    get: function(){
+        return this.firstName + ' ' + this.lastName
+    },
+    set: function(str){
+        this.firstName = str.split(' ')[0]
+        this.lastName = str.split(' ')[1]
+    }
+})
 var namedOne = new NamedOne("Naomi","Wang") 
-namedOne.firstName = "John"
-console.log(namedOne.firstName)
-console.log(namedOne.lastName)
-console.log(namedOne.fullName) 
+
+/*namedOne = {
+    firstName
+    lastName
+    __proto__: { // NamedOne.prototype
+        fullName (set/get)
+        __proto__: { // Object.prototype
+            __proto__: null
+        }
+    }
+}*/
+class NamedOneTwo {
+    constructor(firstName, lastName){
+        this.firstName = firstName
+        this.lastName = lastName
+        //this.fullName = this.firstName + ' ' + this.lastName
+    }
+    get fullName(){
+        return this.firstName + ' ' + this.lastName
+    }
+    set fullName(str){
+        this.firstName = str.split(' ')[0]
+        this.lastName = str.split(' ')[1]
+    }
+}
+
+var ara = new NamedOneTwo('Wang', 'Doe')
+//ara.setFirstName() = "John"
+console.log(ara.firstName)
+console.log(ara.lastName)
+console.log(ara.fullName) 
+ara.fullName = "A B"
+console.log(ara.firstName)
+console.log(ara.lastName)
+
