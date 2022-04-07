@@ -1,17 +1,4 @@
-let animal = {
-    eats : true,
-    ara : 'ara',
-    walk : function(){
-        return this.baba
-    }
-}
-let rabbit = {
-    jumps : 'o4en mnogo',
-    baba : 'baba',
-    __proto__ : animal
-}
-for(let prop in rabbit){
-    if(rabbit.hasOwnProperty(prop)){
-        console.log(prop)
-    }
-}
+let arr = [1,2,3,4,5,6,7]
+let bbb = arr.__proto__.map(el => el * 2)
+console.log(arr.__proto__.constructor)
+
