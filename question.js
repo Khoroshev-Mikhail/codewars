@@ -1,16 +1,10 @@
-let animal = {
-    eats: true
-  };
-  
-  let rabbit = Object.create(animal, {
-    jumps: {
-      value: 'ttt',
-      //enumerable: true
-    }
-  });
-console.log(rabbit.jumps) // ttt
-console.log(rabbit) // {} ????????????????
+class ExtendedClock extends Clock {
+  constructor(options) {
+    super(options);
+    let { precision=1000 } = options; //Это означает что создаётся новое своейство объекта которое по умлч. = 1000?
+    this.precision = precision;
+  }
+}
 
 
-
-//[Symbol.iterator] что это?
+//Разница между [[Prototype]]: и prototype
