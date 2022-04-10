@@ -8,3 +8,15 @@ class ExtendedClock extends Clock {
 
 
 //Разница между [[Prototype]]: и prototype
+
+
+
+
+class PowerArray extends Array {
+  isEmpty() {
+    return this.length === 0;
+  }
+}
+let arr = new PowerArray(1, 2);
+console.log(arr)
+//Как унаследовать от Map и какие аргументы передовать в наследующий класс (в д.с. PowerArray)???
