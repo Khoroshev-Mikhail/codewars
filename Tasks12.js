@@ -85,7 +85,7 @@ class Cat extends Animal {
 console.log('----------------------------Task:411----------------------------')
 var addOne = function(e) { return e + 1 };
 var square = function(e) { return e * e }
-var bbb = function(e) { return e*2 }
+var bbb = function(e) { return e * 2 }
 Function.prototype.pipe = function(...args){
     const first = this
     return function(el){
