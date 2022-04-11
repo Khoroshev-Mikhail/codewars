@@ -59,3 +59,40 @@ class Person{
     return `Welcome to Planet Earth ${raceName}`
   }
 }
+
+
+console.log('----------------------------Task:409----------------------------')
+class Person {
+    constructor(name, age) {
+      this.name = name
+      this.age = age
+    }
+    get info(){
+      return `${this.name}s age is ${this.age}`
+    }
+  }
+
+console.log('----------------------------Task:410----------------------------')
+class Cat extends Animal {
+    constuctor(name){
+        this.name = name
+    }
+    speak(){
+        return `${this.name} meows.`
+    }
+}
+
+console.log('----------------------------Task:411----------------------------')
+var addOne = function(e) { return e + 1 };
+var square = function(e) { return e * e }
+var bbb = function(e) { return e*2 }
+Function.prototype.pipe = function(...args){
+    const first = this
+    return function(el){
+        let resOne = first(el)
+        return args.reduce((a, b) => b(a), resOne)
+    }
+}
+
+var result = [1,2,3,4,5].map(addOne.pipe(square, bbb))
+console.log(result)
