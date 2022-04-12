@@ -62,7 +62,7 @@ class Person{
 
 
 console.log('----------------------------Task:409----------------------------')
-class Person {
+class Person2 {
     constructor(name, age) {
       this.name = name
       this.age = age
@@ -73,14 +73,14 @@ class Person {
   }
 
 console.log('----------------------------Task:410----------------------------')
-class Cat extends Animal {
+/*class Cat extends Animal {
     constuctor(name){
         this.name = name
     }
     speak(){
         return `${this.name} meows.`
     }
-}
+}*/
 
 console.log('----------------------------Task:411----------------------------')
 var addOne = function(e) { return e + 1 };
@@ -96,3 +96,26 @@ Function.prototype.pipe = function(...args){
 
 var result = [1,2,3,4,5].map(addOne.pipe(square, bbb))
 console.log(result)
+
+console.log('----------------------------Task:412----------------------------')
+//Ошибка при первом вызове в тестах
+//TypeError: Cannot convert undefined or null to object
+//Вторым аргументом приходит undefined 
+Object.create = function(prototype, properties) {
+  let obj = {}
+  Object.setPrototypeOf(obj, prototype)
+  Object.defineProperties(obj, properties)
+  return obj
+};
+
+var citizen = { //null
+  sleep: function(){ return "zzZ..."; },
+  panic: function(){ return "AaAaAaAa!"; }
+};
+var veteran = Object.create(citizen, {panic: {
+  value: function(){
+      return "SNAFU";
+  }
+}});
+console.log(Object.getOwnPropertyDescriptors(veteran))
+console.log(citizen)

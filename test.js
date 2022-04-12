@@ -1,21 +1,31 @@
-var addOne = function(e) {
-    return e + 1
+Object.create = function(prototype, properties) {
+    let obj = {}
+    Object.setPrototypeOf(obj, prototype)
+    Object.defineProperties(obj, properties)
+    return obj
 };
-
-var square = function(e) {
-    return e * e
-}
-
-var bbb = function(e) {
-    return e*2
-}
-Function.prototype.pipe = function(...args){
-    const first = this
-    return function(el){
-        let resOne = first(el)
-        return args.reduce((a, b) => b(a), resOne)
+let animal = {
+    eats: true
+  };
+let rabbit = {}
+Object.setPrototypeOf(rabbit, animal)
+Object.defineProperties(rabbit, {
+    panic: {
+        value: function(){
+        return "SNAFU";
+        }
     }
-}
+})
 
-var result = [1,2,3,4,5].map(addOne.pipe(square, bbb))
-console.log(result)
+var citizen = {
+    sleep: function(){ return "zzZ..."; },
+    panic: function(){ return "AaAaAaAa!"; }
+  };
+  
+  var veteran = Object.create(citizen, {panic: {
+      value: function(){
+          return "SNAFU";
+      }
+  }});
+  console.log(Object.getOwnPropertyDescriptors(veteran))
+  console.log(veteran)
