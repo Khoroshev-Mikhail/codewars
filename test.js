@@ -1,31 +1,24 @@
-Object.create = function(prototype, properties) {
-    let obj = {}
-    Object.setPrototypeOf(obj, prototype)
-    Object.defineProperties(obj, properties)
-    return obj
-};
-let animal = {
-    eats: true
-  };
-let rabbit = {}
-Object.setPrototypeOf(rabbit, animal)
-Object.defineProperties(rabbit, {
-    panic: {
-        value: function(){
-        return "SNAFU";
-        }
+function multiply (value, times) {
+    switch(typeof value){
+        case 'string': 
+            return value.repeat(times)
+        case 'number':
+            return value*times
+        case 'object':
+            if(value === null){
+                return null
+            }
+            return new Array(3).fill(value)
+        case 'function':
+            for(let i = 0; i < times; i++){
+                value.call()
+            }
+        default:
+            return value
     }
-})
-
-var citizen = {
-    sleep: function(){ return "zzZ..."; },
-    panic: function(){ return "AaAaAaAa!"; }
-  };
-  
-  var veteran = Object.create(citizen, {panic: {
-      value: function(){
-          return "SNAFU";
-      }
-  }});
-  console.log(Object.getOwnPropertyDescriptors(veteran))
-  console.log(veteran)
+}
+let fns = function(x){
+    console.log(x)
+}
+let ara = multiply({}, 3)
+multiply(fns, 3)

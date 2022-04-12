@@ -11,7 +11,7 @@ class ExtendedClock extends Clock {
 
 
 
-
+//От чего идёт наследование?
 class PowerArray extends Array {
   isEmpty() {
     return this.length === 0;

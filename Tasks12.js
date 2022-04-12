@@ -36,7 +36,7 @@ class Router{
   bind(path, method, fn){
     if(path in this.route){
       this.route[path][method] = fn
-    } else{ //Вроде всегда есть возмоность переписать код так, чтобы обойтись без else
+    } else{ //Вроде всегда есть возможость переписать без else
       this.route[path] = {[method] : fn}
     }
   }
@@ -119,3 +119,38 @@ var veteran = Object.create(citizen, {panic: {
 }});
 console.log(Object.getOwnPropertyDescriptors(veteran))
 console.log(citizen)
+
+
+console.log('----------------------------Task:415----------------------------')
+Array.prototype.reduce = function(process, initial) {
+  let result = initial;
+  for(let i = 0; i < this.length; i++){
+      if(!result && typeof this[0] === 'string'){
+          result = ''
+      }
+      if(!result && typeof this[0] === 'number'){
+          result = 0
+      }
+      result = process(result, this[i])
+  }
+  return result
+}
+
+//Maximum call stack size exceeded
+Array.prototype.reduce = function(process, initial) {
+  if(this.length === 1){
+      if(typeof this[0] === 'number'){
+          return process(this[0], 0)
+      }
+      if(typeof this[0] === 'string'){
+          return process(this[0], '')
+      }
+  }
+  if(initial){
+      return initial + process(this[0], this.slice(1).reduce(process))
+  }
+  return process(this[0], this.slice(1).reduce(process))
+}
+let fns = function(x,y){return x+y}
+let zzz = [1,2,3].reduce(function(x,y){return x+y}, '4')
+//console.log(zzz)
