@@ -1,12 +1,58 @@
-let ara = {
-    name : 'araPapa',
-    araMethod : function(){
-        return this.name
+superhero = function(nickname, firstname, lastname){
+    init();
+
+    function init(){
+        refresh();
+    }
+
+    function refresh(){
+        console.log(`My name is ${firstname} ${lastname}`)
+        console.log(`i'm ${nickname}`)
+    }
+
+    return {
+        refresh : refresh
     }
 }
-function createObjectChild(parent){
-    var F = function(){}
-    F.prototype = parent;
-    return new F()
+
+superhero('Batman', 'Bryce', 'Wayne')
+superhero = function(nickname, firstname, lastname){
+    init();
+
+    function init(){
+        refresh();
+    }
+
+    function refresh(){
+        console.log(`My name is ${firstname} ${lastname}`)
+        console.log(`i'm ${nickname}`)
+    }
+
+    return {
+        refresh : refresh
+    }
 }
-console.log(araChild.two())
+
+superhero('Batman', 'Bryce', 'Wayne')
+
+widget = function(root){
+    var
+        me;
+    var     
+        innerWidget = otherWidget();
+
+    publicInterface();
+    attachEvents();
+
+    function attachEvents(){
+        root.click(clickHandler)
+
+        root.click(
+            function(){
+                privateAction()
+                me.publicAction()
+                innerWidget.externalAction();
+            }
+        )
+    }
+}

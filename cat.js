@@ -37,7 +37,6 @@ Object.defineProperty(Animal2.prototype, 'speak', {
 function Cat2(name){
     //Animal2.call(this, name)
     Animal2.apply(this, arguments);
-    this.prototype = Animal
 }
 Object.defineProperty(Cat2.prototype, 'speak', {
     value : function(){
@@ -45,5 +44,5 @@ Object.defineProperty(Cat2.prototype, 'speak', {
     }
 })
 var cat = new Cat2('Mr Whiskers');
-console.log(cat.x())
+console.log(cat.ara())
 
