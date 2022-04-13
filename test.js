@@ -10,6 +10,7 @@ function multiply (value, times) {
             }
             return new Array(3).fill(value)
         case 'function':
+            //Вернуть функцию
             for(let i = 0; i < times; i++){
                 value.call()
             }

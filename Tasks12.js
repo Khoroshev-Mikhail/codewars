@@ -8,8 +8,16 @@ class NamedOne {
   get fullName(){
       return this.firstName + ' ' + this.lastName
   }
+
+  // Note : "input format" to .fullName will be firstName + space+ lastName.
+  // If given fullName isn't valid then no property is changed.
+
+
   set fullName(str){
-      [this.firstName, this.lastName]  = str.split(/[\s_]/)
+    // /^[^ ]* [^ ]*$/
+      if((/^[^ ]* [^ ]*$/).test(str)){ // "      "
+        [this.firstName, this.lastName]  = str.split(/[\s_]/)
+      }
   }
 }
 let ara = new NamedOne('Mike', 'Khoroshev')
@@ -34,11 +42,10 @@ class Router{
     this.route = {}
   }
   bind(path, method, fn){
-    if(path in this.route){
-      this.route[path][method] = fn
-    } else{ //Вроде всегда есть возможость переписать без else
-      this.route[path] = {[method] : fn}
+    if(!(path in this.route)){
+      this.route[path] = {}
     }
+    this.route[path][method] = fn
   }
   runRequest(path, method){
     if(! (path in this.route)){
@@ -62,25 +69,51 @@ class Person{
 
 
 console.log('----------------------------Task:409----------------------------')
-class Person2 {
-    constructor(name, age) {
-      this.name = name
-      this.age = age
-    }
-    get info(){
-      return `${this.name}s age is ${this.age}`
-    }
+// class Person2 {
+//     constructor(name, age) {
+//       this.name = name
+//       this.age = age
+//     }
+//     get info(){
+//       return `${this.name}s age is ${this.age}`
+//     }
+//   }
+var Person2 = function(name, age){
+  this.name = name
+  this.age = age
+}
+// Person2.prototype
+
+
+Object.defineProperty(Person2.prototype, 'info', {
+  get : function(){
+    return `${this.name}s age is ${this.age}`
   }
+})
+
+var John = new Person2('Jogn', 34)
+console.log(John.info)
 
 console.log('----------------------------Task:410----------------------------')
-/*class Cat extends Animal {
+/*
+lassy Extensions
+Classy Extensions, this kata is mainly aimed at the new JS ES6 Update introducing extends keyword. 
+You will be preloaded with the Animal class, so you should only edit the Cat class.
+Task
+Your task is to complete the Cat class which Extends Animal and replace the speak method to 
+return the cats name + meows. e.g. 'Mr Whiskers meows.'
+The name attribute is passed with this.name (JS), @name (Ruby) or self.name (Python).
+*/
+class Cat2 extends Animal{
     constuctor(name){
         this.name = name
     }
     speak(){
         return `${this.name} meows.`
     }
-}*/
+}
+var cat = new Cat2('Mr Whiskers');
+console.log(cat.speak())
 
 console.log('----------------------------Task:411----------------------------')
 var addOne = function(e) { return e + 1 };
@@ -142,11 +175,47 @@ Array.prototype.reduce = function(process, initial) {
       return this[0]
   }
   if(initial){
-      return initial + process(this[0], this.slice(1).reduce(process))
+      return process(initial, process(this[0], this.slice(1).reduce(process)))
   }
   return process(this[0], this.slice(1).reduce(process))
 }
 
+//Нужно добавить вариант на отсутствие initial
+Array.prototype.reduce = function(process, initial){
+  if(this.length === 0){
+    return initial
+  }
+  return this.slice(1).reduce(process, process(initial, this[0]))
+}
+
 let fns = function(x,y){return x+y}
-let zzz = [1,2,3].reduce(function(x,y){return x+y}, 4)
+let zzz = ['a','y','!'].reduce(function(x,y){return x+y})
 console.log(zzz)
+
+
+
+console.log('----------------------------Task:414----------------------------')
+function multiply (value, times) {
+  switch(typeof value){
+      case 'string': 
+          return value.repeat(times)
+      case 'number':
+          return value*times
+      case 'object':
+          if(value === null){
+              return null
+          }
+          return new Array(3).fill(value)
+      case 'function':
+          for(let i = 0; i < times; i++){
+              value.call()
+          }
+      default:
+          return value
+  }
+}
+let fns2 = function(x){
+  console.log(x)
+}
+let ara2 = multiply({}, 3)
+multiply(fns2, 3)
