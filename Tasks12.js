@@ -136,21 +136,17 @@ Array.prototype.reduce = function(process, initial) {
   return result
 }
 
-//Maximum call stack size exceeded
+//Error
 Array.prototype.reduce = function(process, initial) {
   if(this.length === 1){
-      if(typeof this[0] === 'number'){
-          return process(this[0], 0)
-      }
-      if(typeof this[0] === 'string'){
-          return process(this[0], '')
-      }
+      return this[0]
   }
   if(initial){
       return initial + process(this[0], this.slice(1).reduce(process))
   }
   return process(this[0], this.slice(1).reduce(process))
 }
+
 let fns = function(x,y){return x+y}
-let zzz = [1,2,3].reduce(function(x,y){return x+y}, '4')
-//console.log(zzz)
+let zzz = [1,2,3].reduce(function(x,y){return x+y}, 4)
+console.log(zzz)
