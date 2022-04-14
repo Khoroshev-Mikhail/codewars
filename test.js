@@ -14,10 +14,12 @@ function addOne(x) {
 
 function chain(fns) {
     let Chain = function(val){
+        for(let fn in fns){
+            this[fn] = fns[fn]
+        }
         this.execute = () => 1
-        this[fns.name] = fns
     }
 
     return new Chain()
 }
-console.log(chain(sum).sum(2, 2))
+console.log(chain({double: double, addOne: addOne}))
