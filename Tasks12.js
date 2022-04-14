@@ -198,24 +198,35 @@ console.log('----------------------------Task:414----------------------------')
 function multiply (value, times) {
   switch(typeof value){
       case 'string': 
+          if(typeof times !== 'number' || !Number.isInteger(times)){
+              return new RangeError('Invalid count value')
+          }
           return value.repeat(times)
       case 'number':
-          return value*times
+          return value * times
       case 'object':
           if(value === null){
               return null
           }
-          return new Array(3).fill(value)
+          return new Array(times).fill(value)
       case 'function':
-          for(let i = 0; i < times; i++){
-              value.call()
+          return function(){
+              for(let i = 0; i < times; i++){
+                  value.call(this, ...arguments)
+              }
           }
       default:
           return value
   }
 }
-let fns2 = function(x){
-  console.log(x)
-}
-let ara2 = multiply({}, 3)
-multiply(fns2, 3)
+//Expected error was thrown: RangeError: Invalid count value
+/*
+'foo' * 0.3 should error
+'foo' * '1' should error
+'foo' * 'a' should error
+'foo' * NaN should error
+'foo' * {} should error
+'foo' * Infinity should error
+'foo' * -Infinity should error
+*/
+
