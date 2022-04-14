@@ -1,27 +1,23 @@
-function multiply (value, times) {
-    switch(typeof value){
-        case 'string': 
-            if(typeof times !== 'number' || !Number.isInteger(times)){
-                return new RangeError('Invalid count value')
-            }
-            return value.repeat(times)
-        case 'number':
-            return value * times
-        case 'object':
-            if(value === null){
-                return null
-            }
-            return new Array(times).fill(value)
-        case 'function':
-            return function(){
-                for(let i = 0; i < times; i++){
-                    value.call(this, ...arguments)
-                }
-            }
-        default:
-            return value
-    }
+function sum(x, y) {
+    return x + y;
+} 
+function minus (x, y) {
+    return x - y;
 }
-var ref = {};
-console.log(multiply('foo', 0.3))
+function double(x) {
+    return sum(x, x);
+}
 
+function addOne(x) {
+    return sum(x, 1);
+}
+
+function chain(fns) {
+    let Chain = function(val){
+        this.execute = () => 1
+        this[fns.name] = fns
+    }
+
+    return new Chain()
+}
+console.log(chain(sum).sum(2, 2))
