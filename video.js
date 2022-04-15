@@ -1,58 +1,25 @@
-superhero = function(nickname, firstname, lastname){
-    init();
-
-    function init(){
-        refresh();
-    }
-
-    function refresh(){
-        console.log(`My name is ${firstname} ${lastname}`)
-        console.log(`i'm ${nickname}`)
-    }
-
-    return {
-        refresh : refresh
-    }
+const obj = {
+    ara : 1
 }
 
-superhero('Batman', 'Bryce', 'Wayne')
-superhero = function(nickname, firstname, lastname){
-    init();
-
-    function init(){
-        refresh();
-    }
-
-    function refresh(){
-        console.log(`My name is ${firstname} ${lastname}`)
-        console.log(`i'm ${nickname}`)
-    }
-
-    return {
-        refresh : refresh
+let x = Object.getPrototypeOf(obj)
+x.prototype.sayHi = function(){
+    return 1
+}
+console.log(x)
+/*
+class Test{
+    constructor(name){
+        this.name = name
     }
 }
-
-superhero('Batman', 'Bryce', 'Wayne')
-
-widget = function(root){
-    var
-        me;
-    var     
-        innerWidget = otherWidget();
-
-    publicInterface();
-    attachEvents();
-
-    function attachEvents(){
-        root.click(clickHandler)
-
-        root.click(
-            function(){
-                privateAction()
-                me.publicAction()
-                innerWidget.externalAction();
-            }
-        )
-    }
+let y = new Test('Gafa')
+Test.prototype.sayHi = function(){
+    return 'hello'
 }
+console.log(Object.getPrototypeOf(y))
+function newObj(name){
+    this.name = name
+}
+let z = new newObj('Batman')
+*/
