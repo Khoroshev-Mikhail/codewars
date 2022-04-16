@@ -27,25 +27,34 @@ let parent3 = Object.getPrototypeOf(parent2)
 console.log(parent2)
 */
 
+/*Test.prototype.sayHi = function(){
+    return 'hello'
+}*/
 
-class objByClass{
+class Deda{
     constructor(name){
         this.name = name
     }
 }
-let y = new objByClass('Gafa')
-
-/*Test.prototype.sayHi = function(){
-    return 'hello'
-}*/
-/*
-let parent1 = Object.getPrototypeOf(y)
+class Papa extends Deda{
+    constructor(name){
+        super(name)
+    }
+}
+class Man extends Papa{
+    constructor(name){
+        super(name)
+    }
+}
+let objByClass = new Man('Mike') 
+let parent1 = Object.getPrototypeOf(objByClass)
 let parent2 = Object.getPrototypeOf(parent1)
 let parent3 = Object.getPrototypeOf(parent2)
-console.log(parent3)
-*/
+let parent4 = Object.getPrototypeOf(parent3)
+console.log(parent4)
 
 
+/*
 const obj = {
     ara : 1
 }
@@ -58,7 +67,7 @@ Object.setPrototypeOf(ara, obj)
 
 let parent1 = Object.getPrototypeOf(ara)
 let parent2 = Object.getPrototypeOf(parent1)
-console.log(y.constructor)
+console.log(y.constructor)*/
 //let parent3 = Object.getPrototypeOf(parent2)
 /*x.prototype.sayHi = function(){
     return 1
