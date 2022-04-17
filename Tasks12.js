@@ -131,27 +131,20 @@ var result = [1,2,3,4,5].map(addOne.pipe(square, bbb))
 console.log(result)
 
 console.log('----------------------------Task:412----------------------------')
-//Ошибка при первом вызове в тестах
-//TypeError: Cannot convert undefined or null to object
-//Вторым аргументом приходит undefined 
+/*
+Object.create() - i.e. with no arguments - must throw TypeError
+*/
 Object.create = function(prototype, properties) {
+  if(!prototype && !properties){
+      return new TypeError('')
+  }
   let obj = {}
   Object.setPrototypeOf(obj, prototype)
-  Object.defineProperties(obj, properties)
+  if(properties){
+    Object.defineProperties(obj, properties)
+  }
   return obj
 };
-
-var citizen = { //null
-  sleep: function(){ return "zzZ..."; },
-  panic: function(){ return "AaAaAaAa!"; }
-};
-var veteran = Object.create(citizen, {panic: {
-  value: function(){
-      return "SNAFU";
-  }
-}});
-console.log(Object.getOwnPropertyDescriptors(veteran))
-console.log(citizen)
 
 
 console.log('----------------------------Task:415----------------------------')
