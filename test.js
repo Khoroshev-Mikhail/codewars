@@ -1,22 +1,48 @@
-var citizen = {
-    sleep: function(){ return "zzZ..."; },
-    panic: function(){ return "AaAaAaAa!"; }
-};
+function sum(x, y) {
+    return x + y;
+  }
   
-var veteran = Object.create(citizen, {panic: {
-    value: function(){
-        return "SNAFU";
-    }
-}});
+  function double(x) {
+    return sum(x, x);
+  }
+  
+  function minus (x, y) {
+    return x - y;
+  }
+  
+  function addOne(x) {
+    return sum(x, 1);
+}
 
-Object.create = function(prototype, properties) {
-    if(typeof prototype !== 'object'){
-        return new TypeError('')
+/*
+function chain(fns) {
+    function Wrapper(x){
+        this.accum = x
     }
-    let obj = {}
-    Object.setPrototypeOf(obj, prototype)
-    Object.defineProperties(obj, properties)
-    return obj
-    //And remember: you need not to reinvent Object.defineProperties on your own!
-  };
-console.log(Object.getOwnPropertyDescriptors(veteran))
+    for(let fn in fns){
+        Wrapper.prototype[fn] = fns[fn]
+    }
+    Wrapper.prototype.execute = function(){
+        return this.accum
+    }
+    return new Wrapper()
+}
+*/
+function chain(fns) {
+    function Wrapper(x){
+        this.accum = x
+    }
+    Wrapper.prototype.sum = function(a, b){
+        this.accum = a + b
+    }
+    Wrapper.prototype.minus = function(a, b){
+        this.accum = this.accum - a
+    }
+    Wrapper.prototype.execute = function(){
+        return this.accum
+    }
+    return new Wrapper()
+}
+var c = chain({sum: sum, minus: minus, double: double, addOne: addOne});
+c.sum(2, 10)
+console.log(c.execute())
