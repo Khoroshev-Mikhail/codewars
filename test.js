@@ -33,10 +33,13 @@ function chain(fns) {
         this.accum = x
     }
     Wrapper.prototype.sum = function(a, b){
+        //Либо передать аргументы в chain, либо через aplly
         this.accum = a + b
+        return chain()
     }
     Wrapper.prototype.minus = function(a, b){
         this.accum = this.accum - a
+        return chain()
     }
     Wrapper.prototype.execute = function(){
         return this.accum
@@ -44,5 +47,5 @@ function chain(fns) {
     return new Wrapper()
 }
 var c = chain({sum: sum, minus: minus, double: double, addOne: addOne});
-c.sum(2, 10)
+c.minus(5).sum(2, 10)
 console.log(c.execute())
