@@ -1,18 +1,18 @@
-
 console.log('----------------------------Task:411----------------------------')
 var addOne = function(e) { return e + 1 };
 var square = function(e) { return e * e }
 var bbb = function(e) { return e * 2 }
-Function.prototype.pipe = function(...args){
-    const first = this
+Function.prototype.pipe = function(fn){
+    // const first = this
+    //Переделать через байнд
     return function(el){
-        const startingPoint = first(el)
-        return args.reduce((a, b) => b(a), startingPoint)
+        const main = this(el)
+        return fn(main)
     }
 }
 
-var result = [1,2,3,4,5].map(addOne.pipe(square, bbb))
-console.log(result)
+var result = addOne.pipe(square).pipe(bbb)
+console.log(result(5)); // 72
 
 console.log('----------------------------Task:412----------------------------')
 /*
@@ -76,7 +76,7 @@ function multiply (value, times) {
   switch(typeof value){
       case 'string': 
           if(typeof times !== 'number' || !Number.isInteger(times)){
-              return new RangeError('Invalid count value')
+              return new Error('Invalid count value')
           }
           return value.repeat(times)
       case 'number':
