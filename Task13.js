@@ -128,14 +128,18 @@ function chain(fns) {
     function Wrapper(x){
         this.accum = x
     }
-    Wrapper.prototype.sum = function(a, b){
-        //Либо передать аргументы в chain, либо через aplly
-        this.accum = a + b
-        return chain()
-    }
-    Wrapper.prototype.minus = function(a, b){
-        this.accum = this.accum - a
-        return chain()
+    for(fn in fns){
+        let func = fns[fn]
+        Wrapper.prototype[fn] = function(){
+            let args = [].slice.call(arguments)
+            if(this.accum != null){
+                args.unshift(this.accum)
+            }
+            //let x = fns[fn].apply(null, args) Почему не сработало?
+            let x = func.apply(null, args)
+
+            return new Wrapper(x)
+        }
     }
     Wrapper.prototype.execute = function(){
         return this.accum
@@ -143,5 +147,4 @@ function chain(fns) {
     return new Wrapper()
 }
 var c = chain({sum: sum, minus: minus, double: double, addOne: addOne});
-c.minus(5).sum(2, 10)
-console.log(c.execute())
+console.log(c.sum(5, 6).execute())
