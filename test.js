@@ -1,2 +1,12 @@
-let func = new Function('a', 'b', 'return a+b')
-console.log(func(2,2))
+let user = {
+    ara : 'opredelennyi users ara',
+    sayHi(){
+        console.log(this.ara)
+    }
+}
+
+let f = function(){
+    return user.sayHi()
+}
+
+console.log(f())
