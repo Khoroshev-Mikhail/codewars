@@ -21,13 +21,12 @@ function chain(fns) {
     for(fn in fns){
         let func = fns[fn]
         Wrapper.prototype[fn] = function(){
-            let args = [].slice.call(arguments)
-            if(this.accum != null){
+            let args = Array.from(arguments)
+            if(args.accum){
                 args.unshift(this.accum)
             }
-            //let x = fns[fn].apply(null, args) Почему не сработало?
-            let x = func.apply(null, args)
 
+            let x = func.apply(null, args)
             return new Wrapper(x)
         }
     }

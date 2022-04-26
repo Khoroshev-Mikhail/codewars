@@ -131,7 +131,7 @@ function chain(fns) {
     for(fn in fns){
         let func = fns[fn]
         Wrapper.prototype[fn] = function(){
-            let args = [].slice.call(arguments)
+            let args = Array.from(arguments)
             if(this.accum != null){
                 args.unshift(this.accum)
             }
