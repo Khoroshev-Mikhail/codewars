@@ -10,7 +10,6 @@ Function.prototype.pipe = function(fn){
         return fn(main)
     }
     */
-    const first = this
     return function(el){
         return fn(this(el))
     }.bind(this)
