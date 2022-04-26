@@ -132,7 +132,7 @@ function chain(fns) {
         let func = fns[fn]
         Wrapper.prototype[fn] = function(){
             let args = Array.from(arguments)
-            if(this.accum != null){
+            if(this.accum){
                 args.unshift(this.accum)
             }
             //let x = fns[fn].apply(null, args) Почему не сработало?
