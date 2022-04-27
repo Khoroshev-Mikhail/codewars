@@ -18,7 +18,7 @@ Function.prototype.pipe = function(fn){
 var result = addOne.pipe(square).pipe(bbb)
 console.log(result(5)); // 72
 
-console.log('----------------------------Task:412----------------------------')
+console.log('----------------------------Task:413----------------------------')
 /*
 Object.create() - i.e. with no arguments - must throw TypeError
 */
@@ -212,3 +212,7 @@ function chain(fns) {
 }
 var c = chain({sum: sum, minus: minus, double: double, addOne: addOne});
 console.log(c.sum(5, 6).execute())
+
+
+
+//https://www.codewars.com/kata/58069e4cf3c13ef3a6000168 ????????????
