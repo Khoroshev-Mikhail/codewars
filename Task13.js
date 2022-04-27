@@ -111,6 +111,66 @@ function multiply (value, times) {
 'foo' * -Infinity should error
 */
 
+
+console.log('----------------------------Task:412 Lazy evaluation----------------------------')
+//Error
+/*
+Node.js возвращает результат который и ожидает codewars
+Но код в codewars возвращает совсем другие значения: NaN, -Infinity, [], и др...
+*/
+function Lazy() {
+    this.arrayOfFn = []
+    Lazy.prototype.add = function(fn, ...args){
+        this.arrayOfFn.push([fn, ...args])
+        return this
+    }
+    Lazy.prototype.invoke = function(...arr){
+        this.accum = arr
+        for(let i = 0; i < this.arrayOfFn.length; i++){
+            let [fn, ...args] = this.arrayOfFn[i]
+            this.accum = fn(...args, ...this.accum)
+        }
+        return this.accum
+    }
+}
+/*
+let ara = new Lazy()
+.add(filterNumbers)
+.add(filterRange, 2, 7)
+.add(max)
+.invoke(1, 8, 6, [], "7", -1, {v: 5}, 4)
+*/
+
+console.log(
+new Lazy()
+    .add(filterNumbers)
+    .add(filterRange, 1, 3)
+    .add(max)
+    .invoke(1, 8, 6, [], '7', -1, { v: 5 }, 4)
+)
+
+function max() {
+    return Math.max.apply(null, arguments);
+}
+
+function filterNumbers() {
+  return Array.prototype.filter.call(arguments, function(value) {
+    return isNumeric(value);
+  });
+}
+
+function isNumeric(n) {
+  return !isNaN(n) && Number(n) === n;
+}
+
+function filterRange(min, max) {
+  var args = Array.prototype.slice.call(arguments, 2);
+  return Array.prototype.filter.call(args, function(value) {
+    return min <= value && value <= max;
+  });
+}
+
+
 console.log('----------------------------Task:315 Born to be chained----------------------------')
 function sum(x, y) {
     return x + y;

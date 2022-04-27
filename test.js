@@ -5,21 +5,29 @@ function Lazy() {
         return this
     }
     Lazy.prototype.invoke = function(...arr){
-        let result;
+        this.accum = arr
         for(let i = 0; i < this.arrayOfFn.length; i++){
             let [fn, ...args] = this.arrayOfFn[i]
-            result = fn(...arr)
+            this.accum = fn(...args, ...this.accum)
         }
-        console.log(result)
-        return result
+        return this.accum
     }
 }
-//console.log(new Lazy().add(max))           ==  undefined
+/*
 let ara = new Lazy()
 .add(filterNumbers)
-//.add(filterRange, 2, 7)
-//.add(max)
+.add(filterRange, 2, 7)
+.add(max)
 .invoke(1, 8, 6, [], "7", -1, {v: 5}, 4)
+*/
+console.log(
+  new Lazy()
+      .add(filterNumbers)
+      .add(filterRange, 1, 3)
+      .add(max)
+      .invoke(1, 8, 6, [], '7', -1, { v: 5 }, 4)
+)
+  
 
 
 
