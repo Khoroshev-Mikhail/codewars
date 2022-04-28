@@ -1,20 +1,23 @@
-function binarySwap(input) {
-    if(input == 1) return 0
-    if(input == 0) return 1
-    if(Array.isArray(input)){
-        if(input.length === 1){
-            return binarySwap(input[0])
-        }
-        return input.map(el => binarySwap(el))
+function alexMistakes(numberOfKata, timeLimit, sum = 0, count = 0){
+    sum += count * 5 + count * 6
+    if(sum >= timeLimit - numberOfKata * 6 ){
+        return count
     }
-    if(typeof input === 'function'){
-        return binarySwap(input())
-    }
+    return alexMistakes(numberOfKata, timeLimit, sum, count + 1)
 }
 
-console.log(binarySwap(['1', 0, '0', 1]))
+console.log(alexMistakes(10, 120)) //3
+console.log(alexMistakes(11, 120)) //3
+console.log(alexMistakes(3, 45)) //2
+console.log(alexMistakes(8, 120)) //3
+console.log(alexMistakes(6, 60)) //2
+console.log(alexMistakes(9, 180)) //4
+
 /*
-function binarySwap(input) {
-  return typeof input === 'function' ? binarySwap(input()): input instanceof Array && input.length > 1 ? input.map(binarySwap): +!+input;
-}
+Одна ката 6 минут
+Одна ошибка 5 минут
+Каждый раз время ошибки увеличивается * 2
+
+Общее время ошибок
+
 */
