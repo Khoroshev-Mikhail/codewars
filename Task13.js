@@ -213,6 +213,33 @@ function chain(fns) {
 var c = chain({sum: sum, minus: minus, double: double, addOne: addOne});
 console.log(c.sum(5, 6).execute())
 
+console.log('----------------------------Task: Binary Swap----------------------------')
+//https://www.codewars.com/kata/574ad936a3ebd6b322000d19
 
+function binarySwap(input) {
+    /* 
+    if(input == 1) return 0
+    if(input == 0) return 1
+    */
+
+    if(typeof input === 'number' || typeof input === 'string'){
+        return input == 1 ? 0 : 1
+    }
+    if(Array.isArray(input)){
+        if(input.length === 1){
+            return binarySwap(input[0])
+        }
+        return input.map(el => binarySwap(el))
+    }
+    if(typeof input === 'function'){
+        return binarySwap(input())
+    }
+}
+//Что за запись  +!+input;    ???
+/*
+function binarySwap(input) {
+  return typeof input === 'function' ? binarySwap(input()): input instanceof Array && input.length > 1 ? input.map(binarySwap): +!+input;
+}
+*/
 
 //https://www.codewars.com/kata/58069e4cf3c13ef3a6000168 ????????????
