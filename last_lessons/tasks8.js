@@ -90,17 +90,6 @@ console.log(sizeof({
 
 console.log('----------------------------Task:505 "Simple repeated words"----------------------------')
 function solve(str, sentence) {
-  /*let res = []
-  for(let i = 0; i < str.length; i++){
-    let underRes = []
-    sentence.split('').forEach((element, index) => {
-      if(element === str[i]){
-        underRes.push(index)
-      }
-    });
-    res.push(underRes)
-  }
-  return res*/
   if (str === "") {
     return 1;
   }
