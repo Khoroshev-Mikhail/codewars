@@ -22,13 +22,24 @@ console.log('----------------------------Task:413----------------------------')
 /*
 Object.create() - i.e. with no arguments - must throw TypeError
 */
+
+// { prototype: null, properties: undefined }
+// { prototype: null, properties: undefined }
+// { prototype: undefined, properties: undefined }
+// { prototype: null, properties: undefined }
+
+// Object.create() - i.e. with no arguments - must throw TypeError
+
+
+// Object.create({}, undefined)
+
 Object.create = function(prototype, properties) {
-  if(!prototype && !properties){
-      return new TypeError('')
+  if(prototype === undefined){
+      throw new TypeError('')
   }
   let obj = {}
   Object.setPrototypeOf(obj, prototype)
-  if(properties){
+  if(properties !== undefined){
     Object.defineProperties(obj, properties)
   }
   return obj
@@ -36,20 +47,28 @@ Object.create = function(prototype, properties) {
 
 
 console.log('----------------------------Task:415----------------------------')
+console.log([1,2,3].reduce((a, b) => a ** b, 5));
+
+// If initialValue is not specified,
+// previousValue is initialized to the first value in the array,
+// and currentValue is initialized to the second value in the array.
+
+
+
 Array.prototype.reduce = function(process, initial) {
-  let result = initial;
-  for(let i = 0; i < this.length; i++){
-      if(!result && typeof this[0] === 'string'){
-          result = ''
-      }
-      if(!result && typeof this[0] === 'number'){
-          result = 0
-      }
-      result = process(result, this[i])
+  let result = this[0]
+  if(initial){
+    result = process(initial, result, 0, this)
+  }
+  for(let i = 1; i < this.length; i++){
+      result = process(result, this[i], i, this)
   }
   return result
 }
 
+console.log([1,2,3].reduce((a, b) => a ** b, 5));
+
+/*
 //Error
 Array.prototype.reduce = function(process, initial) {
   if(this.length === 1){
@@ -68,7 +87,7 @@ Array.prototype.reduce = function(process, initial){
   }
   return this.slice(1).reduce(process, process(initial, this[0]))
 }
-
+*/
 let fns = function(x,y){return x+y}
 let zzz = ['a','y','!'].reduce(function(x,y){return x+y})
 console.log(zzz)
@@ -80,7 +99,7 @@ function multiply (value, times) {
   switch(typeof value){
       case 'string': 
           if(typeof times !== 'number' || !Number.isInteger(times)){
-              return new Error('Invalid count value')
+              throw new Error('Invalid count value')
           }
           return value.repeat(times)
       case 'number':
@@ -120,33 +139,28 @@ Node.js возвращает результат который и ожидает
 */
 function Lazy() {
     this.arrayOfFn = []
-    Lazy.prototype.add = function(fn, ...args){
-        this.arrayOfFn.push([fn, ...args])
-        return this
-    }
-    Lazy.prototype.invoke = function(...arr){
-        this.accum = arr
-        for(let i = 0; i < this.arrayOfFn.length; i++){
-            let [fn, ...args] = this.arrayOfFn[i]
-            this.accum = fn(...args, ...this.accum)
-        }
-        return this.accum
-    }
 }
-/*
-let ara = new Lazy()
-.add(filterNumbers)
-.add(filterRange, 2, 7)
-.add(max)
-.invoke(1, 8, 6, [], "7", -1, {v: 5}, 4)
-*/
+Lazy.prototype.add = function(fn, ...args){
+    this.arrayOfFn.push([fn, ...args])
+    return this
+}
+Lazy.prototype.invoke = function(arr){
+    this.accum = arr
+    for(let i = 0; i < this.arrayOfFn.length; i++){
+        let [fn, ...args] = this.arrayOfFn[i]
+        this.accum = fn(...args, ...this.accum)
+    }
+    return this.accum
+}
+
+
 
 console.log(
-new Lazy()
-    .add(filterNumbers)
-    .add(filterRange, 1, 3)
-    .add(max)
-    .invoke(1, 8, 6, [], '7', -1, { v: 5 }, 4)
+            new Lazy()
+                .add(filterNumbers) //[1, 8, 6, -1, 4]
+                .add(filterRange, 2, 7)
+                .add(max)
+                .invoke([1, 8, 6, [], "7", -1, {v: 5}, 4])//6
 )
 
 function max() {
@@ -158,6 +172,11 @@ function filterNumbers() {
     return isNumeric(value);
   });
 }
+function filterNumbers(...args){
+    return args.filter(value => isNumeric(value))
+}
+
+
 
 function isNumeric(n) {
   return !isNaN(n) && Number(n) === n;
@@ -169,6 +188,10 @@ function filterRange(min, max) {
     return min <= value && value <= max;
   });
 }
+function filterRange(min, max, ...args){
+    return args.filter(value => min <= value && value <= max)
+}
+
 
 
 console.log('----------------------------Task:315 Born to be chained----------------------------')
@@ -199,8 +222,8 @@ function chain(fns) {
             if(this.accum){
                 args.unshift(this.accum)
             }
-            //let x = fns[fn].apply(null, args) Почему не сработало?
-            let x = func.apply(null, args)
+            //let x = fns[fn].apply(null, args) //Почему не сработало? //6
+            let x = func.apply(null, args) //11
 
             return new Wrapper(x)
         }
@@ -227,7 +250,7 @@ function binarySwap(input) {
     }
     if(Array.isArray(input)){
         if(input.length === 1){
-            return binarySwap(input[0])
+            return binarySwap(input[0]) //[[[[1]]]] -> 1
         }
         return input.map(el => binarySwap(el))
     }
@@ -243,3 +266,20 @@ function binarySwap(input) {
 */
 
 //https://www.codewars.com/kata/58069e4cf3c13ef3a6000168 ????????????
+
+//reverse(123)
+console.log(Math.floor(123 / 10))
+
+// 123 * 10 + 4 === 1234
+//+1111
+
+
+
+function reverse(num, reversNum = 0){
+    if(num === 0){
+        return reversNum
+    }
+    reversNum = reversNum * 10 + num % 10
+    return reverse(Math.floor(num / 10), reversNum)
+}
+console.log(reverse(1234))
