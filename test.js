@@ -1,5 +1,8 @@
 function pipeline(seed , ...args ) {
-    return args.reduceRight((acc, fn) => {
+    return args.reduce((acc, fn) => {
+        /*if(isNaN(fn(acc)) && !Array.isArray(fn(acc))){
+            return acc
+        }*/
         return fn(acc)
     }, seed)
   };
@@ -14,5 +17,10 @@ function pipeline(seed , ...args ) {
         }, x)
     }
   };
-
-  console.log(  pipeline([1,2,3,4,5,6], (x) => x ))
+  function bbb(n){
+      return -n
+  }
+  function rest(arr){
+      return arr.slice(1)
+  }
+  console.log(pipeline([1,2,3,4,5], bbb, rest, rest, rest, rest))
