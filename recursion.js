@@ -17,5 +17,3 @@ function pipeline(seed , ...args ) {
         }, x)
     }
   };
-
-  console.log(pipeline([1,2,3,4,5], (x) => x.slice(1)))
