@@ -30,16 +30,17 @@ const f = Folder([
 // 1-4 темы
 
 //Четверг в 17:30
-
+//ДЗ: Собрать в правильном порядке
 function allFiles(folder, cb) {
     let result = []
     let count = 0;
     folder.size(el => {
+
         if(el === 0){
             cb(result)
         }
+
         for(let i = 0; i < el; i++){
-            //ДЗ: Собрать в правильном порядке
 
             folder.read(i, (file) => {
                 if(file instanceof Folder){
@@ -57,9 +58,8 @@ function allFiles(folder, cb) {
                         cb(result)
                     }   
                 }       
-
             })
-
+            
         }
     })
 }
