@@ -1,7 +1,5 @@
-function delay(ms){
-  return new Promise(function(resolve, reject){
-    setTimeout(() => resolve(ms), ms)
-  })
-}
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
-delay(1000).then((x)=>console.log(`Выполнилось через ${x/1000} сек`))
+fetch('https://github.com/Mikha38/')
+  .then(response => response.json)
+  .then(response => console.log(response))
