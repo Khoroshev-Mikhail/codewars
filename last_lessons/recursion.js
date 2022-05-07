@@ -1,4 +1,4 @@
-const Folder =require("./folder");
+const Folder =require("../folder");
 
 const f = Folder([
   "a",
@@ -36,13 +36,10 @@ function allFiles(folder, cb) {
     let count = 0;
     
     folder.size(el => {
-
         if(el === 0){
             cb(result)
         }
-
         for(let i = 0; i < el; i++){
-
             folder.read(i, (file) => {
                 if(file instanceof Folder){
                     allFiles(file, (underEl) => {

@@ -1,21 +1,70 @@
-function snap(flashPile, turtlePile, whoseMove = 'flash', middlePile = [], snaps = 0) {
-  if(turtlePile.length === 0){
-    return snaps
-  }
-  if(middlePile.length >= 2 && middlePile[middlePile.length - 1] === middlePile[middlePile.length - 2]){
-    snaps++
-    flashPile.concat(middlePile)
-    return snap(flashPile, turtlePile, whoseMove, [], snaps)
-  }
-  if(whoseMove === 'flash'){
-    middlePile.push(flashPile[0])
-    return snap(flashPile.slice(1), turtlePile, 'turtle', middlePile, snaps)
-  } else {
-    //console.log(middlePile)
-    console.log(turtlePile[0])
-    middlePile.push(turtlePile[0])
-    return snap(flashPile, turtlePile.slice(1), 'flash', middlePile, snaps)
-  }
+const Folder =require("./folder");
+
+const f = Folder([
+  "a",
+  "b",
+  Folder([
+    "c",
+    "d",
+    Folder([]),
+    Folder([
+      "x",
+    ]),
+  ]),
+  Folder([
+    "z",
+    "p",
+  ]),
+  "e",
+]);
+
+// f.size((result) => {
+//   console.log("size", result);
+// });
+
+// f.read(1, (result) => {
+//   console.log("read", result);
+// });
+
+// https://learn.javascript.ru/async
+// 1-4 темы
+
+//Четверг в 17:30
+//ДЗ: Собрать в правильном порядке
+function allFiles(folder, cb) {
+    let result = []
+    let count = 0;
+    
+    folder.size(el => {
+        if(el === 0){
+            cb(result)
+        }
+        for(let i = 0; i < el; i++){
+            folder.read(i, (file) => {
+                if(file instanceof Folder){
+                    allFiles(file, (underEl) => {
+                        count++
+                        //result.push(...underEl)
+                        result[i] = underEl.flat()
+                        //result.splice(i, 0, ...underEl)
+                        if(count === el){
+                            cb(result.flat())
+                        }
+                    })
+                }else{
+                    count++
+                    result[i] = file 
+                    if(count === el){
+                        cb(result.flat())
+                    }   
+                }       
+            })
+
+        }
+    })
 }
 
-console.log(snap([ '9','5','4','4','A','8','4','3','K','J','J','Q','Q','9','8','5','J','6','7','6','A','J','9','K','3','8' ], [ 'K','10','3','4','5','Q','2','7','A','A','Q','10','6','5','K','6','7','10','2','9','2','10','7','8','2','3' ]))
+
+allFiles(f, result => {
+  console.log("result", result); // ["a", "b", "c", "d", "e", "z", "x", "p"]
+})
