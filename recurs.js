@@ -4,8 +4,6 @@ function Node(data, next = null) {
   }
 
 
-  function countIf(head, p) {
-    return 0;
-  }
+  const filter = (head, p) => head ? (p(head.data) ? new Node(head.data, filter(head.next, p)) : filter(head.next, p)) : null
 
-  console.log(countIf(new Node(1, new Node(2, new Node(3))), x => x <= 2))
+  console.log(filter(new Node(1, new Node(2, new Node(3))), x => x >= 2))
