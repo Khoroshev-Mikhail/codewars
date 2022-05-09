@@ -1,9 +1,2 @@
-function Node(data, next = null) {
-    this.data = data;
-    this.next = next;
-  }
-
-
-  const filter = (head, p) => head ? (p(head.data) ? new Node(head.data, filter(head.next, p)) : filter(head.next, p)) : null
-
-  console.log(filter(new Node(1, new Node(2, new Node(3))), x => x >= 2))
+//https://www.codewars.com/kata/526dad7f8c0eb5c4640000a4/train/javascript
+//https://www.codewars.com/kata/545a5dd961aa4c0987000980/train/javascript
