@@ -1,70 +1,39 @@
-const Folder =require("./folder");
+const asyncFns = [
+  () => new Promise((resolve, reject) => setTimeout(()=>resolve(1), Math.random() * 1000)),
+  () => new Promise((resolve, reject) => setTimeout(()=>resolve(2), Math.random() * 1000)),
+  () => new Promise((resolve, reject) => setTimeout(()=>resolve(3), Math.random() * 1000)),
+  () => new Promise((resolve, reject) => setTimeout(()=>resolve(4), Math.random() * 1000)),
+  () => new Promise((resolve, reject) => setTimeout(()=>resolve(5), Math.random() * 1000)),
+  () => new Promise((resolve, reject) => setTimeout(()=>resolve(6), Math.random() * 1000)),
+  () => new Promise((resolve, reject) => setTimeout(()=>resolve(7), Math.random() * 1000)),
+]
 
-const f = Folder([
-  "a",
-  "b",
-  Folder([
-    "c",
-    "d",
-    Folder([]),
-    Folder([
-      "x",
-    ]),
-  ]),
-  Folder([
-    "z",
-    "p",
-  ]),
-  "e",
-]);
 
-// f.size((result) => {
-//   console.log("size", result);
-// });
-
-// f.read(1, (result) => {
-//   console.log("read", result);
-// });
-
-// https://learn.javascript.ru/async
-// 1-4 темы
-
-//Четверг в 17:30
-//ДЗ: Собрать в правильном порядке
-function allFiles(folder, cb) {
+function allWithLimit(fns, limit){
+  return new Promise((resolve, reject) => {
+    let arr = [...fns]
+    let count = fns.length;
     let result = []
-    let count = 0;
-    
-    folder.size(el => {
-        if(el === 0){
-            cb(result)
+    function helper(){
+      if(arr.length === 0){
+        return;
+      }
+      let i = fns.length - arr.length
+      arr.shift()().then(x => {
+        result[i] = x
+        count--
+        if(count > 0){
+          helper()
         }
-        for(let i = 0; i < el; i++){
-            folder.read(i, (file) => {
-                if(file instanceof Folder){
-                    allFiles(file, (underEl) => {
-                        count++
-                        //result.push(...underEl)
-                        result[i] = underEl.flat()
-                        //result.splice(i, 0, ...underEl)
-                        if(count === el){
-                            cb(result.flat())
-                        }
-                    })
-                }else{
-                    count++
-                    result[i] = file 
-                    if(count === el){
-                        cb(result.flat())
-                    }   
-                }       
-            })
-
+        if(count === 0){
+          resolve(result)
         }
-    })
+      })
+    }
+    for(let i = 0; i < limit; i++){
+      helper()
+    }
+  })
 }
 
-
-allFiles(f, result => {
-  console.log("result", result); // ["a", "b", "c", "d", "e", "z", "x", "p"]
-})
+allWithLimit(asyncFns, 3).then(console.log)
