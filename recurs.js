@@ -1,41 +1,51 @@
-const asyncFns = [
-    () => new Promise((resolve, reject) => setTimeout(()=> resolve(0), Math.random() * 1000)),
-    () => new Promise((resolve, reject) => setTimeout(()=> resolve(1), Math.random() * 1000)),
-    () => new Promise((resolve, reject) => setTimeout(()=> resolve(2), Math.random() * 1000)),
-    () => new Promise((resolve, reject) => setTimeout(()=> resolve(3), Math.random() * 1000)),
-    () => new Promise((resolve, reject) => setTimeout(()=> resolve(4), Math.random() * 1000)),
-    () => new Promise((resolve, reject) => setTimeout(()=> resolve(5), Math.random() * 1000)),
-    () => new Promise((resolve, reject) => setTimeout(()=> resolve(6), Math.random() * 1000)),
-    () => new Promise((resolve, reject) => setTimeout(()=> resolve(7), Math.random() * 1000)),
-  ]
+function sum(x, y) {
+    return x + y;
+  }
+  function double(x) {
+    return sum(x, x);
+  }
+  function minus (x, y) {
+    return x - y;
+  }
+  function addOne(x) {
+    return sum(x, 1);
+  }
 
-function allWithLimit(fns, limit){
-    let copyFns = [...fns]
-    let count = copyFns.length
-    let result = []
-    return new Promise((resolve, reject) => {
-        function helper(){
-            if(copyFns.length === 0){
-                return;
+
+function chain(fns) {
+    function Wrapper(x){
+        this.result = x
+    }
+
+    for(let fn in fns){
+        let func = fns[fn]
+        Wrapper.prototype[fn] = function(){
+            let args = [].slice.call(arguments)
+            if(this.result != null){
+                args.unshift(this.result)
             }
-            let i = fns.length - copyFns.length
-            copyFns.shift()().then(el => {
-                result[i] = el
-                count--
-                if(count === 0){
-                    resolve(result)
-                    return;
-                }
-                if(count > 0){
-                    helper()
-                }
-            })
+            let x = func.apply(null, args)
+            return new Wrapper(x)
         }
-        for(let i = 0; i < limit; i++){
-            helper()
-        }
-    })
+    }
+    Wrapper.prototype.execute = function(){
+        return this.result
+    }
 
+    return new Wrapper()
 }
 
-allWithLimit(asyncFns, 3).then(console.log);
+var c = chain({sum: sum, minus: minus, double: double, addOne: addOne});
+console.log(c.sum(3, 4).execute())
+
+
+
+
+
+
+
+
+
+
+
+
