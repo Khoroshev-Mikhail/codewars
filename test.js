@@ -18,19 +18,16 @@ function withRetry(fn, attempts) {
       function helper(){
         fn(x)
         .then(
-          el => {
-            resolve(el)
-          },
+          resolve,
           err => {
-            console.log(attempts)
+            console.log(`Rejected ${attempts}`)
             attempts--
             if(attempts === 0){
-              /*return*/ reject(err)
+              reject(err)
+              return; //reject не останавливает выполнение кода??
             }
-            if(attempts > 0){ //Почему без этого if перменная attempts может уйти в минус? 
-                              //reject(err) не останавливает выполнение кода?
-              helper()
-            }
+            //Нужно ли здесь условие attempts > 0?
+            helper()
         })
       }
       helper()
@@ -41,3 +38,44 @@ function withRetry(fn, attempts) {
 //cube(3).then(console.log)
 const cubeWithRetry = withRetry(cube, 4);
 cubeWithRetry(3).then(console.log, console.log); // 50% + 25% + 12.5% + 6.25% === 93.75% vs 6.25%
+
+
+
+
+const asyncFns = [
+  () => new Promise((resolve, reject) => setTimeout(()=> resolve(0), Math.random() * 1000)),
+  () => new Promise((resolve, reject) => setTimeout(()=> resolve(1), Math.random() * 1000)),
+  () => new Promise((resolve, reject) => setTimeout(()=> resolve(2), Math.random() * 1000)),
+  () => new Promise((resolve, reject) => setTimeout(()=> resolve(3), Math.random() * 1000)),
+  () => new Promise((resolve, reject) => setTimeout(()=> resolve(4), Math.random() * 1000)),
+  () => new Promise((resolve, reject) => setTimeout(()=> resolve(5), Math.random() * 1000)),
+  () => new Promise((resolve, reject) => setTimeout(()=> resolve(6), Math.random() * 1000)),
+  () => new Promise((resolve, reject) => setTimeout(()=> resolve(7), Math.random() * 1000)),
+]
+function allWithLimit(fns, limit){
+  let arr = [...fns];
+  let count = fns.length;
+  let result = []
+  return new Promise((resolve, reject) => {
+      function helper(){
+          if(arr.length === 0){
+              return; //resolve не завершает код???
+          }
+          let i = fns.length - arr.length
+          arr.shift()().then(x => {
+              result[i] = x
+              count--
+              if(count > 0){
+                  helper()
+              }
+              if(count === 0){
+                  resolve(result) 
+              }
+          })
+      }
+      for(let i = 0; i < limit; i++){
+          helper()
+      }
+  })
+}
+//allWithLimit(asyncFns, 8).then(console.log);

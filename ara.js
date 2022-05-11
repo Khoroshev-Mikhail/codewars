@@ -7,27 +7,25 @@ const asyncFns = [
     () => new Promise((resolve, reject) => setTimeout(()=> resolve(5), Math.random() * 1000)),
     () => new Promise((resolve, reject) => setTimeout(()=> resolve(6), Math.random() * 1000)),
     () => new Promise((resolve, reject) => setTimeout(()=> resolve(7), Math.random() * 1000)),
-  ]
-
+]
 function allWithLimit(fns, limit){
-    let copyFns = [...fns]
-    let count = copyFns.length
+    let arr = [...fns];
+    let count = fns.length;
     let result = []
     return new Promise((resolve, reject) => {
         function helper(){
-            if(copyFns.length === 0){
-                return;
+            if(arr.length === 0){
+                return; //Зачем это условие???
             }
-            let i = fns.length - copyFns.length
-            copyFns.shift()().then(el => {
-                result[i] = el
+            let i = fns.length - arr.length
+            arr.shift()().then(x => {
+                result[i] = x
                 count--
-                if(count === 0){
-                    resolve(result)
-                    return;
-                }
                 if(count > 0){
                     helper()
+                }
+                if(count === 0){
+                    resolve(result)
                 }
             })
         }
@@ -35,7 +33,6 @@ function allWithLimit(fns, limit){
             helper()
         }
     })
-
 }
 
 allWithLimit(asyncFns, 3).then(console.log);
