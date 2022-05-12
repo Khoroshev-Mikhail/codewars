@@ -79,3 +79,23 @@ function allWithLimit(fns, limit){
   })
 }
 //allWithLimit(asyncFns, 8).then(console.log);
+
+
+//https://www.codewars.com/kata/525f3eda17c7cd9f9e000b39
+function zero(func) {return func ? func(0) : 0}
+function one(func) {return func ? func(1) : 1}
+function two(func) {return func ? func(2) : 2}
+function three(func) {return func ? func(3) : 3}
+function four(func) {return func ? func(4) : 4}
+function five(func) {return func ? func(5) : 5}
+function six(func) {return func ? func(6) : 6}
+function seven(func) {return func ? func(7) : 7}
+function eight(func) {return func ? func(8) : 8}
+function nine(func) {return func ? func(9) : 9}
+
+function plus(r) {return function(l){return l + r}}
+function minus(r) {return function(l){return l - r}}
+function times(r) {return function(l){return l * r}}
+function dividedBy(r) {return function(l){return l / r}}
+
+//console.log(seven(times(seven())))
