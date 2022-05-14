@@ -138,7 +138,7 @@ function dividedBy(r) {return function(l){return l / r}}
 
 // //setTimeout(() => console.log(q), 0);
 
-let i = 0;
+/*let i = 0;
 function f1() {
   if (i === 500_000_000) return;
   i++;
@@ -150,19 +150,29 @@ function f1() {
     f1();
   })
 }
-
+*/
 // queueMicrotask(() => {
 //   // ...
 // })
 
 // https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide
 
-f1();
+/*f1();
 
 console.time("!!");
 queueMicrotask(() => {
   console.timeEnd("!!");
   console.log("???");
 }, 50);
-
+*/
 //Сверстать компоненту
+
+
+let q = Promise.reject('qwe')
+  .then(x => x + 'r') //rejected qwe
+  .then(x => x + 't') //rejected qwe
+  .catch(x => x + 'y') //fullfield qwey
+  .then(x => x + 'a') //fullfield qweya
+  .catch(x => x + 'b') //fullfield qweya
+  .then(x => x + 'd') //fullfield qweyad
+  setTimeout(()=>console.log(q), 0)
