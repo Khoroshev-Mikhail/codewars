@@ -2,6 +2,7 @@
 function cube(x) {
   return new Promise((resolve, reject) => {
       setTimeout(() => {
+        // console.log("++");
           if (Math.random() < .9) {
               reject("err " + x);
           } else {
@@ -13,31 +14,46 @@ function cube(x) {
 
 
 function withRetry(fn, attempts) {
-  return function(x){
-    return new Promise((resolve, reject) => {
-      function helper(){
-        fn(x)
-        .then(
-          resolve,
+  return function ara(x, newAttempts = attempts){
+      return fn(x)
+        .catch(
           err => {
-            console.log(`Rejected ${attempts}`)
-            attempts--
-            if(attempts === 0){
-              reject(err)
-              return; //reject не останавливает выполнение кода??
+            newAttempts--
+            if(newAttempts === 0){
+              throw err
+            } else{
+              return ara(x, newAttempts)
             }
-            //Нужно ли здесь условие attempts > 0?
-            helper()
         })
-      }
-      helper()
-    })
   }
 }
 
-//cube(3).then(console.log)
-const cubeWithRetry = withRetry(cube, 4);
-cubeWithRetry(3).then(console.log, console.log); // 50% + 25% + 12.5% + 6.25% === 93.75% vs 6.25%
+// https://www.codewars.com/kata/happy-numbers-5
+// const cubeWithRetry = withRetry(cube, 4);
+// cubeWithRetry(3)
+//   .then(x => console.log(1, x), x => console.log(2, x))
+  // .then(() => {
+  //   cubeWithRetry(3)
+  //     .then(console.log, console.log)
+  // })
+
+
+// let succesfulCount = 0;
+// let countOfErrors = 0;
+
+// for(let i = 0; i < 10000; i++){
+//   cubeWithRetry(3).then(()=>{
+//       succesfulCount++
+//     }, ()=>{
+//       countOfErrors++
+//     }).then(()=>{
+//       if(succesfulCount + countOfErrors === 10000){
+//         console.log(`succesfulCount = ${succesfulCount}`)
+//         console.log(`countOfErrors = ${countOfErrors}`)
+//       }
+//     })
+// }
+// 50% + 25% + 12.5% + 6.25% === 93.75% vs 6.25%
 
 
 
@@ -99,3 +115,54 @@ function times(r) {return function(l){return l * r}}
 function dividedBy(r) {return function(l){return l / r}}
 
 //console.log(seven(times(seven())))
+
+// const then = Promise.prototype.then;
+
+// Promise.prototype.then = function(...args) {
+//   console.log("---", args);
+//   return then.apply(this, args);
+// }
+
+// const q = Promise.reject("qwe")
+//   .then(x => x + "a") // rejected<"qwe">
+//   .then(x => x + "b") // rejected<"qwe">
+//   .catch(x => x + "c") // fulfilled<"qwec">
+
+
+// const q = Promise.resolve(1); // fulfilled
+// console.log(q);
+// const p = q.then(x => x * 2); //
+// console.log(p);
+
+
+
+// //setTimeout(() => console.log(q), 0);
+
+let i = 0;
+function f1() {
+  if (i === 500_000_000) return;
+  i++;
+  // console.log(i);
+  // setTimeout(() => {
+  //   f1();
+  // }, 0);
+  Promise.resolve().then(() => {
+    f1();
+  })
+}
+
+// queueMicrotask(() => {
+//   // ...
+// })
+
+// https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide
+
+f1();
+
+console.time("!!");
+queueMicrotask(() => {
+  console.timeEnd("!!");
+  console.log("???");
+}, 50);
+
+//Сверстать компоненту
